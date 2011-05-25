@@ -1,0 +1,201 @@
+#include "settings.hpp"
+#include "files.hpp"
+#include "utility"
+#include "lines.hpp"
+
+#include <cstdlib>
+#include <iostream>
+#include <stdexcept>
+
+using std::pair;
+
+
+
+
+
+/** data:
+	string settingsdir;
+	string datadir;
+	string header;
+	string footer;
+	string blog;
+	string list_of_entries;
+	string single_entries_dir;
+	string single_entries_dir_rel;
+	string url;
+	string date;
+	string title;
+	string rss_feed;
+	string rss_header_file;
+	string editor;
+	string public_path_to_comment_function;
+	string name_of_link_to_comment;
+	int number_of_mainpageposts;
+	string home;
+*/
+
+settings read_settings(string filename){
+	settings S;
+	string val;
+	pair<string,string> line;
+	LINES lines=read_config_file(filename);
+	for(LINES::iterator it=lines.begin();it!=lines.end();++it){
+		line=cut(*it);
+		val=line.first;
+		if(val=="settingsdir"){
+			S.settingsdir=line.second;
+		}
+		else if(val=="datadir"){
+			S.datadir=line.second;
+		}
+		else if(val=="header"){
+			S.header=line.second;
+		}
+		else if(val=="footer"){
+			S.footer=line.second;
+		}
+		else if(val=="blog"){
+			S.blog=line.second;
+		}
+		else if(val=="list_of_entries"){
+			S.list_of_entries=line.second;
+		}
+		else if(val=="single_entries_dir"){
+			S.single_entries_dir=line.second;
+		}
+		else if(val=="single_entries_dir_rel"){
+			S.single_entries_dir_rel=line.second;
+		}
+		else if(val=="url"){
+			S.url=line.second;
+		}
+		else if(val=="editor"){
+			S.editor=line.second;
+		}
+		else if(val=="comment_heading"){
+			S.comment_section_heading=line.second;
+		}
+		else if(val=="comment_url"){
+			S.comment_url=line.second;
+		}
+		else if(val=="comment_name"){
+			S.comment_name=line.second;
+		}
+		else if(val=="number_of_mainpageposts"){
+			S.number_of_mainpageposts=atoi(line.second.c_str());
+		}
+		else if(val=="id_file"){
+			ID id;
+			id.read_file(line.second);
+			S.last_id=id;
+		}
+		else{
+			cerr<<"Unknwon key: "<<val<<" ; (value: "<<line.second<<")"<<endl;
+		}
+	}
+	return S;
+}
+
+
+typedef struct{
+	deque<string> names;
+	string conf_file;
+	bool default_entry;
+} _blog_;
+
+typedef struct{
+	deque<_blog_> blogs;
+	_blog_ *default_blog;
+} list_of_blogs;
+
+list_of_blogs get_list_of_blogs(){
+	_blog_ *tempval=NULL;
+	list_of_blogs list;
+	list.default_blog=NULL;
+	LINES data=read_file(GLOBAL_EASYBLOGGER_CONFIG_FILE);
+	bool entry_open=false;
+	string line;
+	for(LINES::iterator it=data.begin();it!=data.end();++it){
+		line=*it;
+		line=clean_whitespace(line);
+		if(line.empty()||line[0]=='#'){
+			continue;
+		}
+		if(entry_open){
+			if(line.find(END_BLOG_CONFIG)==0){
+				entry_open=false;
+				list.blogs.push_back(*tempval);
+				delete tempval;
+				tempval=NULL;
+				continue;
+			}
+			else if(line.find("config=")==0){
+				tempval->conf_file=cut(line,"=").second;
+				continue;
+			}
+			else{
+				std::cerr<<"WARNING: INVALID DATA IN THE CONFIGURATION-FILE: "<<line<<std::endl;
+				continue;
+			}
+		}
+		else{
+			if(line.find(BEGIN_BLOG_CONFIG)==0){
+				entry_open=true;
+				tempval=new _blog_;
+				tempval->names=cut_words(line.substr(BEGIN_BLOG_CONFIG.size()+1));
+				for(deque<string>::iterator it=tempval->names.begin();it!=tempval->names.end();++it){
+					if(*it==DEFAULT_INDICATOR){
+						list.default_blog=tempval;
+						break;
+					}
+				}
+				continue;
+			}
+		}
+	}
+	if(tempval!=NULL){
+		delete tempval;
+		tempval=NULL;
+	}
+	return list;
+}
+
+
+settings get_blog_by_name(string name){
+	list_of_blogs blogs=get_list_of_blogs();
+	settings S;
+	if(name==DEFAULT_INDICATOR){
+		return read_settings(blogs.default_blog->conf_file);
+	}
+	else{
+		_blog_ tempval;
+		for(deque<_blog_>::iterator it=blogs.blogs.begin();it!=blogs.blogs.end();++it){
+			tempval=*it;
+			for(deque<string>::iterator it=tempval.names.begin();it!=tempval.names.end();++it){
+				if(*it==name){
+					return read_settings(*it);
+				}
+			}
+		}
+	}
+	throw std::logic_error("does not exist");
+}
+
+string get_blog_conf_file(string name){
+	list_of_blogs blogs=get_list_of_blogs();
+	if(name==DEFAULT_INDICATOR){
+		return blogs.default_blog->conf_file;
+	}
+	else{
+		_blog_ tempval;
+		for(deque<_blog_>::iterator it=blogs.blogs.begin();it!=blogs.blogs.end();++it){
+			tempval=*it;
+			for(deque<string>::iterator it_name=tempval.names.begin();it_name!=tempval.names.end();++it_name){
+				if(*it_name==name){
+					return it->conf_file;
+				}
+			}
+		}
+	}
+	throw std::logic_error("does not exist");
+}
