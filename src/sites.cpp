@@ -55,13 +55,15 @@ int create_all(settings S){
 }
 
 int create_latest(settings S){
+	if(S.number_of_mainpageposts<0){
+		return create_all(S);
+	}
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	deque<blogentry> mainpageposts;
 	string filename;
 	for(int i=0;i<S.number_of_mainpageposts&&i<=int(data.size());++i){
 		data.at(i).read_content();
 		filename=S.single_entries_dir+data.at(i).get_id()+".html";
-		//cout<<filename<<endl;
 		write_page(data.at(i),S,filename);
 		mainpageposts.push_back(data.at(i));
 	}
