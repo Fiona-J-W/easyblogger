@@ -1,36 +1,37 @@
 
 CC= g++ 
 CFLAGS= -Wall -Wextra -W -O3 -pedantic
-TARGET= easyblogger
-OBJECTS= main.o files.o settings.o lines.o help.o blogentry.o id.o page.o sites.o config.o date.o
+BUILDDIR= ../build/
+OBJECTS= $(BUILDDIR)main.o $(BUILDDIR)files.o $(BUILDDIR)settings.o $(BUILDDIR)lines.o $(BUILDDIR)help.o $(BUILDDIR)blogentry.o $(BUILDDIR)id.o $(BUILDDIR)page.o $(BUILDDIR)sites.o $(BUILDDIR)config.o $(BUILDDIR)date.o
+TARGET= $(BUILDDIR)easyblogger
 
 $(TARGET):$(OBJECTS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
 
-%.o:%.cpp
+$(BUILDDIR)%.o:%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm *.o
+	rm $(BUILDDIR)*.o
 
-files.o:files.hpp lines.hpp
+$(BUILDDIR)files.o:files.hpp lines.hpp
 
-main.o:settings.hpp help.hpp sites.hpp
+$(BUILDDIR)main.o:settings.hpp help.hpp sites.hpp
 
-settings.o:settings.hpp files.hpp
+$(BUILDDIR)settings.o:settings.hpp files.hpp
 
-lines.o:lines.hpp
+$(BUILDDIR)lines.o:lines.hpp
 
-help.o:help.hpp
+$(BUILDDIR)help.o:help.hpp
 
-blogentry.o:blogentry.hpp id.hpp lines.hpp files.hpp date.hpp
+$(BUILDDIR)blogentry.o:blogentry.hpp id.hpp lines.hpp files.hpp date.hpp
 
-id.o:id.hpp files.hpp
+$(BUILDDIR)id.o:id.hpp files.hpp
 
-page.o:page.hpp blogentry.hpp files.hpp settings.hpp
+$(BUILDDIR)page.o:page.hpp blogentry.hpp files.hpp settings.hpp
 
-sites.o:sites.hpp page.hpp settings.hpp blogentry.hpp id.hpp files.hpp lines.hpp date.hpp
+$(BUILDDIR)sites.o:sites.hpp page.hpp settings.hpp blogentry.hpp id.hpp files.hpp lines.hpp date.hpp
 
-config.o:config.hpp settings.hpp sites.hpp
+$(BUILDDIR)config.o:config.hpp settings.hpp sites.hpp
 
-date.o:date.hpp
+$(BUILDDIR)date.o:date.hpp
