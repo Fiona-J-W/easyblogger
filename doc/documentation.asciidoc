@@ -5,12 +5,12 @@ EASYBLOGGER(1)
 
 NAME
 ----
-easyblogger - content management system
+*easyblogger* - content management system
 
 
 DESCRIPTION
 -----------
-easyblogger allows you to manage your blog-post easily. Following the UNIX-philosophy, it's completly configurable through text-files and command-line arguments.
+*easyblogger* allows you to manage your blog-post easily. Following the UNIX-philosophy, it's completly configurable through text-files and command-line arguments.
 
 
 BUGS
