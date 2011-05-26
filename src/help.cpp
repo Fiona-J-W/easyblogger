@@ -12,8 +12,8 @@ void print_info(){
 		<<"\n"
 		<<"This programm is a small and fast CMS.\n"
 		<<"\n"
-		<<"This Programm is free Software under the Terms of the GNU GPL\n"
-		<<"For more information look up the GPL.\n"
+		<<"This Programm is free Software under the Terms of the GNU AGPL\n"
+		<<"For more information look up the AGPL.\n"
 		<<endl;
 }
 
