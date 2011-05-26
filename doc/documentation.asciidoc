@@ -20,7 +20,7 @@ Please report bugs at <https://github.com/Florianjw/easyblogger>
 
 AUTHOR
 ------
-'Florian Weber' is the original author.
+'Florian Weber' <florian.weber2@googlemail.com> is the original author.
 
 
 COPYING
