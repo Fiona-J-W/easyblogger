@@ -1,9 +1,12 @@
 
-CC= g++ 
+CC= g++
 CFLAGS= -Wall -Wextra -W -O3 -pedantic
 BUILDDIR= ../build/
 OBJECTS= $(BUILDDIR)main.o $(BUILDDIR)files.o $(BUILDDIR)settings.o $(BUILDDIR)lines.o $(BUILDDIR)help.o $(BUILDDIR)blogentry.o $(BUILDDIR)id.o $(BUILDDIR)page.o $(BUILDDIR)sites.o $(BUILDDIR)config.o $(BUILDDIR)date.o
-TARGET= $(BUILDDIR)easyblogger
+TARGETNAME=easyblogger
+TARGET= $(BUILDDIR)$(TARGETNAME)
+BINDIR=/usr/bin/
+
 
 $(TARGET):$(OBJECTS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
@@ -13,6 +16,12 @@ $(BUILDDIR)%.o:%.cpp
 
 clean:
 	rm $(BUILDDIR)*.o
+
+install:
+	cp $(TARGET) $(BINDIR)
+
+uninstall: 
+	rm $(BINDIR)$(TARGETNAME)
 
 $(BUILDDIR)files.o:files.hpp lines.hpp
 

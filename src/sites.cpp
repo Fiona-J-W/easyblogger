@@ -50,7 +50,6 @@ int create_all(settings S){
 		}
 		write_page(mainpageposts,S,S.blog);
 	}
-	
 	return 0;
 }
 
