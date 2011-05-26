@@ -5,7 +5,7 @@ EASYBLOGGER(1)
 
 NAME
 ----
-*easyblogger* - content management system
+*easyblogger* - a lightweight content management system
 
 
 DESCRIPTION
