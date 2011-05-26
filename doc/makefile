@@ -6,6 +6,3 @@ man:
 html:
 	a2x -f xhtml documentation.asciidoc
 
-# cleaning the directory; deletes all files except the asciidoc-code and this makefile:
-clean:
-	find -not -name "." -and -not -name "makefile" -and -not -name "documentation.asciidoc" -exec rm {} \;
