@@ -5,13 +5,37 @@ EASYBLOGGER(1)
 
 NAME
 ----
-*easyblogger* - a lightweight content management system
+easyblogger - a lightweight content management system
 
+SYNOPSIS
+--------
+
+*easyblogger* ['BLOG'] <command> ['PARAMETERS']
 
 DESCRIPTION
 -----------
 *easyblogger* allows you to manage your blog-post easily. Following the UNIX-philosophy, it's completly configurable through text-files and command-line arguments.
 
+*-c, --create*::
+	Recreates all blogpostings and the mainpage.
+
+*-i, --import*::
+	Expects a file as last parameter. It's content will be imported as latest post.
+
+*-e, --edit*::
+	Expects the ID of an existing post as last parameter. The specified editor (if none is choosen in the blogs configfile, vi will be used) will be opened to edit the post. After having finished, the post will be recreated. 
+
+*-h, --help*::
+	Prints a short help.
+
+*--comment*::
+	Expects the ID of an existing post and a file as parameters. The content of the file will be added as comment to the choosen post.
+
+*--configure*::
+	The configfile of the choosen blog will be opened with the editor.
+
+*--about*::
+	Prints a short copyright-notice.
 
 BUGS
 ----
