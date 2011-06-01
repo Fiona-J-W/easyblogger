@@ -25,6 +25,8 @@
 #include "date.hpp"
 #include "files.hpp"
 #include "lines.hpp"
+#include "os_commands.hpp"
+
 
 #include <iostream>
 #include <cstdlib>
@@ -113,7 +115,8 @@ int import(settings S,string filename){
 	//cout<<dataline<<endl;
 	write_file(new_file,data);
 	cout<<S.last_id.get()<<": "<<heading<<endl;
-	return create_latest(S);
+	create_latest(S);
+	return change_rights(new_file,"a+w");
 }
 
 

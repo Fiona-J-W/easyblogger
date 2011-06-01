@@ -54,12 +54,12 @@ string ID::get(){
 
 
 void ID::read_file(string filename){
-	m_filename=filename;
 	LINES data=read_config_file(filename);
 	if(data.empty()){
 		throw string("ID-File empty");
 	}
 	*this=str_to_id(data[0]);
+	m_filename=filename;
 }
 
 ID ID::str_to_id(string str){
