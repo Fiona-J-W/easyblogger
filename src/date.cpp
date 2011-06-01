@@ -21,10 +21,14 @@
 #include <ctime>
 #include <clocale>
 #include <cstring>
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 
 
-std::string get_localdate(){
+string get_localdate(){
 	time_t TIME;
 	char timestring_1[21],timestring_2[11],timestring_3[21];
 	struct tm *timeinfo;
@@ -47,9 +51,6 @@ std::string get_localdate(){
 		++pointer;
 		strcpy(timestring_2,pointer);
 	}
-	returnstring=timestring_1;
-	returnstring+=timestring_2;
-	returnstring+=timestring_3;
-	
-	return returnstring;
+        
+	return string(timestring_1)+timestring_2+timestring_3;
 }
