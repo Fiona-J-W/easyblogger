@@ -35,20 +35,14 @@ string get_localdate(){
 	setlocale(LC_ALL, "");
 	time(&TIME);
 	timeinfo=localtime(&TIME);
-	strftime(timestring_1,20,"%A, ",timeinfo);
-	strftime(timestring_2,10,"%d",timeinfo);
+	strftime(timestring_1,20,"%A,",timeinfo);
+	strftime(timestring_2,10,"%e",timeinfo);
 	strftime(timestring_3,20,". %B %Y",timeinfo);
 	
 	timestring_1[20]=0;
 	timestring_2[10]=0;
 	timestring_3[20]=0;
 	
-	if(timestring_2[0]=='0'){
-		char *pointer;
-		pointer=timestring_2;
-		++pointer;
-		strcpy(timestring_2,pointer);
-	}
         
 	return string(timestring_1)+timestring_2+timestring_3;
 }
