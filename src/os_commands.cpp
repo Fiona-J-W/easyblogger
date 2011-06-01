@@ -1,6 +1,6 @@
 //      os_commands.cpp
 //      
-//      Copyright 2011 Florian Weber <florian@mars>
+//      Copyright 2011 Florian Weber <florian.weber@sfz-bw.de>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU Affero General Public License as published by
