@@ -32,3 +32,18 @@ deque<string> cut_fields(string line,string divider){
 	data.push_back(line);
 	return data;
 }
+
+
+
+string replace(string str,string old_phrase,string new_phrase){
+	size_t pos, l_old(old_phrase.size());
+	pos=str.find(old_phrase);
+	string returnstr="";
+	while(pos!=string::npos){
+		returnstr+=str.substr(0,pos)+new_phrase;
+		str=str.substr(pos+l_old);
+		pos=str.find(old_phrase);
+	}
+	returnstr+=str;
+	return returnstr;
+}

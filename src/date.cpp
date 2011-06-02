@@ -17,6 +17,8 @@
 
 #include "date.hpp"
 
+#include "lines.hpp"
+
 #include <cstdio>
 #include <ctime>
 #include <clocale>
@@ -33,9 +35,8 @@ string get_localdate(){
 	setlocale(LC_ALL, "");
 	time(&TIME);
 	timeinfo=localtime(&TIME);
-	strftime(timestring,50,"%A,%e. %B %Y",timeinfo);
-	
+	strftime(timestring,50,"%A, %e. %B %Y",timeinfo);
 	timestring[50]=0;
 	
-	return string(timestring);
+	return replace(string(timestring),"  "," ");
 }
