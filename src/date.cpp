@@ -30,11 +30,10 @@ string get_localdate(){
 	time_t TIME;
 	char timestring[51];
 	struct tm *timeinfo;
-	std::string returnstring;
 	setlocale(LC_ALL, "");
 	time(&TIME);
 	timeinfo=localtime(&TIME);
-	strftime(timestring_1,50,"%A,%e. %B %Y",timeinfo);
+	strftime(timestring,50,"%A,%e. %B %Y",timeinfo);
 	
 	timestring[50]=0;
 	
