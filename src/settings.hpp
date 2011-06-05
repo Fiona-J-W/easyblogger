@@ -35,6 +35,8 @@ typedef struct{
 	string comment_section_heading;
 	string comment_url;
 	string comment_name;
+	string locale;
+	string time_format;
 	int number_of_mainpageposts;
 	ID last_id;
 } settings;

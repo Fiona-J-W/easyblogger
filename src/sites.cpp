@@ -98,7 +98,7 @@ int create(settings S,ID id){
 int import(settings S,string filename){
 	string heading, date, new_file, new_comment_file, dataline;
 	LINES data=read_file(filename);
-	date=get_localdate();
+	date=get_localdate(S);
 	if(data.size()>0&&data[0].find("#HEADING=")==0){
 		heading=cut(data[0],"=").second;
 		data.erase(data.begin());
@@ -149,7 +149,7 @@ int comment(settings S,ID id,string filename){
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
 		if(it->id()==id){
-			it->new_comment(filename);
+			it->new_comment(filename,S);
 			return create(S,id);
 		}
 	}

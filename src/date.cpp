@@ -28,15 +28,27 @@ using namespace std;
 
 
 
-string get_localdate(){
+
+std::string get_localdate(std::string format,std::string locale){
 	time_t TIME;
 	char timestring[51];
 	struct tm *timeinfo;
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, locale.c_str());
 	time(&TIME);
 	timeinfo=localtime(&TIME);
-	strftime(timestring,50,"%A, %e. %B %Y",timeinfo);
+	strftime(timestring,50,format.c_str(),timeinfo);
 	timestring[50]=0;
 	
 	return replace(string(timestring),"  "," ");
+}
+
+std::string get_localdate(settings S){
+	string format=DEFAULT_TIME_FORMAT,locale=DEFAULT_LOCALE;
+	if(!S.time_format.empty()){
+		format=S.time_format;
+	}
+	if(!S.locale.empty()){
+		locale=S.locale;
+	}
+	return get_localdate(format, locale);
 }

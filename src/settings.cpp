@@ -81,6 +81,12 @@ settings read_settings(string filename){
 		else if(val=="comment_name"){
 			S.comment_name=line.second;
 		}
+		else if(val=="locale"){
+			S.locale=line.second;
+		}
+		else if(val=="time_format"){
+			S.time_format=line.second;
+		}
 		else if(val=="number_of_mainpageposts"){
 			S.number_of_mainpageposts=atoi(line.second.c_str());
 		}

@@ -20,6 +20,14 @@
 
 #include <string>
 
-std::string get_localdate();
+#include "settings.hpp"
+
+const std::string DEFAULT_TIME_FORMAT=std::string("%A, %e. %B %Y");
+const std::string DEFAULT_LOCALE=std::string("");
+
+std::string get_localdate(std::string format=DEFAULT_TIME_FORMAT,std::string locale=DEFAULT_LOCALE);
+std::string get_localdate(settings S);
+
+
 
 #endif

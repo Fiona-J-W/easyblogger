@@ -104,7 +104,7 @@ LINES blogentry::content(){
 	return data;
 }
 
-void blogentry::new_comment(string filename){
+void blogentry::new_comment(string filename,settings S){
 	read_comments();
 	if(filename=="")return;
 	LINES comment=read_file(filename);
@@ -115,7 +115,7 @@ void blogentry::new_comment(string filename){
 		comment.erase(comment.begin());
 	}
 	m_comments.push_back("<li class=\"comment\">");
-	m_comments.push_back("<p><strong>"+author+"</strong> ("+get_localdate()+"):</p>");
+	m_comments.push_back("<p><strong>"+author+"</strong> ("+get_localdate(S)+"):</p>");
 	for(LINES::iterator it=comment.begin();it!=comment.end();++it){
 		*it=clean_whitespace(*it);
 		
