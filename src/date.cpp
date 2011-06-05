@@ -37,9 +37,9 @@ std::string get_localdate(std::string format,std::string locale){
 	time(&TIME);
 	timeinfo=localtime(&TIME);
 	strftime(timestring,DEFAULT_MAX_DATE_SIZE,format.c_str(),timeinfo);
-	timestring[DEFAULT_MAX_DATE_SIZE]=0;
+	timestring[DEFAULT_MAX_DATE_SIZE]='\0';
 	
-	return replace(string(timestring),"  "," ");
+	return remove_double_spaces(string(timestring));
 }
 
 std::string get_localdate(settings S){

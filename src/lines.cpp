@@ -47,3 +47,8 @@ string replace(string str,string old_phrase,string new_phrase){
 	returnstr+=str;
 	return returnstr;
 }
+
+string remove_double_spaces(string str){
+	return replace(str,"  "," ");
+	
+}
