@@ -24,6 +24,7 @@
 
 const std::string DEFAULT_TIME_FORMAT=std::string("%A, %e. %B %Y");
 const std::string DEFAULT_LOCALE=std::string("");
+const int DEFAULT_MAX_DATE_SIZE=200;
 
 std::string get_localdate(std::string format=DEFAULT_TIME_FORMAT,std::string locale=DEFAULT_LOCALE);
 std::string get_localdate(settings S);

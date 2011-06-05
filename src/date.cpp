@@ -31,13 +31,13 @@ using namespace std;
 
 std::string get_localdate(std::string format,std::string locale){
 	time_t TIME;
-	char timestring[51];
+	char timestring[DEFAULT_MAX_DATE_SIZE+1];
 	struct tm *timeinfo;
 	setlocale(LC_ALL, locale.c_str());
 	time(&TIME);
 	timeinfo=localtime(&TIME);
-	strftime(timestring,50,format.c_str(),timeinfo);
-	timestring[50]=0;
+	strftime(timestring,DEFAULT_MAX_DATE_SIZE,format.c_str(),timeinfo);
+	timestring[DEFAULT_MAX_DATE_SIZE]=0;
 	
 	return replace(string(timestring),"  "," ");
 }
