@@ -9,31 +9,6 @@
 
 using std::pair;
 
-
-
-
-
-/** data:
-	string settingsdir;
-	string datadir;
-	string header;
-	string footer;
-	string blog;
-	string list_of_entries;
-	string single_entries_dir;
-	string single_entries_dir_rel;
-	string url;
-	string date;
-	string title;
-	string rss_feed;
-	string rss_header_file;
-	string editor;
-	string public_path_to_comment_function;
-	string name_of_link_to_comment;
-	int number_of_mainpageposts;
-	string home;
-*/
-
 settings read_settings(string filename){
 	settings S;
 	string val;
