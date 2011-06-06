@@ -34,6 +34,8 @@ using namespace std;
 
 typedef deque<string> LINES;
 
+const string DEFAULT_COMMENT_AUTHOR=string("Anonymous");
+
 
 class blogentry{
 	public:

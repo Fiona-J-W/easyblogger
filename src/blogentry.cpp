@@ -85,8 +85,13 @@ LINES blogentry::content(){
 		line=clean_whitespace(line);
 		if(!line.empty()){
 			if(!p_open){
-				p_open=true;
-				data.push_back(string("<p>"));
+				if((line[0]=='<')&&(line[line.size()-1]=='>')&&(*(it+1)).empty()){
+					data.push_back(line);
+				}
+				else{
+					p_open=true;
+					data.push_back(string("<p>"));
+				}
 			}
 			data.push_back(line);
 		}
@@ -108,7 +113,7 @@ void blogentry::new_comment(string filename,settings S){
 	read_comments();
 	if(filename=="")return;
 	LINES comment=read_file(filename);
-	string author="Anonymous";
+	string author=DEFAULT_COMMENT_AUTHOR;
 	bool p_open=false;
 	if(comment[0].find("#AUTHOR=")==0){
 		author=cut(comment[0]).second;
@@ -181,13 +186,3 @@ deque<blogentry> read_entries(string filename, bool with_content){
 	}
 	return returndata;
 }
-/*
-map<ID,blogentry*> create map(deque<blogentry>& data){
-	map<ID,blogentry*> returndata;
-	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
-		returndata[it->id()]=&(*it);
-		
-	}
-	return returndata;
-}
-//*/

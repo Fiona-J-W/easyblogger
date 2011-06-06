@@ -59,6 +59,10 @@ int main(int argc, char **argv){
 			S=get_blog_by_name();
 			return configure_blog(S);
 		}
+		else{
+			print_help();
+			return 1;
+		}
 	}
 	else if(argc==3){
 		if(args[2]=="--create"||args[2]=="-c"){
@@ -77,6 +81,10 @@ int main(int argc, char **argv){
 			S=get_blog_by_name(args[1]);
 			return configure_blog(S,args[1]);
 		}
+		else{
+			print_help();
+			return 1;
+		}
 	}
 	else if(argc==4){
 		if(args[2]=="--import"||args[2]=="-i"){
@@ -91,13 +99,20 @@ int main(int argc, char **argv){
 			S=get_blog_by_name();
 			comment(S,ID(args[2]),args[3]);
 		}
+		else{
+			print_help();
+			return 1;
+		}
 	}
 	else if(argc==5){
 		if(args[2]=="--comment"){
 			S=get_blog_by_name(args[1]);
 			comment(S,ID(args[3]),args[4]);
 		}
-		
+		else{
+			print_help();
+			return 1;
+		}
 	}
 	else{
 		print_help();
