@@ -78,30 +78,27 @@ settings read_settings(string filename){
 }
 
 
-typedef struct{
+struct _blog_{
 	deque<string> names;
 	string conf_file;
 	bool default_entry;
-} _blog_;
+};
 
-typedef struct{
+struct list_of_blogs{
 	deque<_blog_> blogs;
 	_blog_ *default_blog;
-} list_of_blogs;
+};
 
 list_of_blogs get_list_of_blogs(){
 	_blog_ *tempval=NULL;
 	list_of_blogs list;
 	list.default_blog=NULL;
-	LINES data=read_file(GLOBAL_EASYBLOGGER_CONFIG_FILE);
+	LINES data=read_config_file(GLOBAL_EASYBLOGGER_CONFIG_FILE);
 	bool entry_open=false;
 	string line;
 	for(LINES::iterator it=data.begin();it!=data.end();++it){
 		line=*it;
 		line=clean_whitespace(line);
-		if(line.empty()||line[0]=='#'){
-			continue;
-		}
 		if(entry_open){
 			if(line.find(END_BLOG_CONFIG)==0){
 				entry_open=false;
@@ -113,6 +110,19 @@ list_of_blogs get_list_of_blogs(){
 			else if(line.find("config=")==0){
 				tempval->conf_file=cut(line,"=").second;
 				continue;
+			}
+			else if(line.find("names=")==0){
+				deque<string> names=cut_words(cut(line,"=").second);
+				for(deque<string>::iterator it=names.begin();it!=names.end();++it){
+					tempval->names.push_back(*it);
+				}
+			}
+			else if(line.find("name")==0){
+				tempval->names.push_back(cut(line,"=").second);
+			}
+			else if(line.find(DEFAULT_INDICATOR)==0){
+				list.default_blog=tempval;
+				tempval->default_entry=true;
 			}
 			else{
 				std::cerr<<"WARNING: INVALID DATA IN THE CONFIGURATION-FILE: "<<line<<std::endl;
@@ -127,6 +137,7 @@ list_of_blogs get_list_of_blogs(){
 				for(deque<string>::iterator it=tempval->names.begin();it!=tempval->names.end();++it){
 					if(*it==DEFAULT_INDICATOR){
 						list.default_blog=tempval;
+						tempval->default_entry=true;
 						break;
 					}
 				}

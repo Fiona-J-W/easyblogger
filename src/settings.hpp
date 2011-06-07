@@ -16,7 +16,7 @@ const string DEFAULT_INDICATOR="_DEFAULT_";
 const string BEGIN_BLOG_CONFIG="BEGINBLOG";
 const string END_BLOG_CONFIG="ENDBLOG";
 
-typedef struct{
+struct settings{
 	string settingsdir;
 	string datadir;
 	string header;
@@ -39,7 +39,7 @@ typedef struct{
 	string time_format;
 	int number_of_mainpageposts;
 	ID last_id;
-} settings;
+};
 
 settings read_settings(string filename);
 

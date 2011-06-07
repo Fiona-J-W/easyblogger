@@ -27,8 +27,7 @@
 
 using namespace std;
 
-class ID
-{
+class ID{
 	public:
 		ID();
 		ID(string id);
