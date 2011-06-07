@@ -130,7 +130,6 @@ list_of_blogs get_list_of_blogs(){
 						break;
 					}
 				}
-				continue;
 			}
 		}
 	}
