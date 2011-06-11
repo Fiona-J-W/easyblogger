@@ -52,3 +52,13 @@ string remove_double_spaces(string str){
 	return replace(str,"  "," ");
 	
 }
+
+LINES operator+(LINES L1, LINES L2){
+	return (L1+=L2);
+}
+LINES operator+=(LINES &L1, LINES L2){
+	for(LINES::iterator it=L2.begin();it!=L2.end();++it){
+		L1.push_back(*it);
+	}
+	return L1;
+}

@@ -19,4 +19,7 @@ deque<string> cut_fields(string line,string divider="\t");
 string replace(string old_str,string old_phrase,string new_phrase);
 string remove_double_spaces(string str);
 
+LINES operator+(LINES L1, LINES L2);
+LINES operator+=(LINES &L1, LINES L2);
+
 #endif

@@ -23,7 +23,7 @@
 using namespace std;
 
 #include "page.hpp"
-
+#include "lines.hpp"
 #include "files.hpp"
 
 int write_page(deque<blogentry> entries, settings S, string filename,bool comments){
@@ -32,9 +32,7 @@ int write_page(deque<blogentry> entries, settings S, string filename,bool commen
 	footer=read_file(S.footer);
 	string lastdate="";
 	bool first_post=true;
-	for(LINES::iterator it=header.begin();it!=header.end();++it){
-		data.push_back(*it);
-	}
+	data+=header;
 	for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
 		if(lastdate!=it->get_date()){
 			if(first_post){
@@ -73,9 +71,7 @@ int write_page(deque<blogentry> entries, settings S, string filename,bool commen
 		data.push_back("</li>");
 	}
 	data.push_back(string("</ul>\n</div>"));
-	for(LINES::iterator it=footer.begin();it!=footer.end();++it){
-		data.push_back(*it);
-	}
+	data+=footer;
 	return write_file(filename,data);
 }
 

@@ -85,13 +85,8 @@ LINES blogentry::content(){
 		line=clean_whitespace(line);
 		if(!line.empty()){
 			if(!p_open){
-				if((line[0]=='<')&&(line[line.size()-1]=='>')&&(*(it+1)).empty()){
-					data.push_back(line);
-				}
-				else{
-					p_open=true;
-					data.push_back(string("<p>"));
-				}
+				p_open=true;
+				data.push_back(string("<p>"));
 			}
 			data.push_back(line);
 		}
