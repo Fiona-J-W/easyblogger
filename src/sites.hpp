@@ -45,7 +45,9 @@ int import(settings S,string filename);
 ///or your language of choice:
 int comment(settings S,ID id,string filename);
 
-///edit a Post with the ID id:
+///edit a post with the ID id:
 int edit(settings S, ID id);
 
+///edit the comments of the post with the ID id:
+int edit_comment(settings S, ID id);
 #endif /* SITES_HPP */ 

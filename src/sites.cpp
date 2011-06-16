@@ -160,3 +160,15 @@ int comment(settings S,ID id,string filename){
 	cout<<"Not found"<<endl;
 	return 1;
 }
+
+int edit_comment(settings S, ID id){
+	deque<blogentry> data=read_entries(S.list_of_entries,false);
+	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
+		if(it->id()==id){
+			system((S.editor+" "+it->get_comments_filename()).c_str());
+			return create(S,id);
+		}
+	}
+	cout<<"Not found"<<endl;
+	return 1;
+}
