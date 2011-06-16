@@ -27,6 +27,9 @@
 
 using namespace std;
 
+
 int change_rights(string filename,string rights);
+
+//inline int chmod(string filename,string rights){return change_rights(filename,rights);}
 
 #endif /* OS_COMMANDS_HPP */ 

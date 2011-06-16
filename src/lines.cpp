@@ -4,7 +4,6 @@ string clean_whitespace(string str){
 	while(str[0]==' '||str[0]=='\t'){
 		str=str.substr(1);
 	}
-	
 	return str;
 }
 
@@ -50,7 +49,6 @@ string replace(string str,string old_phrase,string new_phrase){
 
 string remove_double_spaces(string str){
 	return replace(str,"  "," ");
-	
 }
 
 LINES operator+(LINES L1, LINES L2){

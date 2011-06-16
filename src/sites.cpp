@@ -116,7 +116,11 @@ int import(settings S,string filename){
 	write_file(new_file,data);
 	cout<<S.last_id.get()<<": "<<heading<<endl;
 	create_latest(S);
-	return change_rights(new_file,"a+w");
+	change_rights(new_file,"a+w");
+	write_file(new_comment_file,"");
+	change_rights(new_comment_file,"a+w");
+	change_rights(S.single_entries_dir+S.last_id.get()+".html","a+w");
+	return 0;
 }
 
 

@@ -49,6 +49,17 @@ int write_file(string filename, LINES data){
 	return 0;
 }
 
+int write_file(string filename, string data){
+	ofstream file;
+	file.open(filename.c_str());
+	if(!file.is_open()){
+		return 1;
+	}
+	file<<data;
+	file.close();
+	return 0;
+}
+
 int insert_into_file(string filename, string line,int pos){
 	LINES data=read_file(filename);
 	LINES::iterator it=data.begin();
