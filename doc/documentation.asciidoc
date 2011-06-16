@@ -25,6 +25,9 @@ DESCRIPTION
 *-e, --edit*::
 	Expects the ID of an existing post as last parameter. The specified editor (if none is choosen in the blogs configfile, vi will be used) will be opened to edit the post. After having finished, the post will be recreated. 
 
+*-E, --edit-comment*::
+	Expects the ID of an existing post as last parameter. The specified editor will be opened to edit the comments of a post. After having finished, the post will be recreated.
+
 *-h, --help*::
 	Prints a short help.
 
