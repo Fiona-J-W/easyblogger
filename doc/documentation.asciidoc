@@ -28,6 +28,9 @@ DESCRIPTION
 *-E, --edit-comment*::
 	Expects the ID of an existing post as last parameter. The specified editor will be opened to edit the comments of a post. After having finished, the post will be recreated.
 
+*-l, --list-entries*::
+	Lists all entries of a blog.
+
 *-h, --help*::
 	Prints a short help.
 
