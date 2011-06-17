@@ -164,7 +164,7 @@ settings get_blog_by_name(string name){
 			tempval=*it;
 			for(deque<string>::iterator it=tempval.names.begin();it!=tempval.names.end();++it){
 				if(*it==name){
-					return read_settings(*it);
+					return read_settings(get_blog_conf_file(*it));
 				}
 			}
 		}
@@ -183,10 +183,12 @@ string get_blog_conf_file(string name){
 			tempval=*it;
 			for(deque<string>::iterator it_name=tempval.names.begin();it_name!=tempval.names.end();++it_name){
 				if(*it_name==name){
+					//cout<<"found conf-file"<<endl;
 					return it->conf_file;
 				}
 			}
 		}
 	}
+	//cerr<<"didn't find "<<name<<endl;
 	throw std::logic_error("does not exist");
 }

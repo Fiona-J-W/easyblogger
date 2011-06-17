@@ -172,3 +172,13 @@ int edit_comment(settings S, ID id){
 	cout<<"Not found"<<endl;
 	return 1;
 }
+
+
+int list_entries(settings S){
+	deque<blogentry> data=read_entries(S.list_of_entries,false);
+	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
+		cout<<it->get_id()<<":\t"<<it->get_heading()<<"\n";
+	}
+	cout<<flush;
+	return 0;
+}

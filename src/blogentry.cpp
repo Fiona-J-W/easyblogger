@@ -175,7 +175,7 @@ string blogentry::get_comments_filename(){
 deque<blogentry> read_entries(string filename, bool with_content){
 	LINES data=read_config_file(filename);
 	deque<blogentry> returndata;
-	for(LINES::iterator it=data.begin();it!=data.end();++it){
+	for(LINES::reverse_iterator it=data.rbegin();it!=data.rend();++it){
 		returndata.push_back(blogentry(*it,with_content));
 		
 	}

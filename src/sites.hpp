@@ -50,4 +50,8 @@ int edit(settings S, ID id);
 
 ///edit the comments of the post with the ID id:
 int edit_comment(settings S, ID id);
+
+///list all existing entries:
+int list_entries(settings S);
+
 #endif /* SITES_HPP */ 

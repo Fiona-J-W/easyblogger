@@ -20,6 +20,7 @@ deque<string> cut_words(string line){
 	return cut_fields(line," ");
 }
 
+
 deque<string> cut_fields(string line,string divider){
 	size_t pos;
 	deque<string> data;

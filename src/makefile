@@ -41,7 +41,7 @@ $(BUILDDIR)blogentry.o:blogentry.hpp id.hpp lines.hpp files.hpp date.hpp
 
 $(BUILDDIR)id.o:id.hpp files.hpp
 
-$(BUILDDIR)page.o:page.hpp blogentry.hpp files.hpp settings.hpp lines.o
+$(BUILDDIR)page.o:page.hpp blogentry.hpp files.hpp settings.hpp lines.hpp
 
 $(BUILDDIR)sites.o:sites.hpp page.hpp settings.hpp blogentry.hpp id.hpp files.hpp lines.hpp date.hpp os_commands.hpp
 

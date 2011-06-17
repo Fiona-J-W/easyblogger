@@ -55,6 +55,10 @@ int main(int argc, char **argv){
 			S=get_blog_by_name();
 			create_all(S);
 		}
+		else if(args[1]=="--list-entries"||args[1]=="-l"){
+			S=get_blog_by_name();
+			return list_entries(S);
+		}
 		else if(args[1]=="--configure"){
 			S=get_blog_by_name();
 			return configure_blog(S);
@@ -84,6 +88,10 @@ int main(int argc, char **argv){
 		else if(args[2]=="--configure"){
 			S=get_blog_by_name(args[1]);
 			return configure_blog(S,args[1]);
+		}
+		else if(args[2]=="--list-entries"||args[2]=="-l"){
+			S=get_blog_by_name(args[1]);
+			return list_entries(S);
 		}
 		else{
 			print_help();
