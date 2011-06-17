@@ -38,7 +38,6 @@ int create_all(settings S){
 	string filename;
 	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
 		filename=S.single_entries_dir+it->get_id()+".html";
-		//cout<<filename<<endl;
 		write_page(*it,S,filename);
 		
 	}
@@ -112,7 +111,6 @@ int import(settings S,string filename){
 	new_comment_file=S.datadir+S.last_id.get()+"-comments.html";
 	dataline= new_file+"\t"+date+"\t"+heading+"\t"+S.last_id.get()+"\t"+new_comment_file;
 	insert_to_begin_of_file(S.list_of_entries,dataline);
-	//cout<<dataline<<endl;
 	write_file(new_file,data);
 	cout<<S.last_id.get()<<": "<<heading<<endl;
 	create_latest(S);
@@ -157,7 +155,7 @@ int comment(settings S,ID id,string filename){
 			return create(S,id);
 		}
 	}
-	cout<<"Not found"<<endl;
+	cerr<<"Not found"<<endl;
 	return 1;
 }
 
@@ -169,14 +167,14 @@ int edit_comment(settings S, ID id){
 			return create(S,id);
 		}
 	}
-	cout<<"Not found"<<endl;
+	cerr<<"Not found"<<endl;
 	return 1;
 }
 
 
 int list_entries(settings S){
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
-	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
+	for(deque<blogentry>::reverse_iterator it=data.rbegin();it!=data.rend();++it){
 		cout<<it->get_id()<<":\t"<<it->get_heading()<<"\n";
 	}
 	cout<<flush;

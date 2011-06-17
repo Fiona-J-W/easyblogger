@@ -183,12 +183,10 @@ string get_blog_conf_file(string name){
 			tempval=*it;
 			for(deque<string>::iterator it_name=tempval.names.begin();it_name!=tempval.names.end();++it_name){
 				if(*it_name==name){
-					//cout<<"found conf-file"<<endl;
 					return it->conf_file;
 				}
 			}
 		}
 	}
-	//cerr<<"didn't find "<<name<<endl;
 	throw std::logic_error("does not exist");
 }
