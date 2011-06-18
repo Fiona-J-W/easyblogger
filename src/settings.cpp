@@ -86,13 +86,13 @@ struct _blog_{
 
 struct list_of_blogs{
 	deque<_blog_> blogs;
-	_blog_ *default_blog;
+	deque<_blog_>::iterator default_blog_it;
 };
 
 list_of_blogs get_list_of_blogs(){
 	_blog_ *tempval=NULL;
 	list_of_blogs list;
-	list.default_blog=NULL;
+	list.default_blog_it=list.blogs.end();
 	LINES data=read_config_file(GLOBAL_EASYBLOGGER_CONFIG_FILE);
 	bool entry_open=false;
 	string line;
@@ -103,6 +103,9 @@ list_of_blogs get_list_of_blogs(){
 			if(line.find(END_BLOG_CONFIG)==0){
 				entry_open=false;
 				list.blogs.push_back(*tempval);
+				if(tempval->default_entry){
+					list.default_blog_it=--(list.blogs.end());
+				}
 				delete tempval;
 				tempval=NULL;
 				continue;
@@ -121,7 +124,6 @@ list_of_blogs get_list_of_blogs(){
 				tempval->names.push_back(cut(line,"=").second);
 			}
 			else if(line.find(DEFAULT_INDICATOR)==0){
-				list.default_blog=tempval;
 				tempval->default_entry=true;
 			}
 			else{
@@ -136,7 +138,6 @@ list_of_blogs get_list_of_blogs(){
 				tempval->names=cut_words(line.substr(BEGIN_BLOG_CONFIG.size()+1));
 				for(deque<string>::iterator it=tempval->names.begin();it!=tempval->names.end();++it){
 					if(*it==DEFAULT_INDICATOR){
-						list.default_blog=tempval;
 						tempval->default_entry=true;
 						break;
 					}
@@ -156,7 +157,7 @@ settings get_blog_by_name(string name){
 	list_of_blogs blogs=get_list_of_blogs();
 	settings S;
 	if(name==DEFAULT_INDICATOR){
-		return read_settings(blogs.default_blog->conf_file);
+		return read_settings(blogs.default_blog_it->conf_file);
 	}
 	else{
 		_blog_ tempval;
@@ -175,7 +176,7 @@ settings get_blog_by_name(string name){
 string get_blog_conf_file(string name){
 	list_of_blogs blogs=get_list_of_blogs();
 	if(name==DEFAULT_INDICATOR){
-		return blogs.default_blog->conf_file;
+		return blogs.default_blog_it->conf_file;
 	}
 	else{
 		_blog_ tempval;
