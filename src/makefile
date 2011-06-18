@@ -1,6 +1,6 @@
 
 CC= g++
-CFLAGS= -Wall -Wextra -W -O3 -pedantic -g
+CFLAGS= -Wall -Wextra -W -O3 -pedantic 
 BUILDDIR= ../build/
 OBJECTS= $(BUILDDIR)main.o $(BUILDDIR)files.o $(BUILDDIR)settings.o $(BUILDDIR)lines.o \
 $(BUILDDIR)help.o $(BUILDDIR)blogentry.o $(BUILDDIR)id.o $(BUILDDIR)page.o             \
