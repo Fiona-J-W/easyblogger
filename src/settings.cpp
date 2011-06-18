@@ -157,6 +157,9 @@ settings get_blog_by_name(string name){
 	list_of_blogs blogs=get_list_of_blogs();
 	settings S;
 	if(name==DEFAULT_INDICATOR){
+		if(blogs.default_blog_it==blogs.blogs.end()){
+			throw std::logic_error("does not exist");
+		}
 		return read_settings(blogs.default_blog_it->conf_file);
 	}
 	else{

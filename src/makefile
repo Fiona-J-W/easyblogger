@@ -4,7 +4,7 @@ CFLAGS= -Wall -Wextra -W -O3 -pedantic
 BUILDDIR= ../build/
 OBJECTS= $(BUILDDIR)main.o $(BUILDDIR)files.o $(BUILDDIR)settings.o $(BUILDDIR)lines.o \
 $(BUILDDIR)help.o $(BUILDDIR)blogentry.o $(BUILDDIR)id.o $(BUILDDIR)page.o             \
-$(BUILDDIR)sites.o $(BUILDDIR)config.o $(BUILDDIR)date.o $(BUILDDIR)os_commands.o
+$(BUILDDIR)actions.o $(BUILDDIR)config.o $(BUILDDIR)date.o $(BUILDDIR)os_commands.o
 TARGETNAME=easyblogger
 TARGET= $(BUILDDIR)$(TARGETNAME)
 BINDIR=/usr/bin/
@@ -29,7 +29,7 @@ uninstall:
 
 $(BUILDDIR)files.o:files.hpp lines.hpp
 
-$(BUILDDIR)main.o:settings.hpp help.hpp sites.hpp
+$(BUILDDIR)main.o:settings.hpp help.hpp actions.hpp
 
 $(BUILDDIR)settings.o:settings.hpp files.hpp
 
@@ -43,9 +43,9 @@ $(BUILDDIR)id.o:id.hpp files.hpp
 
 $(BUILDDIR)page.o:page.hpp blogentry.hpp files.hpp settings.hpp lines.hpp
 
-$(BUILDDIR)sites.o:sites.hpp page.hpp settings.hpp blogentry.hpp id.hpp files.hpp lines.hpp date.hpp os_commands.hpp
+$(BUILDDIR)actions.o:actions.hpp page.hpp settings.hpp blogentry.hpp id.hpp files.hpp lines.hpp date.hpp os_commands.hpp
 
-$(BUILDDIR)config.o:config.hpp settings.hpp sites.hpp
+$(BUILDDIR)config.o:config.hpp settings.hpp actions.hpp
 
 $(BUILDDIR)date.o:date.hpp lines.hpp settings.hpp
 

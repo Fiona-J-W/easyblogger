@@ -25,7 +25,7 @@
 
 #include "settings.hpp"
 #include "help.hpp"
-#include "sites.hpp"
+#include "actions.hpp"
 #include "config.hpp"
 
 using namespace std;

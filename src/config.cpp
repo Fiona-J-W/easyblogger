@@ -25,7 +25,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
-#include "sites.hpp"
+#include "actions.hpp"
 
 using namespace std;
 
