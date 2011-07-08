@@ -57,7 +57,7 @@ int write_page(deque<blogentry> entries, settings S, string filename,bool commen
 			tmp=it->comments();
 		}
 		if(comments&&(!tmp.empty())){
-			data.push_back("<hr/><h3>"+S.comment_section_heading+"</h2>\n<ul class=\"comments\">");
+			data.push_back("<hr/><h3>"+S.comment_section_heading+"</h3>\n<ul class=\"comments\">");
 			for(LINES::iterator it_comment=tmp.begin();it_comment!=tmp.end();++it_comment){
 				data.push_back(*it_comment);
 			}
