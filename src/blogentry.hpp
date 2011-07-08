@@ -36,6 +36,9 @@ typedef deque<string> LINES;
 
 const string DEFAULT_COMMENT_AUTHOR=string("Anonymous");
 
+const string COMMENT_AUTHOR_SETTER=string("#AUTHOR=");
+const string VERBATIM_AREA_START=string("#START_VERBATIM");
+const string VERBATIM_AREA_END=string("#END_VERBATIM");
 
 class blogentry{
 	public:

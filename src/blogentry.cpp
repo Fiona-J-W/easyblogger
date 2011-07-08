@@ -43,10 +43,6 @@ void blogentry::create_from_line(string line){
 	deque<string> raw_data;
 	raw_data=cut_fields(line,"\t");
 	if(raw_data.size()<4){
-		//cerr<<raw_data.size()<<"\t"<<line<<endl;
-		//for(int i=0;i<=raw_data.size();++i){
-		//	cout<<raw_data[i]<<endl;
-		//}
 		throw string("invalid field_count");
 	}
 	m_content_file=raw_data[0];
@@ -77,23 +73,37 @@ void blogentry::read_comments(){
 }
 
 LINES blogentry::content(){
-	bool p_open=false;
+	bool p_open=false, verbatim_mode=false;
 	string line;
 	LINES data;
 	for(LINES::iterator it=m_content.begin();it!=m_content.end();++it){
 		line=*it;
 		line=clean_whitespace(line);
-		if(!line.empty()){
-			if(!p_open){
-				p_open=true;
-				data.push_back(string("<p>"));
+		if(verbatim_mode){
+			if(line==VERBATIM_AREA_END){
+				verbatim_mode=false;
 			}
-			data.push_back(line);
+			else{
+				data.push_back(line);
+			}
 		}
 		else{
-			if(p_open){
-				p_open=false;
-				data.push_back(string("</p>"));
+			if(!line.empty()){
+				if(line==VERBATIM_AREA_START){
+					verbatim_mode=true;
+					continue;
+				}
+				if(!p_open){
+					p_open=true;
+					data.push_back(string("<p>"));
+				}
+				data.push_back(line);
+			}
+			else{
+				if(p_open){
+					p_open=false;
+					data.push_back(string("</p>"));
+				}
 			}
 		}
 	}
@@ -110,7 +120,7 @@ void blogentry::new_comment(string filename,settings S){
 	LINES comment=read_file(filename);
 	string author=DEFAULT_COMMENT_AUTHOR;
 	bool p_open=false;
-	if(comment[0].find("#AUTHOR=")==0){
+	if(comment[0].find(COMMENT_AUTHOR_SETTER)==0){
 		author=cut(comment[0]).second;
 		comment.erase(comment.begin());
 	}
