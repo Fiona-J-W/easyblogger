@@ -31,6 +31,8 @@
 using namespace std;
 
 blogentry::blogentry(string line, bool with_content){
+	m_content_loaded=false;
+	m_comments_loaded=false;
 	create_from_line(line);
 	if(with_content){
 		read_content();
@@ -61,18 +63,23 @@ void blogentry::create_from_line(string line){
 
 void blogentry::set_content(LINES content){
 	m_content=content;
-	
+	m_content_loaded=true;
 }
 
 void blogentry::read_content(){
 	m_content=read_file(m_content_file);
+	m_content_loaded=true;
 }
 
 void blogentry::read_comments(){
 	m_comments=read_file(m_comments_file);
+	m_comments_loaded=true;
 }
 
 LINES blogentry::content(){
+	if(!m_content_loaded){
+		read_content();
+	}
 	bool p_open=false, verbatim_mode=false;
 	string line;
 	LINES data;
@@ -115,7 +122,9 @@ LINES blogentry::content(){
 }
 
 void blogentry::new_comment(string filename,settings S){
-	read_comments();
+	if(!m_comments_loaded){
+		read_comments();
+	}
 	if(filename=="")return;
 	LINES comment=read_file(filename);
 	string author=DEFAULT_COMMENT_AUTHOR;
@@ -152,6 +161,9 @@ void blogentry::new_comment(string filename,settings S){
 }
 
 LINES blogentry::comments(){
+	if(!m_comments_loaded){
+		read_comments();
+	}
 	return m_comments;
 }
 

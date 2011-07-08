@@ -62,6 +62,10 @@ class blogentry{
 		string m_date;
 		string m_content_file;
 		string m_comments_file;
+		
+		bool m_content_loaded;
+		bool m_comments_loaded;
+		
 		ID m_id;
 		LINES m_content;
 		LINES m_comments;
