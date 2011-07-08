@@ -29,26 +29,32 @@ using namespace std;
 
 
 
-std::string get_localdate(std::string format,std::string locale){
+std::string get_localdate(std::string format,std::string locale, int max_date_size){
 	time_t TIME;
-	char timestring[DEFAULT_MAX_DATE_SIZE+1];
+	char *timestring=new char[max_date_size+1];
 	struct tm *timeinfo;
+	string returnstr;
 	setlocale(LC_ALL, locale.c_str());
 	time(&TIME);
 	timeinfo=localtime(&TIME);
-	strftime(timestring,DEFAULT_MAX_DATE_SIZE,format.c_str(),timeinfo);
-	timestring[DEFAULT_MAX_DATE_SIZE]='\0';
-	
-	return remove_double_spaces(string(timestring));
+	strftime(timestring,max_date_size,format.c_str(),timeinfo);
+	timestring[max_date_size]='\0';
+	returnstr=remove_double_spaces(string(timestring));
+	delete timestring;
+	return returnstr;
 }
 
 std::string get_localdate(settings S){
 	string format=DEFAULT_TIME_FORMAT,locale=DEFAULT_LOCALE;
+	int max_date_size=DEFAULT_MAX_DATE_SIZE;
 	if(!S.time_format.empty()){
 		format=S.time_format;
 	}
 	if(!S.locale.empty()){
 		locale=S.locale;
 	}
-	return get_localdate(format, locale);
+	if(S.max_date_size>0){
+		max_date_size=S.max_date_size;
+	}
+	return get_localdate(format, locale, max_date_size);
 }

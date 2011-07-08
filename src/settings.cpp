@@ -14,6 +14,11 @@ settings read_settings(string filename){
 	string val;
 	pair<string,string> line;
 	LINES lines=read_config_file(filename);
+	
+	///SOME DEFAULTS:
+	S.max_date_size=-1;
+	S.number_of_mainpageposts=-1;
+	
 	for(LINES::iterator it=lines.begin();it!=lines.end();++it){
 		line=cut(*it);
 		val=line.first;
@@ -64,6 +69,9 @@ settings read_settings(string filename){
 		}
 		else if(val=="number_of_mainpageposts"){
 			S.number_of_mainpageposts=atoi(line.second.c_str());
+		}
+		else if(val=="max_date_size"){
+			S.max_date_size=atoi(line.second.c_str());
 		}
 		else if(val=="id_file"){
 			ID id;

@@ -38,6 +38,7 @@ struct settings{
 	string locale;
 	string time_format;
 	int number_of_mainpageposts;
+	int max_date_size;
 	ID last_id;
 };
 
