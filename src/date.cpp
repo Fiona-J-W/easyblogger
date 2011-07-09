@@ -44,7 +44,7 @@ std::string get_localdate(std::string format,std::string locale, int max_date_si
 	return returnstr;
 }
 
-std::string get_localdate(settings S){
+std::string get_localdate(settings &S){
 	string format=DEFAULT_TIME_FORMAT,locale=DEFAULT_LOCALE;
 	int max_date_size=DEFAULT_MAX_DATE_SIZE;
 	if(!S.time_format.empty()){

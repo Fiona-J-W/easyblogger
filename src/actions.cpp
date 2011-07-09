@@ -33,7 +33,7 @@
 
 using namespace std;
 
-int create_all(settings S){
+int create_all(settings &S){
 	deque<blogentry> data=read_entries(S.list_of_entries,true);
 	string filename;
 	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
@@ -54,7 +54,7 @@ int create_all(settings S){
 	return 0;
 }
 
-int create_latest(settings S){
+int create_latest(settings &S){
 	if(S.number_of_mainpageposts<0){
 		return create_all(S);
 	}
@@ -71,7 +71,7 @@ int create_latest(settings S){
 	return 0;
 }
 
-int create(settings S,ID id){
+int create(settings &S,ID id){
 	string filename;
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	int n=-1;
@@ -94,7 +94,7 @@ int create(settings S,ID id){
 	return 0;
 }
 
-int import(settings S,string filename){
+int import(settings &S,string filename){
 	string heading, date, new_file, new_comment_file, dataline;
 	LINES data=read_file(filename);
 	date=get_localdate(S);
@@ -122,7 +122,7 @@ int import(settings S,string filename){
 }
 
 
-int edit(settings S, ID id){
+int edit(settings &S, ID id){
 	string filename="", command;
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
@@ -147,7 +147,7 @@ int edit(settings S, ID id){
 }
 
 
-int comment(settings S,ID id,string filename){
+int comment(settings &S,ID id,string filename){
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
 		if(it->id()==id){
@@ -159,7 +159,7 @@ int comment(settings S,ID id,string filename){
 	return 1;
 }
 
-int edit_comment(settings S, ID id){
+int edit_comment(settings &S, ID id){
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
 		if(it->id()==id){
@@ -172,7 +172,7 @@ int edit_comment(settings S, ID id){
 }
 
 
-int list_entries(settings S){
+int list_entries(settings &S){
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	for(deque<blogentry>::reverse_iterator it=data.rbegin();it!=data.rend();++it){
 		cout<<it->get_id()<<":\t"<<it->get_heading()<<"\n";

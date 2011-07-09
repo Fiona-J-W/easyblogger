@@ -31,8 +31,8 @@
 
 using namespace std;
 
-int write_page(deque<blogentry> entries, settings S,string filename,bool comments=false);
+int write_page(deque<blogentry> entries, settings &S,string filename,bool comments=false);
 
-int write_page(blogentry entry, settings S,string filename,bool comments=true);
+int write_page(blogentry entry, settings &S,string filename,bool comments=true);
 
 #endif /* PAGE_HPP */ 

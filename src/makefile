@@ -37,7 +37,7 @@ $(BUILDDIR)lines.o:lines.hpp
 
 $(BUILDDIR)help.o:help.hpp
 
-$(BUILDDIR)blogentry.o:blogentry.hpp id.hpp lines.hpp files.hpp date.hpp
+$(BUILDDIR)blogentry.o:blogentry.hpp id.hpp lines.hpp files.hpp date.hpp settings.hpp
 
 $(BUILDDIR)id.o:id.hpp files.hpp
 

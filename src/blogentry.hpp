@@ -47,7 +47,7 @@ class blogentry{
 		void read_content();
 		void read_comments();
 		void set_content(LINES content);
-		void new_comment(string filename,settings S);
+		void new_comment(string filename,settings &S);
 		LINES content();
 		LINES comments();
 		string get_date();

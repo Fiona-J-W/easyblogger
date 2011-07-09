@@ -121,7 +121,7 @@ LINES blogentry::content(){
 	return data;
 }
 
-void blogentry::new_comment(string filename,settings S){
+void blogentry::new_comment(string filename,settings &S){
 	if(!m_comments_loaded){
 		read_comments();
 	}

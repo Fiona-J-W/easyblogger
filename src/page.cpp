@@ -26,7 +26,7 @@ using namespace std;
 #include "lines.hpp"
 #include "files.hpp"
 
-int write_page(deque<blogentry> entries, settings S, string filename,bool comments){
+int write_page(deque<blogentry> entries, settings &S, string filename,bool comments){
 	LINES data, header, footer,tmp;
 	header=read_file(S.header);
 	footer=read_file(S.footer);
@@ -75,7 +75,7 @@ int write_page(deque<blogentry> entries, settings S, string filename,bool commen
 	return write_file(filename,data);
 }
 
-int write_page(blogentry entry, settings S,string filename,bool comments){
+int write_page(blogentry entry, settings &S,string filename,bool comments){
 	deque<blogentry> entries;
 	entries.push_back(entry);
 	return write_page(entries, S, filename,comments);

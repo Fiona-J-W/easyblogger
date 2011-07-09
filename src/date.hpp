@@ -27,7 +27,7 @@ const std::string DEFAULT_LOCALE=std::string("");
 const int DEFAULT_MAX_DATE_SIZE=200;
 
 std::string get_localdate(std::string format=DEFAULT_TIME_FORMAT,std::string locale=DEFAULT_LOCALE, int max_date_size=DEFAULT_MAX_DATE_SIZE);
-std::string get_localdate(settings S);
+std::string get_localdate(settings &S);
 
 
 

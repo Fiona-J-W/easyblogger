@@ -28,30 +28,30 @@
 #include "id.hpp"
 
 ///recreates all posts and the mainpage:
-int create_all(settings S);
+int create_all(settings &S);
 
 ///recreates all posts, that are shown on the mainpage and the mainpage:
-int create_latest(settings S);
+int create_latest(settings &S);
 
 ///recreates the post with the ID id; if the post is shown on the mainpage
 ///create_latest() will be called:
-int create(settings S,ID id);
+int create(settings &S,ID id);
 
 ///create a new posting; the content has to stand within the given file
-int import(settings S,string filename);
+int import(settings &S,string filename);
 
 ///add a comment for a post; the command has to stand in the given file
 ///WARNING: This won't search for security problems. Do this part in PHP
 ///or your language of choice:
-int comment(settings S,ID id,string filename);
+int comment(settings &S,ID id,string filename);
 
 ///edit a post with the ID id:
-int edit(settings S, ID id);
+int edit(settings &S, ID id);
 
 ///edit the comments of the post with the ID id:
-int edit_comment(settings S, ID id);
+int edit_comment(settings &S, ID id);
 
 ///list all existing entries:
-int list_entries(settings S);
+int list_entries(settings &S);
 
 #endif /* SITES_HPP */ 
