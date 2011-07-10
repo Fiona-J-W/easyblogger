@@ -108,7 +108,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 		feed.push_back(string("\t\t\t<title>")+blogentries[i].get_heading()+"</title>");
 		feed.push_back(string("\t\t\t<link>")+S.url+S.single_entries_dir_rel+blogentries[i].get_id()+".html</link>");
 		feed.push_back(string("\t\t\t<description><![CDATA["));
-		feed+=blogentries[i].content();
+		feed+=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
 		feed.push_back(string("]]></description>"));
 		feed.push_back(string("\t\t</item>"));
 	}

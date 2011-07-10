@@ -61,3 +61,11 @@ LINES operator+=(LINES &L1, LINES L2){
 	}
 	return L1;
 }
+
+
+LINES push_string_to_front_of_every_line(LINES L, string str){
+	for(LINES::iterator it=L.begin();it!=L.end();++it){
+		*it=str+*it;
+	}
+	return L;
+}

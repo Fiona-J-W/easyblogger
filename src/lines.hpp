@@ -22,4 +22,6 @@ string remove_double_spaces(string str);
 LINES operator+(LINES L1, LINES L2);
 LINES operator+=(LINES &L1, LINES L2);
 
+LINES push_string_to_front_of_every_line(LINES L, string str);
+
 #endif
