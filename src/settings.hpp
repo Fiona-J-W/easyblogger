@@ -28,7 +28,7 @@ struct settings{
 	string url;
 	string title;
 	string rss_feed;
-	string rss_header_file;
+	string rss_channel_description_file;
 	string editor;
 	string public_path_to_comment_function;
 	string name_of_link_to_comment;

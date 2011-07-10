@@ -67,6 +67,12 @@ settings read_settings(string filename){
 		else if(val=="time_format"){
 			S.time_format=line.second;
 		}
+		else if(val=="RSS_file"){
+			S.rss_feed=line.second;
+		}
+		else if(val=="RSS_channel_description_file"){
+			S.rss_channel_description_file=line.second;
+		}
 		else if(val=="number_of_mainpageposts"){
 			S.number_of_mainpageposts=atoi(line.second.c_str());
 		}

@@ -51,6 +51,7 @@ int create_all(settings &S){
 		}
 		write_page(mainpageposts,S,S.blog);
 	}
+	create_rss(S,data);
 	return 0;
 }
 
@@ -68,6 +69,7 @@ int create_latest(settings &S){
 		mainpageposts.push_back(data.at(i));
 	}
 	write_page(mainpageposts,S,S.blog);
+	create_rss(S,data);
 	return 0;
 }
 
@@ -91,6 +93,27 @@ int create(settings &S,ID id){
 	data.at(n).read_comments();
 	filename=S.single_entries_dir+data.at(n).get_id()+".html";
 	write_page(data.at(n),S,filename);
+	return 0;
+}
+
+int create_rss(settings &S,deque<blogentry> &blogentries){
+	if(S.rss_feed.empty()){
+		return 1;
+	}
+	LINES feed;
+	feed.push_back(string("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<rss version=\"2.0\">\n\t<channel>"));
+	feed+=read_file(S.rss_channel_description_file);
+	for(int i=0;i<S.number_of_mainpageposts&&i<=int(blogentries.size());++i){
+		feed.push_back(string("\t\t<item>"));
+		feed.push_back(string("\t\t\t<title>")+blogentries[i].get_heading()+"</title>");
+		feed.push_back(string("\t\t\t<link>")+S.url+S.single_entries_dir_rel+blogentries[i].get_id()+".html</link>");
+		feed.push_back(string("\t\t\t<description><![CDATA["));
+		feed+=blogentries[i].content();
+		feed.push_back(string("]]></description>"));
+		feed.push_back(string("\t\t</item>"));
+	}
+	feed.push_back(string("\t</channel>\n</rss>"));
+	write_file(S.rss_feed,feed);
 	return 0;
 }
 

@@ -37,6 +37,9 @@ int create_latest(settings &S);
 ///create_latest() will be called:
 int create(settings &S,ID id);
 
+///create RSS-feed:
+int create_rss(settings &S,deque<blogentry> &blogentries);
+
 ///create a new posting; the content has to stand within the given file
 int import(settings &S,string filename);
 
