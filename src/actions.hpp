@@ -41,6 +41,9 @@ int create(settings &S,ID id);
 int create_rss(settings &S,deque<blogentry> &blogentries);
 
 ///create a new posting; the content has to stand within the given file
+int old_import(settings &S,string filename);
+
+///New version of import for use with new data format:
 int import(settings &S,string filename);
 
 ///add a comment for a post; the command has to stand in the given file

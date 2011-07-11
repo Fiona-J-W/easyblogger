@@ -40,10 +40,20 @@ const string COMMENT_AUTHOR_SETTER=string("#AUTHOR=");
 const string VERBATIM_AREA_START=string("#START_VERBATIM");
 const string VERBATIM_AREA_END=string("#END_VERBATIM");
 
+
+///For creation from file:
+const string ID_SETTER=string("ID");
+const string HEADING_SETTER=string("heading");
+const string CONTENT_FILE_SETTER=string("content_file");
+const string COMMENTS_FILE_SETTER=string("comment_file");
+const string DISPLAY_DATE_SETTER=string("display_date");
+
+
 class blogentry{
 	public:
 		blogentry(string line, bool with_content=false);
-		void create_from_line(string line);
+		//void create_from_line(string line);
+		void create_from_file(string filename);
 		void read_content();
 		void read_comments();
 		void set_content(LINES content);
@@ -55,11 +65,12 @@ class blogentry{
 		string get_id();
 		string get_filename();
 		string get_comments_filename();
+		string get_url(settings &S);
 		ID id();
 	private:
 		
 		string m_heading;
-		string m_date;
+		string m_disply_date;
 		string m_content_file;
 		string m_comments_file;
 		

@@ -106,7 +106,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	for(int i=0;i<S.number_of_mainpageposts&&i<=int(blogentries.size());++i){
 		feed.push_back(string("\t\t<item>"));
 		feed.push_back(string("\t\t\t<title>")+blogentries[i].get_heading()+"</title>");
-		feed.push_back(string("\t\t\t<link>")+S.url+S.single_entries_dir_rel+blogentries[i].get_id()+".html</link>");
+		feed.push_back(string("\t\t\t<link>")+blogentries[i].get_url(S)+".html</link>");
 		feed.push_back(string("\t\t\t<description><![CDATA["));
 		feed+=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
 		feed.push_back(string("]]></description>"));
@@ -117,7 +117,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	return 0;
 }
 
-int import(settings &S,string filename){
+int old_import(settings &S,string filename){
 	string heading, date, new_file, new_comment_file, dataline;
 	LINES data=read_file(filename);
 	date=get_localdate(S);
@@ -144,6 +144,42 @@ int import(settings &S,string filename){
 	return 0;
 }
 
+int import(settings &S,string filename){
+	string heading, date, content_file, comment_file, conf_file;
+	LINES data=read_file(filename), conf_file_content;
+	date=get_localdate(S);
+	if(data.size()>0&&data[0].find("#HEADING=")==0){
+		heading=cut(data[0],"=").second;
+		data.erase(data.begin());
+	}
+	while(heading==""){
+		cout<<">>> ";
+		getline(cin,heading);
+	}
+	++S.last_id;
+	content_file=S.datadir+S.last_id.get()+".html";
+	comment_file=S.datadir+S.last_id.get()+"-comments.html";
+	conf_file=S.datadir+S.last_id.get()+".conf";
+	
+	conf_file_content.push_back(ID_SETTER+'='+S.last_id.get());
+	conf_file_content.push_back(HEADING_SETTER+'='+heading);
+	conf_file_content.push_back(CONTENT_FILE_SETTER+'='+content_file);
+	conf_file_content.push_back(COMMENTS_FILE_SETTER+'='+comment_file);
+	conf_file_content.push_back(DISPLAY_DATE_SETTER+'='+date);
+	
+	write_file(conf_file,conf_file_content);
+	
+	insert_to_begin_of_file(S.list_of_entries,conf_file);
+	
+	write_file(content_file,data);
+	cout<<S.last_id.get()<<": "<<heading<<endl;
+	create_latest(S);
+	change_rights(content_file,"a+w");
+	write_file(comment_file,"");
+	change_rights(comment_file,"a+w");
+	change_rights(S.single_entries_dir+S.last_id.get()+".html","a+w");
+	return 0;
+}
 
 int edit(settings &S, ID id){
 	string filename="", command;

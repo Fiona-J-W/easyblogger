@@ -24,23 +24,24 @@
 #include "lines.hpp"
 #include "files.hpp"
 #include "date.hpp"
-#include <exception>
 
+#include <utility>
+#include <exception>
 #include <iostream>
 
 using namespace std;
 
-blogentry::blogentry(string line, bool with_content){
+blogentry::blogentry(string file, bool with_content){
 	m_content_loaded=false;
 	m_comments_loaded=false;
-	create_from_line(line);
+	create_from_file(file);
 	if(with_content){
 		read_content();
 		read_comments();
 	}
 }
 
-
+/*
 void blogentry::create_from_line(string line){
 	deque<string> raw_data;
 	raw_data=cut_fields(line,"\t");
@@ -48,7 +49,7 @@ void blogentry::create_from_line(string line){
 		throw string("invalid field_count");
 	}
 	m_content_file=raw_data[0];
-	m_date=raw_data[1];
+	m_disply_date=raw_data[1];
 	m_heading=raw_data[2];
 	try{
 		m_id=ID(raw_data[3]);
@@ -59,6 +60,43 @@ void blogentry::create_from_line(string line){
 	if(raw_data.size()>=5){
 		m_comments_file=raw_data[4];
 	}
+}
+
+*/
+
+
+void blogentry::create_from_file(string filename){
+	LINES raw_data=read_config_file(filename);
+	pair<string,string> temp_pair;
+	string key;
+	for(LINES::iterator it=raw_data.begin();it!=raw_data.end();++it){
+		temp_pair=cut(*it);
+		key=temp_pair.first;
+		if(key==CONTENT_FILE_SETTER){
+			m_content_file=temp_pair.second;
+		}
+		else if(key==COMMENTS_FILE_SETTER){
+			m_comments_file=temp_pair.second;
+		}
+		else if(key==DISPLAY_DATE_SETTER){
+			m_disply_date=temp_pair.second;
+		}
+		else if(key==HEADING_SETTER){
+			m_heading=temp_pair.second;
+		}
+		else if(key==ID_SETTER){
+			try{
+				m_id=ID(temp_pair.second);
+			}
+			catch(...){
+				throw string("invalid ID");
+			}
+		}
+		else{
+			cerr<<"Unknown key: \""<<key<<"\" with value \""<<temp_pair.second<<"\""<<endl;
+		}
+	}
+	
 }
 
 void blogentry::set_content(LINES content){
@@ -168,7 +206,7 @@ LINES blogentry::comments(){
 }
 
 string blogentry::get_date(){
-	return m_date;
+	return m_disply_date;
 }
 
 string blogentry::get_heading(){
@@ -190,6 +228,10 @@ ID blogentry::id(){
 
 string blogentry::get_comments_filename(){
 	return m_comments_file;
+}
+
+string blogentry::get_url(settings &S){
+	return S.url+S.single_entries_dir_rel+get_id();
 }
 
 ///Non-member-functions:
