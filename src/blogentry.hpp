@@ -47,7 +47,7 @@ const string HEADING_SETTER=string("heading");
 const string CONTENT_FILE_SETTER=string("content_file");
 const string COMMENTS_FILE_SETTER=string("comment_file");
 const string DISPLAY_DATE_SETTER=string("display_date");
-
+const string ISO_DATE_SETTER=string("iso_date");
 
 class blogentry{
 	public:
@@ -60,7 +60,8 @@ class blogentry{
 		void new_comment(string filename,settings &S);
 		LINES content();
 		LINES comments();
-		string get_date();
+		string get_iso_date();
+		string get_display_date();
 		string get_heading();
 		string get_id();
 		string get_filename();
@@ -70,7 +71,8 @@ class blogentry{
 	private:
 		
 		string m_heading;
-		string m_disply_date;
+		string m_display_date;
+		string m_iso_date;
 		string m_content_file;
 		string m_comments_file;
 		

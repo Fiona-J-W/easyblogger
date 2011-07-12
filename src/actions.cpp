@@ -110,6 +110,11 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 		feed.push_back(string("\t\t\t<description><![CDATA["));
 		feed+=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
 		feed.push_back(string("]]></description>"));
+		
+		///optional data:
+		if(!blogentries[i].get_iso_date().empty()){
+			feed.push_back(string("\t\t\t<pubDate>")+blogentries[i].get_iso_date()+".html</pubDate>");
+		}
 		feed.push_back(string("\t\t</item>"));
 	}
 	feed.push_back(string("\t</channel>\n</rss>"));
@@ -117,37 +122,10 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	return 0;
 }
 
-int old_import(settings &S,string filename){
-	string heading, date, new_file, new_comment_file, dataline;
-	LINES data=read_file(filename);
-	date=get_localdate(S);
-	if(data.size()>0&&data[0].find("#HEADING=")==0){
-		heading=cut(data[0],"=").second;
-		data.erase(data.begin());
-	}
-	while(heading==""){
-		cout<<">>> ";
-		getline(cin,heading);
-	}
-	++S.last_id;
-	new_file=S.datadir+S.last_id.get()+".html";
-	new_comment_file=S.datadir+S.last_id.get()+"-comments.html";
-	dataline= new_file+"\t"+date+"\t"+heading+"\t"+S.last_id.get()+"\t"+new_comment_file;
-	insert_to_begin_of_file(S.list_of_entries,dataline);
-	write_file(new_file,data);
-	cout<<S.last_id.get()<<": "<<heading<<endl;
-	create_latest(S);
-	change_rights(new_file,"a+w");
-	write_file(new_comment_file,"");
-	change_rights(new_comment_file,"a+w");
-	change_rights(S.single_entries_dir+S.last_id.get()+".html","a+w");
-	return 0;
-}
-
 int import(settings &S,string filename){
 	string heading, date, content_file, comment_file, conf_file;
 	LINES data=read_file(filename), conf_file_content;
-	date=get_localdate(S);
+	//date=get_localdate(S);
 	if(data.size()>0&&data[0].find("#HEADING=")==0){
 		heading=cut(data[0],"=").second;
 		data.erase(data.begin());
@@ -165,7 +143,8 @@ int import(settings &S,string filename){
 	conf_file_content.push_back(HEADING_SETTER+'='+heading);
 	conf_file_content.push_back(CONTENT_FILE_SETTER+'='+content_file);
 	conf_file_content.push_back(COMMENTS_FILE_SETTER+'='+comment_file);
-	conf_file_content.push_back(DISPLAY_DATE_SETTER+'='+date);
+	conf_file_content.push_back(DISPLAY_DATE_SETTER+'='+get_localdate(S));
+	conf_file_content.push_back(ISO_DATE_SETTER+'='+get_isodate());
 	
 	write_file(conf_file,conf_file_content);
 	

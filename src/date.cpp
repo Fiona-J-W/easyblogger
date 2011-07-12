@@ -34,7 +34,7 @@ std::string get_localdate(std::string format,std::string locale, int max_date_si
 	char *timestring=new char[max_date_size+1];
 	struct tm *timeinfo;
 	string returnstr;
-	setlocale(LC_ALL, locale.c_str());
+	setlocale(LC_TIME, locale.c_str());
 	time(&TIME);
 	timeinfo=localtime(&TIME);
 	strftime(timestring,max_date_size,format.c_str(),timeinfo);
@@ -57,4 +57,10 @@ std::string get_localdate(settings &S){
 		max_date_size=S.max_date_size;
 	}
 	return get_localdate(format, locale, max_date_size);
+}
+
+
+std::string get_isodate(){
+	return
+get_localdate("%a, %d %b %Y %X %Z","en_US",40);
 }

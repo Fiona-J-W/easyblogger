@@ -34,7 +34,7 @@ int write_page(deque<blogentry> entries, settings &S, string filename,bool comme
 	bool first_post=true;
 	data+=header;
 	for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
-		if(lastdate!=it->get_date()){
+		if(lastdate!=it->get_display_date()){
 			if(first_post){
 				first_post=false;
 			}
@@ -42,8 +42,8 @@ int write_page(deque<blogentry> entries, settings &S, string filename,bool comme
 				data.push_back(string("</ul>\n</div>"));
 				
 			}
-			data.push_back(string("<div class=\"content\">\n<h2>")+it->get_date()+string("</h2>\n<ul class=\"blogentry\" >"));
-			lastdate=it->get_date();
+			data.push_back(string("<div class=\"content\">\n<h2>")+it->get_display_date()+string("</h2>\n<ul class=\"blogentry\" >"));
+			lastdate=it->get_display_date();
 		}
 		data.push_back("<li id=\""+it->get_id()+"\" class=\"blogentry\">");
 		data.push_back("<h3><a class=\"headline_link\" href=\""+S.single_entries_dir_rel+it->get_id()+".html\" >"+it->get_heading()+"</a></h3>");

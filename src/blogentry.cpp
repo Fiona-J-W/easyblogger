@@ -79,7 +79,10 @@ void blogentry::create_from_file(string filename){
 			m_comments_file=temp_pair.second;
 		}
 		else if(key==DISPLAY_DATE_SETTER){
-			m_disply_date=temp_pair.second;
+			m_display_date=temp_pair.second;
+		}
+		else if(key==ISO_DATE_SETTER){
+			m_iso_date=temp_pair.second;
 		}
 		else if(key==HEADING_SETTER){
 			m_heading=temp_pair.second;
@@ -205,8 +208,12 @@ LINES blogentry::comments(){
 	return m_comments;
 }
 
-string blogentry::get_date(){
-	return m_disply_date;
+string blogentry::get_display_date(){
+	return m_display_date;
+}
+
+string blogentry::get_iso_date(){
+	return m_iso_date;
 }
 
 string blogentry::get_heading(){
