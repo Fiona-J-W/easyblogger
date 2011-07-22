@@ -62,5 +62,5 @@ std::string get_localdate(settings &S){
 
 std::string get_isodate(){
 	return
-get_localdate("%a, %d %b %Y %X %Z","en_US",40);
+get_localdate("%a, %d %b %Y %H:%M:%S %z","en_US",40);
 }
