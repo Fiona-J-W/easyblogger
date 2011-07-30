@@ -7,11 +7,25 @@
 
 using namespace std;
 
-typedef deque<string> LINES;
+
 
 LINES read_file(string filename){
+	list<string> data=read_file_to_list(filename);
+	LINES returndata;
+	returndata.resize(data.size());
+	int pos=0;
+	for(list<string>::iterator it=data.begin();it!=data.end();++it){
+		returndata[pos]=*it;
+		++pos;
+	}
+	return returndata;
+
+}
+
+
+list<string> read_file_to_list(string filename){
 	ifstream file;
-	LINES content;
+	list<string> content;
 	string line;
 	file.open(filename.c_str());
 	while(getline(file,line)){
@@ -43,6 +57,20 @@ int write_file(string filename, LINES data){
 		return 1;
 	}
 	for(LINES::iterator it=data.begin();it!=data.end();++it){
+		file<<*it<<"\n";
+	}
+	file.close();
+	return 0;
+}
+
+
+int write_file(string filename, list<string> data){
+	ofstream file;
+	file.open(filename.c_str());
+	if(!file.is_open()){
+		return 1;
+	}
+	for(list<string>::iterator it=data.begin();it!=data.end();++it){
 		file<<*it<<"\n";
 	}
 	file.close();

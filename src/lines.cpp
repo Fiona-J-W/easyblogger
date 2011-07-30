@@ -69,3 +69,25 @@ LINES push_string_to_front_of_every_line(LINES L, string str){
 	}
 	return L;
 }
+
+list<string>operator+=(list<string> &L1,LINES L2){
+	for(LINES::iterator it=L2.begin();it!=L2.end();++it){
+		L1.push_back(*it);
+	}
+	return L1;
+}
+
+list<string>operator+=(list<string> &L1,list<string> L2){
+	for(list<string>::iterator it=L2.begin();it!=L2.end();++it){
+		L1.push_back(*it);
+	}
+	return L1;
+}
+
+
+LINES operator+=(LINES &L1,list<string> L2){
+	for(list<string>::iterator it=L2.begin();it!=L2.end();++it){
+		L1.push_back(*it);
+	}
+	return L1;
+}

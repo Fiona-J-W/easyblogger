@@ -4,10 +4,12 @@
 #include <string>
 #include <utility>
 #include <deque>
+#include <list>
 
 using std::string;
 using std::pair;
 using std::deque;
+using std::list;
 
 typedef deque<string> LINES;
 
@@ -21,6 +23,10 @@ string remove_double_spaces(string str);
 
 LINES operator+(LINES L1, LINES L2);
 LINES operator+=(LINES &L1, LINES L2);
+LINES operator+=(LINES &L1,list<string> L2);
+
+list<string> operator+=(list<string> &L1,LINES L2);
+list<string> operator+=(list<string> &L1,list<string>  L2);
 
 LINES push_string_to_front_of_every_line(LINES L, string str);
 

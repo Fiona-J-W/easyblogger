@@ -10,13 +10,20 @@ using std::string;
 using std::deque;
 
 ///SETTINGS:
+#ifdef __unix__
 const string GLOBAL_EASYBLOGGER_CONFIG_FILE="/etc/easyblogger.conf";
+#elif defined _WIN32
+const string GLOBAL_EASYBLOGGER_CONFIG_FILE="C:\\windows\\system32\\easyblogger.conf";
+#else
+const string GLOBAL_EASYBLOGGER_CONFIG_FILE="/etc/easyblogger.conf";
+#endif
 const string DEFAULT_INDICATOR="_DEFAULT_";
 
 const string BEGIN_BLOG_CONFIG="BEGINBLOG";
 const string END_BLOG_CONFIG="ENDBLOG";
 
 struct settings{
+	string name;
 	string settingsdir;
 	string datadir;
 	string header;
@@ -40,6 +47,9 @@ struct settings{
 	int number_of_mainpageposts;
 	int max_date_size;
 	ID last_id;
+	
+	///testing:
+	string template_file;
 };
 
 settings read_settings(string filename);

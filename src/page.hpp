@@ -25,14 +25,17 @@
 
 #include <string>
 #include <deque>
+#include <list>
 
 #include "blogentry.hpp"
 #include "settings.hpp"
 
 using namespace std;
 
-int write_page(deque<blogentry> entries, settings &S,string filename,bool comments=false);
+int write_page(deque<blogentry> &entries, settings &S,string filename,bool comments=false);
 
-int write_page(blogentry entry, settings &S,string filename,bool comments=true);
+int write_page(blogentry &entry, settings &S,string filename,bool comments=true);
+
+list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments=false);
 
 #endif /* PAGE_HPP */ 

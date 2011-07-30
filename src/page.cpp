@@ -26,13 +26,47 @@ using namespace std;
 #include "lines.hpp"
 #include "files.hpp"
 
-int write_page(deque<blogentry> entries, settings &S, string filename,bool comments){
-	LINES data, header, footer,tmp;
-	header=read_file(S.header);
-	footer=read_file(S.footer);
+const string TEMPLATE_FILE_PUT_POSTINGS=string("<<POSTINGS>>");
+const string TEMPLATE_FILE_PUT_TITLE=string("<<TITLE>>");
+
+
+
+int write_page(blogentry &entry, settings &S,string filename,bool comments){
+	deque<blogentry> entries;
+	entries.push_back(entry);
+	list<string> data, temp_lines=read_file_to_list(S.template_file);
+	for(list<string>::iterator it=temp_lines.begin();it!=temp_lines.end();++it){
+		*it=replace(*it,TEMPLATE_FILE_PUT_TITLE,S.name+" - "+entry.get_heading());
+		if(*it==TEMPLATE_FILE_PUT_POSTINGS){
+			data+=get_postings(entries,S,comments);
+		}
+		else{
+			data.push_back(*it);
+		}
+	}
+	return write_file(filename,data);
+}
+
+
+int write_page(deque<blogentry> &entries, settings &S, string filename,bool comments){
+	list<string> data, temp_lines=read_file_to_list(S.template_file);
+	for(list<string>::iterator it=temp_lines.begin();it!=temp_lines.end();++it){
+		*it=replace(*it,TEMPLATE_FILE_PUT_TITLE,S.name);
+		if(*it==TEMPLATE_FILE_PUT_POSTINGS){
+			data+=get_postings(entries,S,comments);
+		}
+		else{
+			data.push_back(*it);
+		}
+	}
+	return write_file(filename,data);
+}
+
+
+list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments){
+	list<string> tmp,data;
 	string lastdate="";
 	bool first_post=true;
-	data+=header;
 	for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
 		if(lastdate!=it->get_display_date()){
 			if(first_post){
@@ -47,36 +81,24 @@ int write_page(deque<blogentry> entries, settings &S, string filename,bool comme
 		}
 		data.push_back("<li id=\""+it->get_id()+"\" class=\"blogentry\">");
 		data.push_back("<h3><a class=\"headline_link\" href=\""+S.single_entries_dir_rel+it->get_id()+".html\" >"+it->get_heading()+"</a></h3>");
-		tmp=it->content();
-		for(LINES::iterator it_content=tmp.begin();it_content!=tmp.end();++it_content){
-			data.push_back(*it_content);
-		}
-		tmp=it->comments();
-		if(comments&&tmp.empty()){
-			it->read_comments();
-			tmp=it->comments();
-		}
-		if(comments&&(!tmp.empty())){
-			data.push_back("<hr/><h3>"+S.comment_section_heading+"</h3>\n<ul class=\"comments\">");
-			for(LINES::iterator it_comment=tmp.begin();it_comment!=tmp.end();++it_comment){
-				data.push_back(*it_comment);
+		data+=it->content();
+		if(comments){
+			tmp.clear();
+			tmp+=it->comments();
+			if(tmp.empty()){
+				data.push_back(string("<hr/>\n")+"<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
 			}
-			data.push_back("</ul>");
-			data.push_back("<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
-		}
-		else if(comments){
-			data.push_back(string("<hr/>\n")+"<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
-			
+			else{
+				data.push_back("<hr/><h3>"+S.comment_section_heading+"</h3>\n<ul class=\"comments\">");
+				data+=tmp;
+				data.push_back("</ul>");
+				data.push_back("<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
+			}
 		}
 		data.push_back("</li>");
 	}
 	data.push_back(string("</ul>\n</div>"));
-	data+=footer;
-	return write_file(filename,data);
-}
-
-int write_page(blogentry entry, settings &S,string filename,bool comments){
-	deque<blogentry> entries;
-	entries.push_back(entry);
-	return write_page(entries, S, filename,comments);
+	
+	
+	return data;
 }
