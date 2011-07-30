@@ -28,6 +28,7 @@ using namespace std;
 
 const string TEMPLATE_FILE_PUT_POSTINGS=string("<<POSTINGS>>");
 const string TEMPLATE_FILE_PUT_TITLE=string("<<TITLE>>");
+const string TEMPLATE_FILE_PUT_TOC=string("<<TOC>>");
 
 
 
@@ -54,6 +55,9 @@ int write_page(deque<blogentry> &entries, settings &S, string filename,bool comm
 		*it=replace(*it,TEMPLATE_FILE_PUT_TITLE,S.name);
 		if(*it==TEMPLATE_FILE_PUT_POSTINGS){
 			data+=get_postings(entries,S,comments);
+		}
+		else if(*it==TEMPLATE_FILE_PUT_TOC){
+			data+=get_TOC(S);
 		}
 		else{
 			data.push_back(*it);
@@ -100,5 +104,15 @@ list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments){
 	data.push_back(string("</ul>\n</div>"));
 	
 	
+	return data;
+}
+
+
+list<string> get_TOC(settings &S){
+	list<string> data;
+	deque<blogentry> blogentries=read_entries(S.list_of_entries,true);
+	for(deque<blogentry>::iterator it=blogentries.begin();it!=blogentries.end();++it){
+		data.push_back("<li class=\"tocitem\"><a href=\""+S.single_entries_dir_rel+it->get_id()+".html\">"+it->get_heading()+"</a></li>");
+	}
 	return data;
 }

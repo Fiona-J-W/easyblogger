@@ -38,4 +38,6 @@ int write_page(blogentry &entry, settings &S,string filename,bool comments=true)
 
 list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments=false);
 
+list<string> get_TOC(settings &S);
+
 #endif /* PAGE_HPP */ 

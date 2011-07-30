@@ -17,6 +17,8 @@ const string GLOBAL_EASYBLOGGER_CONFIG_FILE="C:\\windows\\system32\\easyblogger.
 #else
 const string GLOBAL_EASYBLOGGER_CONFIG_FILE="/etc/easyblogger.conf";
 #endif
+
+
 const string DEFAULT_INDICATOR="_DEFAULT_";
 
 const string BEGIN_BLOG_CONFIG="BEGINBLOG";
