@@ -41,6 +41,9 @@ int write_page(blogentry &entry, settings &S,string filename,bool comments){
 		if(*it==TEMPLATE_FILE_PUT_POSTINGS){
 			data+=get_postings(entries,S,comments);
 		}
+		else if(*it==TEMPLATE_FILE_PUT_TOC){
+			data+=get_TOC(S);
+		}
 		else{
 			data.push_back(*it);
 		}
