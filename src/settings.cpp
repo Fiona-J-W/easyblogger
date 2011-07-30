@@ -31,12 +31,6 @@ settings read_settings(string filename){
 		else if(val=="datadir"){
 			S.datadir=line.second;
 		}
-		else if(val=="header"){
-			S.header=line.second;
-		}
-		else if(val=="footer"){
-			S.footer=line.second;
-		}
 		else if(val=="blog"){
 			S.blog=line.second;
 		}

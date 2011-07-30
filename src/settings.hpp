@@ -26,8 +26,6 @@ struct settings{
 	string name;
 	string settingsdir;
 	string datadir;
-	string header;
-	string footer;
 	string blog;
 	string list_of_entries;
 	string single_entries_dir;
