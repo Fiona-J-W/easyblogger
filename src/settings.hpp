@@ -46,6 +46,7 @@ struct settings{
 	string time_format;
 	int number_of_mainpageposts;
 	int max_date_size;
+	bool toc_in_singleentries;
 	ID last_id;
 	
 	///testing:

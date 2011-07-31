@@ -18,6 +18,7 @@ settings read_settings(string filename){
 	///SOME DEFAULTS:
 	S.max_date_size=-1;
 	S.number_of_mainpageposts=-1;
+	S.toc_in_singleentries=false;
 	
 	for(LINES::iterator it=lines.begin();it!=lines.end();++it){
 		line=cut(*it);
@@ -83,6 +84,11 @@ settings read_settings(string filename){
 		}
 		else if(val=="template_file"){
 			S.template_file=line.second;
+		}
+		else if(val=="toc_in_singleentries"){
+			if(line.second=="true"){
+				S.toc_in_singleentries =true;
+			}
 		}
 		else{
 			cerr<<"Unknwon key: "<<val<<" ; (value: "<<line.second<<")"<<endl;

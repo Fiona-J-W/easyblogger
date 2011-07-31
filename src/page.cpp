@@ -42,7 +42,9 @@ int write_page(blogentry &entry, settings &S,string filename,bool comments){
 			data+=get_postings(entries,S,comments);
 		}
 		else if(*it==TEMPLATE_FILE_PUT_TOC){
-			data+=get_TOC(S);
+			if(S.toc_in_singleentries){
+				data+=get_TOC(S);
+			}
 		}
 		else{
 			data.push_back(*it);
@@ -114,8 +116,10 @@ list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments){
 list<string> get_TOC(settings &S){
 	list<string> data;
 	deque<blogentry> blogentries=read_entries(S.list_of_entries,true);
+	data.push_back("<ul class=\"toc\">");
 	for(deque<blogentry>::iterator it=blogentries.begin();it!=blogentries.end();++it){
 		data.push_back("<li class=\"tocitem\"><a href=\""+S.single_entries_dir_rel+it->get_id()+".html\">"+it->get_heading()+"</a></li>");
 	}
+	data.push_back("</ul>");
 	return data;
 }
