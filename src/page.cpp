@@ -116,6 +116,9 @@ list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments){
 list<string> get_TOC(settings &S){
 	list<string> data;
 	deque<blogentry> blogentries=read_entries(S.list_of_entries,true);
+	if(!S.toc_pre.empty()){
+		data.push_back(S.toc_pre);
+	}
 	if(!S.toc_title.empty()){
 		data.push_back("<h2>"+S.toc_title+"</h2>");
 	}
@@ -124,5 +127,8 @@ list<string> get_TOC(settings &S){
 		data.push_back("<li class=\"tocitem\"><a href=\""+S.single_entries_dir_rel+it->get_id()+".html\">"+it->get_heading()+"</a></li>");
 	}
 	data.push_back("</ul>");
+	if(!S.toc_post.empty()){
+		data.push_back(S.toc_post);
+	}
 	return data;
 }
