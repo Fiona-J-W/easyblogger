@@ -124,7 +124,7 @@ list<string> get_TOC(settings &S){
 	}
 	data.push_back("<ul class=\"toc\">");
 	for(deque<blogentry>::iterator it=blogentries.begin();it!=blogentries.end();++it){
-		data.push_back("<li class=\"tocitem\"><a href=\""+S.single_entries_dir_rel+it->get_id()+".html\">"+it->get_heading()+"</a></li>");
+		data.push_back("<li class=\"tocitem\"><a href=\""+S.single_entries_dir_rel+it->get_id()+".html\" class=\"toclink \">"+it->get_heading()+"</a></li>");
 	}
 	data.push_back("</ul>");
 	if(!S.toc_post.empty()){
