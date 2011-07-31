@@ -32,11 +32,7 @@ using namespace std;
 
 int main(int argc, char **argv){
 	///bring parameters into a reasonable form:
-	vector<string> args;
-	args.resize(argc);
-	for(int i=0;i<argc;++i){
-		args[i]=(string(argv[i]));
-	}
+	vector<string> args(&argv[0],&argv[argc-1]);
 	settings S;
 	if(argc==1){
 		print_help();
