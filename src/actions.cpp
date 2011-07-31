@@ -152,7 +152,12 @@ int import(settings &S,string filename){
 	
 	write_file(content_file,data);
 	cout<<S.last_id.get()<<": "<<heading<<endl;
-	create_latest(S);
+	if(S.toc_in_singleentries){
+		create_all(S);
+	}
+	else{
+		create_latest(S);
+	}
 	change_rights(content_file,"a+w");
 	write_file(comment_file,"");
 	change_rights(comment_file,"a+w");

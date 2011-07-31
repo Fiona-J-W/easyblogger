@@ -30,7 +30,7 @@
 using namespace std;
 
 int configure_blog(settings &S, string name){
-	if(S.editor==""){
+	if(S.editor.empty()){
 		cerr<<"Error: No editor has been specified; choosing vi as fallback."<<endl;
 		S.editor="vi";
 	}
