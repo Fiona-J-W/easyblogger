@@ -44,6 +44,7 @@ struct settings{
 	string comment_name;
 	string locale;
 	string time_format;
+	string toc_title;
 	int number_of_mainpageposts;
 	int max_date_size;
 	bool toc_in_singleentries;

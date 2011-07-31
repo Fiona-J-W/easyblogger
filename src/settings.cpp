@@ -71,6 +71,9 @@ settings read_settings(string filename){
 		else if(val=="RSS_channel_description_file"){
 			S.rss_channel_description_file=line.second;
 		}
+		else if(val=="toc_title"){
+			S.toc_title=line.second;
+		}
 		else if(val=="number_of_mainpageposts"){
 			S.number_of_mainpageposts=atoi(line.second.c_str());
 		}
