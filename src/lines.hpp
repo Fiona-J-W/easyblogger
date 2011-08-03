@@ -30,4 +30,6 @@ list<string> operator+=(list<string> &L1,list<string>  L2);
 
 LINES push_string_to_front_of_every_line(LINES L, string str);
 
+void replace(LINES &L, string old_phrase, string new_phrase);
+
 #endif

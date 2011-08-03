@@ -91,3 +91,10 @@ LINES operator+=(LINES &L1,list<string> L2){
 	}
 	return L1;
 }
+
+
+void replace(LINES &L, string old_phrase, string new_phrase){
+	for(LINES::iterator it=L.begin();it!=L.end();++it){
+		*it=replace(*it,old_phrase,new_phrase);
+	}
+}

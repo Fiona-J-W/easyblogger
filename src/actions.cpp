@@ -100,15 +100,19 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	if(S.rss_feed.empty()){
 		return 1;
 	}
-	LINES feed;
+	LINES feed,content;
 	feed.push_back(string("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<rss version=\"2.0\">\n\t<channel>"));
 	feed+=read_file(S.rss_channel_description_file);
 	for(int i=0;i<S.number_of_mainpageposts&&i<=int(blogentries.size());++i){
+		content=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
+		replace(content,"href=\"/","href=\""++"/");
+		replace(content,"src=\"/","src=\""+S.url+"/");
+		
 		feed.push_back(string("\t\t<item>"));
 		feed.push_back(string("\t\t\t<title>")+blogentries[i].get_heading()+"</title>");
 		feed.push_back(string("\t\t\t<link>")+blogentries[i].get_url(S)+".html</link>");
 		feed.push_back(string("\t\t\t<description><![CDATA["));
-		feed+=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
+		feed+=content;
 		feed.push_back(string("\t\t\t]]></description>"));
 		
 		///optional data:
