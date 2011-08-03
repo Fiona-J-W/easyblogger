@@ -105,7 +105,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	feed+=read_file(S.rss_channel_description_file);
 	for(int i=0;i<S.number_of_mainpageposts&&i<=int(blogentries.size());++i){
 		content=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
-		replace(content,"href=\"/","href=\""++"/");
+		replace(content,"href=\"/","href=\""+S.url+"/");
 		replace(content,"src=\"/","src=\""+S.url+"/");
 		
 		feed.push_back(string("\t\t<item>"));
