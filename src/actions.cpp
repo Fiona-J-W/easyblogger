@@ -109,7 +109,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 		feed.push_back(string("\t\t\t<link>")+blogentries[i].get_url(S)+".html</link>");
 		feed.push_back(string("\t\t\t<description><![CDATA["));
 		feed+=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
-		feed.push_back(string("]]></description>"));
+		feed.push_back(string("\t\t\t]]></description>"));
 		
 		///optional data:
 		if(!blogentries[i].get_iso_date().empty()){
