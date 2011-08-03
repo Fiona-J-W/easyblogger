@@ -115,6 +115,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 		if(!blogentries[i].get_iso_date().empty()){
 			feed.push_back(string("\t\t\t<pubDate>")+blogentries[i].get_iso_date()+"</pubDate>");
 		}
+		feed.push_back(string("\t\t\t<guid>")+blogentries[i].get_url(S)+".html</guid>");
 		feed.push_back(string("\t\t</item>"));
 	}
 	feed.push_back(string("\t</channel>\n</rss>"));
