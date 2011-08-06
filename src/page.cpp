@@ -150,7 +150,7 @@ list<string> get_mainpage_TOC(deque<blogentry> &entries, settings &S){
 	}
 	data.push_back("<ul class=\"mainpagetoc\">");
 	for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
-		data.push_back("<li class=\"mainpagetocitem\"><a href=\"#"+it->get_id()+"\" >"+it->get_heading()+"</a></li>");
+		data.push_back("<li class=\"mainpagetocitem\"><a class=\"mainpagetoclink\" href=\"#"+it->get_id()+"\" >"+it->get_heading()+"</a></li>");
 	}
 	data.push_back("</ul>");
 	if(!S.mainpage_toc_post.empty()){
