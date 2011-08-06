@@ -64,3 +64,83 @@ std::string get_isodate(){
 	return
 get_localdate("%a, %d %b %Y %H:%M:%S %z","en_US",40);
 }
+
+const string weeknames[]={
+	"Sun","Mon","Tue","Wed",
+	"Thu","Fri","Sat",
+};
+
+
+const string monthnames[]={
+	"Jan","Feb","Mar",
+	"Apr","May","Jun",
+	"Jul","Aug","Sep",
+	"Oct","Nov","Dec"
+};
+
+#include <cstdlib>
+
+std::string iso_to_custom_date(
+	string isodate,
+	string format,
+	string locale, int max_date_size
+){
+	tm time;
+	string temp="";
+	pair<string,string> temp_pair;
+	
+	temp_pair=cut(isodate,",");
+	temp=temp_pair.first;
+	isodate=temp_pair.second;
+	for(int i=0;i<=6;++i){
+		if(temp==weeknames[i]){
+			time.tm_wday=i;
+		}
+	}
+	
+	isodate=clean_whitespace(isodate);
+	temp_pair=cut(isodate," ");
+	temp=temp_pair.first;
+	isodate=temp_pair.second;
+	time.tm_mday=atoi(temp.c_str());
+	
+	isodate=clean_whitespace(isodate);
+	temp_pair=cut(isodate," ");
+	temp=temp_pair.first;
+	isodate=temp_pair.second;
+	for(int i=0;i<=11;++i){
+		if(temp==monthnames[i]){
+			time.tm_mon=i;
+		}
+	}
+	
+	isodate=clean_whitespace(isodate);
+	temp_pair=cut(isodate," ");
+	isodate=temp_pair.second;
+	time.tm_year=atoi(temp_pair.first.c_str()-1900);
+	
+	isodate=clean_whitespace(isodate);
+	temp_pair=cut(isodate,":");
+	isodate=temp_pair.second;
+	time.tm_hour=atoi(temp_pair.first.c_str());
+	
+	temp_pair=cut(isodate,":");
+	isodate=temp_pair.second;
+	time.tm_min=atoi(temp_pair.first.c_str());
+	
+	temp_pair=cut(isodate," ");
+	isodate=clean_whitespace(temp_pair.second);
+	time.tm_sec=atoi(temp_pair.first.c_str());
+	
+	setlocale(LC_TIME, locale.c_str());
+	char *timestring=new char[max_date_size+1];
+	strftime(timestring,max_date_size,format.c_str(),&time);
+	timestring[max_date_size]='\0';
+	string returnstr=remove_double_spaces(string(timestring));
+	
+	delete timestring;
+	return returnstr;
+}
+std::string iso_to_custom_date(std::string isodate,settings &S){
+	return iso_to_custom_date(isodate,S.time_format,S.locale,S.max_date_size);
+}
