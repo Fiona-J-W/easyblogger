@@ -120,7 +120,7 @@ list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments){
 		for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
 			data.push_back("<div class=\"content\">");
 			data.push_back("<article class=\"\">");
-			data.push_back("<h2><a class=\"headline_link\" id=\"#"+it->get_id()+"\" href=\""+S.single_entries_dir_rel+it->get_id()+".html\" >"+it->get_heading()+"</a></h2>\n");
+			data.push_back("<h2><a class=\"headline_link\" id=\""+it->get_id()+"\" href=\""+S.single_entries_dir_rel+it->get_id()+".html\" >"+it->get_heading()+"</a></h2>\n");
 			data.push_back("<time class=\"post_time\">"+it->get_display_date()+"</time>\n");
 			data+=it->content();
 			data.push_back("</article>");
