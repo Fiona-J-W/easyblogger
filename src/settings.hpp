@@ -53,6 +53,7 @@ struct settings{
 	int number_of_mainpageposts;
 	int max_date_size;
 	bool toc_in_singleentries;
+	bool sorting_by_date;
 	ID last_id;
 	
 	///testing:

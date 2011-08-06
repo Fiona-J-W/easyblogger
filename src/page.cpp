@@ -83,37 +83,63 @@ list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments){
 	list<string> tmp,data;
 	string lastdate="";
 	bool first_post=true;
-	for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
-		if(lastdate!=it->get_display_date()){
-			if(first_post){
-				first_post=false;
+	if(S.sorting_by_date){
+		for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
+			if(lastdate!=it->get_display_date()){
+				if(first_post){
+					first_post=false;
+				}
+				else{
+					data.push_back(string("</ul>\n</div>"));
+					
+				}
+				data.push_back(string("<div class=\"content\">\n<h2>")+it->get_display_date()+string("</h2>\n<ul class=\"blogentry\" >"));
+				lastdate=it->get_display_date();
 			}
-			else{
-				data.push_back(string("</ul>\n</div>"));
-				
+			data.push_back("<li id=\""+it->get_id()+"\" class=\"blogentry\">");
+			data.push_back("<h3><a class=\"headline_link\" href=\""+S.single_entries_dir_rel+it->get_id()+".html\" >"+it->get_heading()+"</a></h3>");
+			data+=it->content();
+			if(comments){
+				tmp.clear();
+				tmp+=it->comments();
+				if(tmp.empty()){
+					data.push_back(string("<hr/>\n")+"<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
+				}
+				else{
+					data.push_back("<hr/><h3>"+S.comment_section_heading+"</h3>\n<ul class=\"comments\">");
+					data+=tmp;
+					data.push_back("</ul>");
+					data.push_back("<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
+				}
 			}
-			data.push_back(string("<div class=\"content\">\n<h2>")+it->get_display_date()+string("</h2>\n<ul class=\"blogentry\" >"));
-			lastdate=it->get_display_date();
+			data.push_back("</li>");
 		}
-		data.push_back("<li id=\""+it->get_id()+"\" class=\"blogentry\">");
-		data.push_back("<h3><a class=\"headline_link\" href=\""+S.single_entries_dir_rel+it->get_id()+".html\" >"+it->get_heading()+"</a></h3>");
-		data+=it->content();
-		if(comments){
-			tmp.clear();
-			tmp+=it->comments();
-			if(tmp.empty()){
-				data.push_back(string("<hr/>\n")+"<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
-			}
-			else{
-				data.push_back("<hr/><h3>"+S.comment_section_heading+"</h3>\n<ul class=\"comments\">");
-				data+=tmp;
-				data.push_back("</ul>");
-				data.push_back("<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
-			}
-		}
-		data.push_back("</li>");
-	}
 	data.push_back(string("</ul>\n</div>"));
+	}
+	else{
+		for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
+			data.push_back("<div class=\"content\">");
+			data.push_back("<article class=\"\">");
+			data.push_back("<h2>"+it->get_heading()+"</h2>\n");
+			data.push_back("<time class=\"post_time\">"+it->get_display_date()+"</time>\n");
+			data+=it->content();
+			data.push_back("</article>");
+			if(comments){
+				tmp.clear();
+				tmp+=it->comments();
+				if(tmp.empty()){
+					data.push_back(string("<hr/>\n")+"<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
+				}
+				else{
+					data.push_back("<hr/><h3>"+S.comment_section_heading+"</h3>\n<ul class=\"comments\">");
+					data+=tmp;
+					data.push_back("</ul>");
+					data.push_back("<a href=\""+S.comment_url+it->get_id()+"\">"+S.comment_name+"</a>");
+				}
+			}
+			data.push_back("</div>");
+		}
+	}
 	
 	
 	return data;
