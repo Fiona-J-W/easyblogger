@@ -113,6 +113,12 @@ settings read_settings(string filename){
 			if(line.second=="true"){
 				S.sorting_by_date=true;
 			}
+			else if(line.second=="false"){
+				S.sorting_by_date=false;
+			}
+			else{
+				S.sorting_by_date=true;
+			}
 		}
 		else{
 			cerr<<"Unknwon key: "<<val<<" ; (value: "<<line.second<<")"<<endl;
