@@ -47,6 +47,9 @@ struct settings{
 	string toc_title;
 	string toc_pre;
 	string toc_post;
+	string mainpage_toc_title;
+	string mainpage_toc_pre;
+	string mainpage_toc_post;
 	int number_of_mainpageposts;
 	int max_date_size;
 	bool toc_in_singleentries;

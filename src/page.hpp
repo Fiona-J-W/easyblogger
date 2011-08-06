@@ -40,4 +40,6 @@ list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments=f
 
 list<string> get_TOC(settings &S);
 
+list<string> get_mainpage_TOC(deque<blogentry> &entries, settings &S);
+
 #endif /* PAGE_HPP */ 

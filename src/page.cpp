@@ -29,6 +29,7 @@ using namespace std;
 const string TEMPLATE_FILE_PUT_POSTINGS=string("<<POSTINGS>>");
 const string TEMPLATE_FILE_PUT_TITLE=string("<<TITLE>>");
 const string TEMPLATE_FILE_PUT_TOC=string("<<TOC>>");
+const string TEMPLATE_FILE_PUT_MAINPAGE_TOC=string("<<MAINPAGE_TOC>>");///will only be shown on mainpage
 
 
 
@@ -45,6 +46,9 @@ int write_page(blogentry &entry, settings &S,string filename,bool comments){
 			if(S.toc_in_singleentries){
 				data+=get_TOC(S);
 			}
+		}
+		else if(*it==TEMPLATE_FILE_PUT_MAINPAGE_TOC){
+			continue;
 		}
 		else{
 			data.push_back(*it);
@@ -63,6 +67,9 @@ int write_page(deque<blogentry> &entries, settings &S, string filename,bool comm
 		}
 		else if(*it==TEMPLATE_FILE_PUT_TOC){
 			data+=get_TOC(S);
+		}
+		else if(*it==TEMPLATE_FILE_PUT_MAINPAGE_TOC){
+			data+=get_mainpage_TOC(entries,S);
 		}
 		else{
 			data.push_back(*it);
@@ -129,6 +136,25 @@ list<string> get_TOC(settings &S){
 	data.push_back("</ul>");
 	if(!S.toc_post.empty()){
 		data.push_back(S.toc_post);
+	}
+	return data;
+}
+
+list<string> get_mainpage_TOC(deque<blogentry> &entries, settings &S){
+	list<string> data;
+	if(!S.mainpage_toc_pre.empty()){
+		data.push_back(S.mainpage_toc_pre);
+	}
+	if(!S.mainpage_toc_title.empty()){
+		data.push_back("<h2>"+S.mainpage_toc_title+"</h2>");
+	}
+	data.push_back("<ul class=\"mainpagetoc\">");
+	for(deque<blogentry>::iterator it=entries.begin();it!=entries.end();++it){
+		data.push_back("<li class=\"mainpagetocitem\"><a href=\"#"+it->get_id()+"\" >"+it->get_heading()+"</a></li>");
+	}
+	data.push_back("</ul>");
+	if(!S.mainpage_toc_post.empty()){
+		data.push_back(S.mainpage_toc_post);
 	}
 	return data;
 }

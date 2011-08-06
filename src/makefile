@@ -1,4 +1,3 @@
-
 CC= g++
 CFLAGS= -Wall -Wextra -W -O3 -pedantic 
 BUILDDIR= ../build/

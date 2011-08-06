@@ -101,7 +101,8 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 		return 1;
 	}
 	LINES feed,content;
-	feed.push_back(string("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<rss version=\"2.0\">\n\t<channel>"));
+	feed.push_back(string("<?xml version=\"1.0\" encoding=\"utf-8\"?>"));
+	feed.push_back(string("<rss version=\"2.0\">\n\t<channel>"));
 	feed+=read_file(S.rss_channel_description_file);
 	for(int i=0;i<S.number_of_mainpageposts&&i<=int(blogentries.size());++i){
 		content=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");

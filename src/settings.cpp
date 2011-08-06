@@ -80,6 +80,15 @@ settings read_settings(string filename){
 		else if(val=="toc_post"){
 			S.toc_post=line.second;
 		}
+		else if(val=="mainpage_toc_title"){
+			S.mainpage_toc_title=line.second;
+		}
+		else if(val=="mainpage_toc_pre"){
+			S.mainpage_toc_pre=line.second;
+		}
+		else if(val=="mainpage_toc_post"){
+			S.mainpage_toc_post=line.second;
+		}
 		else if(val=="number_of_mainpageposts"){
 			S.number_of_mainpageposts=atoi(line.second.c_str());
 		}
