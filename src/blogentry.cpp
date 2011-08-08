@@ -41,29 +41,6 @@ blogentry::blogentry(string file, bool with_content){
 	}
 }
 
-/*
-void blogentry::create_from_line(string line){
-	deque<string> raw_data;
-	raw_data=cut_fields(line,"\t");
-	if(raw_data.size()<4){
-		throw string("invalid field_count");
-	}
-	m_content_file=raw_data[0];
-	m_disply_date=raw_data[1];
-	m_heading=raw_data[2];
-	try{
-		m_id=ID(raw_data[3]);
-	}
-	catch(...){
-		throw string("invalid ID");
-	}
-	if(raw_data.size()>=5){
-		m_comments_file=raw_data[4];
-	}
-}
-
-*/
-
 
 void blogentry::create_from_file(string filename){
 	LINES raw_data=read_config_file(filename);
@@ -94,6 +71,9 @@ void blogentry::create_from_file(string filename){
 			catch(...){
 				throw string("invalid ID");
 			}
+		}
+		else if(key==TAGS_SETTER){
+			m_tags=cut_fields(temp_pair.second,",");
 		}
 		else{
 			cerr<<"Unknown key: \""<<key<<"\" with value \""<<temp_pair.second<<"\""<<endl;
@@ -212,8 +192,22 @@ string blogentry::get_display_date(){
 	return m_display_date;
 }
 
+string blogentry::get_display_date(settings &S){
+	if(m_iso_date.empty()){
+		return get_display_date();
+	}
+	else return get_dynamic_date(S);
+}
+
 string blogentry::get_iso_date(){
 	return m_iso_date;
+}
+
+string blogentry::get_dynamic_date(settings &S){
+	if(m_iso_date.empty()){
+		return "";
+	}
+	return iso_to_custom_date(m_iso_date,S);
 }
 
 string blogentry::get_heading(){

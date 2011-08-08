@@ -42,12 +42,13 @@ const string VERBATIM_AREA_END=string("#END_VERBATIM");
 
 
 ///For creation from file:
-const string ID_SETTER=string("ID");
-const string HEADING_SETTER=string("heading");
-const string CONTENT_FILE_SETTER=string("content_file");
-const string COMMENTS_FILE_SETTER=string("comment_file");
-const string DISPLAY_DATE_SETTER=string("display_date");
-const string ISO_DATE_SETTER=string("iso_date");
+const string ID_SETTER="ID";
+const string HEADING_SETTER="heading";
+const string CONTENT_FILE_SETTER="content_file";
+const string COMMENTS_FILE_SETTER="comment_file";
+const string DISPLAY_DATE_SETTER="display_date";
+const string ISO_DATE_SETTER="iso_date";
+const string TAGS_SETTER="tags";
 
 class blogentry{
 	public:
@@ -61,7 +62,9 @@ class blogentry{
 		LINES content();
 		LINES comments();
 		string get_iso_date();
+		string get_dynamic_date(settings &S);
 		string get_display_date();
+		string get_display_date(settings &S);
 		string get_heading();
 		string get_id();
 		string get_filename();
@@ -82,6 +85,8 @@ class blogentry{
 		ID m_id;
 		LINES m_content;
 		LINES m_comments;
+		
+		deque<string> m_tags;
 };
 
 deque<blogentry> read_entries(string filename, bool with_content=false);
