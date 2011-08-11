@@ -80,6 +80,9 @@ int write_page(deque<blogentry> &entries, settings &S, string filename,bool comm
 
 
 list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments){
+	if(!S.enable_comments){
+		comments=false;
+	}
 	list<string> tmp,data;
 	string lastdate="";
 	bool first_post=true;

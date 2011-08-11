@@ -38,6 +38,8 @@ blogentry::blogentry(string file, bool with_content){
 	if(with_content){
 		read_content();
 		read_comments();
+		m_content_loaded=true;
+		m_comments_loaded=true;
 	}
 }
 
@@ -96,19 +98,21 @@ void blogentry::set_content(LINES content){
 }
 
 void blogentry::read_content(){
-	m_content=read_file(m_content_file);
-	m_content_loaded=true;
+	if(!m_content_loaded){
+		m_content=read_file(m_content_file);
+		m_content_loaded=true;
+	}
 }
 
 void blogentry::read_comments(){
-	m_comments=read_file(m_comments_file);
-	m_comments_loaded=true;
+	if(!m_comments_loaded){
+		m_comments=read_file(m_comments_file);
+		m_comments_loaded=true;
+	}
 }
 
 LINES blogentry::content(){
-	if(!m_content_loaded){
-		read_content();
-	}
+	read_content();
 	bool p_open=false, verbatim_mode=false;
 	string line;
 	LINES data;

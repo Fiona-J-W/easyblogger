@@ -20,6 +20,7 @@ settings read_settings(string filename){
 	S.number_of_mainpageposts=-1;
 	S.toc_in_singleentries=false;
 	S.sorting_by_date=true;
+	S.enable_comments=true;
 	
 	for(LINES::iterator it=lines.begin();it!=lines.end();++it){
 		line=cut(*it);
@@ -108,6 +109,9 @@ settings read_settings(string filename){
 			if(line.second=="true"){
 				S.toc_in_singleentries=true;
 			}
+			else if(line.second=="false"){
+				S.toc_in_singleentries=false;
+			}
 		}
 		else if(val=="sorting_by_date"){
 			if(line.second=="true"){
@@ -116,8 +120,14 @@ settings read_settings(string filename){
 			else if(line.second=="false"){
 				S.sorting_by_date=false;
 			}
-			else{
-				S.sorting_by_date=true;
+			
+		}
+		else if(val=="enable_comments"){
+			if(line.second=="true"){
+				S.enable_comments=true;
+			}
+			else if(line.second=="false"){
+				S.enable_comments=false;
 			}
 		}
 		else{

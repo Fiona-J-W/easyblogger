@@ -24,6 +24,7 @@ const string DEFAULT_INDICATOR="_DEFAULT_";
 const string BEGIN_BLOG_CONFIG="BEGINBLOG";
 const string END_BLOG_CONFIG="ENDBLOG";
 
+
 struct settings{
 	string name;
 	string settingsdir;
@@ -52,10 +53,10 @@ struct settings{
 	string mainpage_toc_post;
 	int number_of_mainpageposts;
 	int max_date_size;
+	bool enable_comments;
 	bool toc_in_singleentries;
 	bool sorting_by_date;
 	ID last_id;
-	
 	///testing:
 	string template_file;
 };
