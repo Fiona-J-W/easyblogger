@@ -137,6 +137,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	return 0;
 }
 
+
 int import(settings &S,string filename){
 	string heading, date, content_file, comment_file, conf_file, tags;
 	LINES data=read_file(filename), conf_file_content;
@@ -144,7 +145,7 @@ int import(settings &S,string filename){
 	int number_of_conf_lines=0;
 	
 	for(LINES::iterator it=data.begin();it!=data.end();++it){
-		if(it[0]=="#"){
+		if((*it)[0]=='#'){
 			conf_lines.push_back(*it);
 			++number_of_conf_lines;
 		}
