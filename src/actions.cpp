@@ -46,8 +46,8 @@ int create_all(settings &S){
 	}
 	else{
 		deque<blogentry> mainpageposts;
-		for(int i=0;i<S.number_of_mainpageposts;++i){
-			mainpageposts.push_back(data[i]);
+		for(int i=0;i<S.number_of_mainpageposts&&i<int(data.size());++i){
+			mainpageposts.push_back(data.at(i));
 		}
 		write_page(mainpageposts,S,S.blog);
 	}
@@ -62,7 +62,7 @@ int create_latest(settings &S){
 	deque<blogentry> data=read_entries(S.list_of_entries,false);
 	deque<blogentry> mainpageposts;
 	string filename;
-	for(int i=0;i<S.number_of_mainpageposts&&i<=int(data.size());++i){
+	for(int i=0;i<S.number_of_mainpageposts&&i<int(data.size());++i){
 		data.at(i).read_content();
 		filename=S.single_entries_dir+data.at(i).get_id()+".html";
 		write_page(data.at(i),S,filename);
@@ -105,7 +105,7 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	feed.push_back(string("<?xml version=\"1.0\" encoding=\"utf-8\"?>"));
 	feed.push_back(string("<rss version=\"2.0\">\n\t<channel>"));
 	feed+=read_file(S.rss_channel_description_file);
-	for(int i=0;i<S.number_of_mainpageposts&&i<=int(blogentries.size());++i){
+	for(int i=0;i<S.number_of_mainpageposts&&i<int(blogentries.size());++i){
 		content=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
 		replace(content,"href=\"/","href=\""+S.url+"/");
 		replace(content,"src=\"/","src=\""+S.url+"/");
