@@ -129,13 +129,38 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 }
 
 int import(settings &S,string filename){
-	string heading, date, content_file, comment_file, conf_file;
+	string heading, date, content_file, comment_file, conf_file, tags;
 	LINES data=read_file(filename), conf_file_content;
-	//date=get_localdate(S);
-	if(data.size()>0&&data[0].find("#HEADING=")==0){
-		heading=cut(data[0],"=").second;
-		data.erase(data.begin());
+	list<string> conf_lines;
+	int number_of_conf_lines=0;
+	
+	for(LINES::iterator it=data.begin();it!=data.end();++it){
+		if(it[0]=="#"){
+			conf_lines.push_back(*it);
+			++number_of_conf_lines;
+		}
+		else{
+			break;
+		}
 	}
+	for(list<string>::iterator it=conf_lines.begin();it!=conf_lines.end();++it){
+		if(it->find("#HEADING=")==0){
+			heading=cut(*it,"=").second;
+		}
+		else if(it->find("#TAGS")==0){
+			if(tags.empty()){
+				tags=cut(*it,"=").second;
+			}
+			else{
+				tags+=","+cut(*it,"=").second;
+			}
+		}
+	}
+	
+	if(number_of_conf_lines){
+		data.erase(data.begin(),data.begin()+number_of_conf_lines);
+	}
+	
 	while(heading==""){
 		cout<<">>> ";
 		getline(cin,heading);
@@ -151,6 +176,7 @@ int import(settings &S,string filename){
 	conf_file_content.push_back(COMMENTS_FILE_SETTER+'='+comment_file);
 	conf_file_content.push_back(DISPLAY_DATE_SETTER+'='+get_localdate(S));
 	conf_file_content.push_back(ISO_DATE_SETTER+'='+get_isodate());
+	conf_file_content.push_back(TAGS_SETTER+'='+tags);
 	
 	write_file(conf_file,conf_file_content);
 	

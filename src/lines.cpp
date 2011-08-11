@@ -7,6 +7,17 @@ string clean_whitespace(string str){
 	return str;
 }
 
+string clean_whitespace_both_sides(string str){
+	str=clean_whitespace(str);
+	size_t n=str.size();
+	for(string::reverse_iterator it=str.rbegin();*it==' '||*it=='\t';++it){
+		--n;
+	}
+	if(n<str.size()){
+		str.erase(n-1);
+	}
+	return str;
+}
 
 pair<string,string> cut(string line,string divider){
 	pair<string,string> PAIR;

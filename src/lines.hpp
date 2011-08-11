@@ -14,6 +14,7 @@ using std::list;
 typedef deque<string> LINES;
 
 string clean_whitespace(string str);
+string clean_whitespace_both_sides(string str);
 pair<string,string> cut(string line,string divider="=");
 deque<string> cut_words(string line);
 deque<string> cut_fields(string line,string divider="\t");

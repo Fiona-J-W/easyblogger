@@ -79,6 +79,9 @@ void blogentry::create_from_file(string filename){
 			cerr<<"Unknown key: \""<<key<<"\" with value \""<<temp_pair.second<<"\""<<endl;
 		}
 	}
+	for(deque<string>::iterator it=m_tags.begin();it!=m_tags.end();++it){
+		*it=clean_whitespace_both_sides(*it);
+	}
 	
 }
 
