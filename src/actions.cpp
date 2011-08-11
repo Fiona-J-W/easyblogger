@@ -97,6 +97,7 @@ int create(settings &S,ID id){
 }
 
 int create_rss(settings &S,deque<blogentry> &blogentries){
+	deque<string> tags;
 	if(S.rss_feed.empty()){
 		return 1;
 	}
@@ -121,6 +122,14 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 			feed.push_back(string("\t\t\t<pubDate>")+blogentries[i].get_iso_date()+"</pubDate>");
 		}
 		feed.push_back(string("\t\t\t<guid>")+blogentries[i].get_url(S)+".html</guid>");
+		
+		tags=blogentries[i].get_tags();
+		for(deque<string>::iterator it=tags.begin();it!=tags.end();++it){
+			if(!it->empty()){
+				feed.push_back(string("\t\t\t<category>")+*it+"</category>");
+			}
+		}
+		
 		feed.push_back(string("\t\t</item>"));
 	}
 	feed.push_back(string("\t</channel>\n</rss>"));

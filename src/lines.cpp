@@ -40,7 +40,9 @@ deque<string> cut_fields(string line,string divider){
 		line=line.substr(pos+1);
 		line=clean_whitespace(line);
 	}
-	data.push_back(line);
+	if(!line.empty()){
+		data.push_back(line);
+	}
 	return data;
 }
 

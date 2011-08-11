@@ -73,7 +73,12 @@ void blogentry::create_from_file(string filename){
 			}
 		}
 		else if(key==TAGS_SETTER){
-			m_tags=cut_fields(temp_pair.second,",");
+			if(m_tags.empty()){
+				m_tags=cut_fields(temp_pair.second,",");
+			}
+			else{
+				m_tags+=cut_fields(temp_pair.second,",");
+			}
 		}
 		else{
 			cerr<<"Unknown key: \""<<key<<"\" with value \""<<temp_pair.second<<"\""<<endl;
@@ -247,4 +252,9 @@ deque<blogentry> read_entries(string filename, bool with_content){
 		returndata.push_back(blogentry(*it,with_content));
 	}
 	return returndata;
+}
+
+
+deque<string>& blogentry::get_tags(){
+	return m_tags;
 }
