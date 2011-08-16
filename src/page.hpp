@@ -32,14 +32,14 @@
 
 using namespace std;
 
-int write_page(deque<blogentry> &entries, settings &S,string filename,bool comments=false);
+int write_page(list<blogentry*> &entries, settings &S,string filename,bool comments=false);
 
-int write_page(blogentry &entry, settings &S,string filename,bool comments=true);
+int write_page(blogentry *entry, settings &S,string filename,bool comments=true);
 
-list<string> get_postings(deque<blogentry> &entries, settings &S,bool comments=false);
+list<string> get_postings(list<blogentry*> &entries, settings &S,bool comments=false);
 
 list<string> get_TOC(settings &S);
 
-list<string> get_mainpage_TOC(deque<blogentry> &entries, settings &S);
+list<string> get_mainpage_TOC(list<blogentry*> &entries, settings &S);
 
 #endif /* PAGE_HPP */ 

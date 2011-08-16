@@ -52,9 +52,10 @@ const string TAGS_SETTER="tags";
 
 class blogentry{
 	public:
-		blogentry(string line, bool with_content=false);
+		blogentry(string line,settings &S, bool with_content=false);
+		~blogentry();
 		//void create_from_line(string line);
-		void create_from_file(string filename);
+		void create_from_file(string filename,settings &S);
 		void read_content();
 		void read_comments();
 		void set_content(LINES content);
@@ -90,7 +91,8 @@ class blogentry{
 		deque<string> m_tags;
 };
 
-deque<blogentry> read_entries(string filename, bool with_content=false);
+//deque<blogentry> read_entries(string filename, bool with_content=false);
+void read_entries(settings &S, bool with_content=false);
 
 
 

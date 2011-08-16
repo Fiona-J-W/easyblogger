@@ -31,10 +31,10 @@
 
 using namespace std;
 
-blogentry::blogentry(string file, bool with_content){
+blogentry::blogentry(string file,settings &S, bool with_content){
 	m_content_loaded=false;
 	m_comments_loaded=false;
-	create_from_file(file);
+	create_from_file(file,S);
 	if(with_content){
 		read_content();
 		read_comments();
@@ -43,8 +43,10 @@ blogentry::blogentry(string file, bool with_content){
 	}
 }
 
+blogentry::~blogentry(){
+}
 
-void blogentry::create_from_file(string filename){
+void blogentry::create_from_file(string filename,settings &S){
 	LINES raw_data=read_config_file(filename);
 	pair<string,string> temp_pair;
 	string key;
@@ -88,6 +90,7 @@ void blogentry::create_from_file(string filename){
 	}
 	for(deque<string>::iterator it=m_tags.begin();it!=m_tags.end();++it){
 		*it=clean_whitespace_both_sides(*it);
+		S.tags[*it].push_back(this);
 	}
 	
 }
@@ -248,6 +251,7 @@ string blogentry::get_url(settings &S){
 }
 
 ///Non-member-functions:
+/*
 
 deque<blogentry> read_entries(string filename, bool with_content){
 	LINES data=read_config_file(filename);
@@ -256,6 +260,17 @@ deque<blogentry> read_entries(string filename, bool with_content){
 		returndata.push_back(blogentry(*it,with_content));
 	}
 	return returndata;
+}
+
+*/
+
+void read_entries(settings &S, bool with_content){
+	LINES data=read_config_file(S.list_of_entries);
+	blogentry *ptr;
+	for(LINES::iterator it=data.begin();it!=data.end();++it){
+		ptr=new blogentry(*it,S,with_content);
+		S.blogentries.push_back(ptr);
+	}
 }
 
 

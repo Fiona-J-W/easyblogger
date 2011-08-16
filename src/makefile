@@ -30,7 +30,7 @@ $(BUILDDIR)files.o:files.hpp lines.hpp
 
 $(BUILDDIR)main.o:settings.hpp help.hpp actions.hpp
 
-$(BUILDDIR)settings.o:settings.hpp files.hpp
+$(BUILDDIR)settings.o:settings.hpp files.hpp blogentry.hpp
 
 $(BUILDDIR)lines.o:lines.hpp
 

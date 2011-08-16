@@ -3,11 +3,14 @@
 
 #include <string>
 #include <deque>
+#include <list>
+#include <map>
 
 #include "id.hpp"
 
 using std::string;
 using std::deque;
+using std::list;
 
 ///SETTINGS:
 #ifdef __unix__
@@ -24,8 +27,10 @@ const string DEFAULT_INDICATOR="_DEFAULT_";
 const string BEGIN_BLOG_CONFIG="BEGINBLOG";
 const string END_BLOG_CONFIG="ENDBLOG";
 
+class blogentry;
 
 struct settings{
+	string template_file;
 	string name;
 	string settingsdir;
 	string datadir;
@@ -57,8 +62,12 @@ struct settings{
 	bool toc_in_singleentries;
 	bool sorting_by_date;
 	ID last_id;
-	///testing:
-	string template_file;
+	
+	list<blogentry*> blogentries;
+	map<string,list<blogentry*> > tags;
+	
+	
+	~settings();
 };
 
 settings read_settings(string filename);

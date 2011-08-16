@@ -2,6 +2,7 @@
 #include "files.hpp"
 #include "utility"
 #include "lines.hpp"
+#include "blogentry.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -134,7 +135,19 @@ settings read_settings(string filename){
 			cerr<<"Unknwon key: "<<val<<" ; (value: "<<line.second<<")"<<endl;
 		}
 	}
+	
+	LINES entries_file=read_file(S.list_of_entries);
+//	for(LINES::iterator it=entries_file.begin();it!=entries_file.end();++it){
+//		S.blogentries.push_back(new blogentry(*it,S));
+//	}
+	
 	return S;
+}
+
+settings::~settings(){
+	for(list<blogentry*>::iterator it=blogentries.begin();it!=blogentries.end();++it){
+		delete *it;
+	}
 }
 
 

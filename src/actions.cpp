@@ -34,24 +34,31 @@
 using namespace std;
 
 int create_all(settings &S){
-	deque<blogentry> data=read_entries(S.list_of_entries,true);
+	read_entries(S,true);
 	string filename;
-	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
-		filename=S.single_entries_dir+it->get_id()+".html";
+	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		filename=S.single_entries_dir+(*it)->get_id()+".html";
 		write_page(*it,S,filename);
 		
 	}
-	if(S.number_of_mainpageposts<=-1||int(data.size())<=S.number_of_mainpageposts){
-		write_page(data,S,S.blog);
+	
+	if(S.number_of_mainpageposts<=-1||int(S.blogentries.size())<=S.number_of_mainpageposts){
+		write_page(S.blogentries,S,S.blog);
 	}
 	else{
-		deque<blogentry> mainpageposts;
-		for(int i=0;i<S.number_of_mainpageposts&&i<int(data.size());++i){
-			mainpageposts.push_back(data.at(i));
+		list<blogentry*> mainpageposts;
+		int i=0;
+		for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+			if(i<S.number_of_mainpageposts&&i<int(S.blogentries.size())){
+				++i;
+				mainpageposts.push_back(*it);
+			}
+			else break;
 		}
 		write_page(mainpageposts,S,S.blog);
 	}
-	create_rss(S,data);
+	
+	create_rss(S);
 	return 0;
 }
 
@@ -59,44 +66,52 @@ int create_latest(settings &S){
 	if(S.number_of_mainpageposts<0){
 		return create_all(S);
 	}
-	deque<blogentry> data=read_entries(S.list_of_entries,false);
-	deque<blogentry> mainpageposts;
+	read_entries(S,false);
+	list<blogentry*> mainpageposts;
 	string filename;
-	for(int i=0;i<S.number_of_mainpageposts&&i<int(data.size());++i){
-		data.at(i).read_content();
-		filename=S.single_entries_dir+data.at(i).get_id()+".html";
-		write_page(data.at(i),S,filename);
-		mainpageposts.push_back(data.at(i));
+	int i=0;
+	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		if(i>=S.number_of_mainpageposts&&i>=int(S.blogentries.size())){
+			break;
+		}
+		++i;
+		filename=S.single_entries_dir+(*it)->get_id()+".html";
+		write_page(*it,S,filename);
+		mainpageposts.push_back(*it);
 	}
 	write_page(mainpageposts,S,S.blog);
-	create_rss(S,data);
+	create_rss(S);
 	return 0;
 }
 
 int create(settings &S,ID id){
 	string filename;
-	deque<blogentry> data=read_entries(S.list_of_entries,false);
-	int n=-1;
-	for(size_t i=0;i<data.size();++i){
-		if(data.at(i).id()==id){
+	blogentry *entry=NULL;
+	read_entries(S,false);
+	int n=0,i=0;
+	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		if(i>=S.number_of_mainpageposts&&i>=int(S.blogentries.size())){
+			break;
+		}
+		++i;
+		if((*it)->id()==id){
 			n=i;
+			entry=*it;
 			break;
 		}
 	}
-	if(n==-1){
+	if(entry==NULL){
 		return 1;
 	}
 	if(n<=S.number_of_mainpageposts){
 		return create_latest(S);
 	}
-	data.at(n).read_content();
-	data.at(n).read_comments();
-	filename=S.single_entries_dir+data.at(n).get_id()+".html";
-	write_page(data.at(n),S,filename);
+	filename=S.single_entries_dir+entry->get_id()+".html";
+	write_page(entry,S,filename);
 	return 0;
 }
 
-int create_rss(settings &S,deque<blogentry> &blogentries){
+int create_rss(settings &S){
 	deque<string> tags;
 	if(S.rss_feed.empty()){
 		return 1;
@@ -105,25 +120,30 @@ int create_rss(settings &S,deque<blogentry> &blogentries){
 	feed.push_back(string("<?xml version=\"1.0\" encoding=\"utf-8\"?>"));
 	feed.push_back(string("<rss version=\"2.0\">\n\t<channel>"));
 	feed+=read_file(S.rss_channel_description_file);
-	for(int i=0;i<S.number_of_mainpageposts&&i<int(blogentries.size());++i){
-		content=push_string_to_front_of_every_line(blogentries[i].content(),"\t\t\t\t");
+	int i=0;
+	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		if(i>=S.number_of_mainpageposts&&i>=int(S.blogentries.size())){
+			break;
+		}
+		++i;
+		content=push_string_to_front_of_every_line((*it)->content(),"\t\t\t\t");
 		replace(content,"href=\"/","href=\""+S.url+"/");
 		replace(content,"src=\"/","src=\""+S.url+"/");
 		
 		feed.push_back(string("\t\t<item>"));
-		feed.push_back(string("\t\t\t<title>")+blogentries[i].get_heading()+"</title>");
-		feed.push_back(string("\t\t\t<link>")+blogentries[i].get_url(S)+".html</link>");
+		feed.push_back(string("\t\t\t<title>")+(*it)->get_heading()+"</title>");
+		feed.push_back(string("\t\t\t<link>")+(*it)->get_url(S)+".html</link>");
 		feed.push_back(string("\t\t\t<description><![CDATA["));
 		feed+=content;
 		feed.push_back(string("\t\t\t]]></description>"));
 		
 		///optional data:
-		if(!blogentries[i].get_iso_date().empty()){
-			feed.push_back(string("\t\t\t<pubDate>")+blogentries[i].get_iso_date()+"</pubDate>");
+		if(!(*it)->get_iso_date().empty()){
+			feed.push_back(string("\t\t\t<pubDate>")+(*it)->get_iso_date()+"</pubDate>");
 		}
-		feed.push_back(string("\t\t\t<guid>")+blogentries[i].get_url(S)+".html</guid>");
+		feed.push_back(string("\t\t\t<guid>")+(*it)->get_url(S)+".html</guid>");
 		
-		tags=blogentries[i].get_tags();
+		tags=(*it)->get_tags();
 		for(deque<string>::iterator it=tags.begin();it!=tags.end();++it){
 			if(!it->empty()){
 				feed.push_back(string("\t\t\t<category>")+*it+"</category>");
@@ -209,10 +229,10 @@ int import(settings &S,string filename){
 
 int edit(settings &S, ID id){
 	string filename="", command;
-	deque<blogentry> data=read_entries(S.list_of_entries,false);
-	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
-		if(it->id()==id){
-			filename=it->get_filename();
+	read_entries(S,false);
+	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		if((*it)->id()==id){
+			filename=(*it)->get_filename();
 			break;
 		}
 	}
@@ -233,10 +253,10 @@ int edit(settings &S, ID id){
 
 
 int comment(settings &S,ID id,string filename){
-	deque<blogentry> data=read_entries(S.list_of_entries,false);
-	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
-		if(it->id()==id){
-			it->new_comment(filename,S);
+	read_entries(S,false);
+	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		if((*it)->id()==id){
+			(*it)->new_comment(filename,S);
 			return create(S,id);
 		}
 	}
@@ -245,10 +265,10 @@ int comment(settings &S,ID id,string filename){
 }
 
 int edit_comment(settings &S, ID id){
-	deque<blogentry> data=read_entries(S.list_of_entries,false);
-	for(deque<blogentry>::iterator it=data.begin();it!=data.end();++it){
-		if(it->id()==id){
-			system((S.editor+" "+it->get_comments_filename()).c_str());
+	read_entries(S,false);
+	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		if((*it)->id()==id){
+			system((S.editor+" "+(*it)->get_comments_filename()).c_str());
 			return create(S,id);
 		}
 	}
@@ -258,9 +278,9 @@ int edit_comment(settings &S, ID id){
 
 
 int list_entries(settings &S){
-	deque<blogentry> data=read_entries(S.list_of_entries,false);
-	for(deque<blogentry>::reverse_iterator it=data.rbegin();it!=data.rend();++it){
-		cout<<it->get_id()<<":\t"<<it->get_heading()<<"\n";
+	read_entries(S,false);
+	for(list<blogentry*>::reverse_iterator it=S.blogentries.rbegin();it!=S.blogentries.rend();++it){
+		cout<<(*it)->get_id()<<":\t"<<(*it)->get_heading()<<"\n";
 	}
 	cout<<flush;
 	return 0;
