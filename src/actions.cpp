@@ -122,7 +122,7 @@ int create_rss(settings &S){
 	feed+=read_file(S.rss_channel_description_file);
 	int i=0;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-		if(i>=S.number_of_mainpageposts)){
+		if(i>=S.number_of_mainpageposts){
 			break;
 		}
 		++i;
