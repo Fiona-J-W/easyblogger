@@ -49,7 +49,7 @@ int create_all(settings &S){
 		list<blogentry*> mainpageposts;
 		int i=0;
 		for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-			if(i<S.number_of_mainpageposts&&i<int(S.blogentries.size())){
+			if(i<S.number_of_mainpageposts){
 				++i;
 				mainpageposts.push_back(*it);
 			}
@@ -71,7 +71,7 @@ int create_latest(settings &S){
 	string filename;
 	int i=0;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-		if(i>=S.number_of_mainpageposts&&i>=int(S.blogentries.size())){
+		if(i>=S.number_of_mainpageposts){
 			break;
 		}
 		++i;
@@ -122,7 +122,7 @@ int create_rss(settings &S){
 	feed+=read_file(S.rss_channel_description_file);
 	int i=0;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-		if(i>=S.number_of_mainpageposts&&i>=int(S.blogentries.size())){
+		if(i>=S.number_of_mainpageposts)){
 			break;
 		}
 		++i;
