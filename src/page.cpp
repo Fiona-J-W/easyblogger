@@ -230,9 +230,9 @@ list<string> get_tag_list(settings &S){
 	list<string> lines;
 	lines.push_back("<dl class=\"tag_list\" >");
 	for(map<string,list<blogentry*> >::iterator it=S.tags.begin();it!=S.tags.end();++it){
-		lines.push_back("<dd id=\""+replace(it->first," ","_")+"\">"+it->first+"</dd>");
+		lines.push_back("<dt id=\""+replace(it->first," ","_")+"\">"+it->first+"</dt>");
 		for(list<blogentry*>::iterator inner_it=it->second.begin();inner_it!=it->second.end();++inner_it){
-			lines.push_back("<dt><a href=\""+(*inner_it)->get_url(S)+"\" >"+(*inner_it)->get_heading()+"</a></dt>");
+			lines.push_back("<dd><a href=\""+(*inner_it)->get_url(S)+"\" >"+(*inner_it)->get_heading()+"</a></dd>");
 		}
 	}
 	lines.push_back("</dl>");
