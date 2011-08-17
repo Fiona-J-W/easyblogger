@@ -288,3 +288,50 @@ int list_entries(settings &S){
 	cout<<flush;
 	return 0;
 }
+
+
+list<blogentry*> search(settings &S, string phrase){
+	list<blogentry*> results;
+	LINES content;
+	for(list<blogentry *>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+		if((*it)->get_heading().find(phrase)!=string::npos){
+			results.push_back(*it);
+			continue;
+		}
+		else{
+			content=(*it)->content();
+			for(LINES::iterator content_it=content.begin();content_it!=content.end();++content_it){
+				if(content_it->find(phrase)!=string::npos){
+					results.push_back(*it);
+					break;
+				}
+			}
+		}
+	}
+	return results;
+}
+
+
+void print_search(settings &S,string phrase){
+	read_entries(S,true);
+	list<blogentry*> results=search(S,phrase);
+	for(list<blogentry *>::iterator it=results.begin();it!=results.end();++it){
+		cout<<(*it)->get_id()<<":\t"<<(*it)->get_heading()<<endl;
+	}
+}
+
+
+
+void print_html_search(settings &S,string phrase){
+	read_entries(S,true);
+	list<blogentry*> results=search(S,phrase);
+	if(results.empty()){
+		cout<<"<p class=\"search_results\">No results</p>"<<endl;
+		return;
+	}
+	cout<<"<ul class=\"search_results\">"<<endl;
+	for(list<blogentry *>::iterator it=results.begin();it!=results.end();++it){
+		cout<<"<li><a href=\""<<(*it)->get_url(S)<<"\">"<<(*it)->get_heading()<<"</a></li>"<<endl;
+	}
+	cout<<"</ul>"<<endl;
+}

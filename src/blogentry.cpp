@@ -247,7 +247,7 @@ string blogentry::get_comments_filename(){
 }
 
 string blogentry::get_url(settings &S){
-	return S.url+S.single_entries_dir_rel+get_id();
+	return S.url+S.single_entries_dir_rel+get_id()+".html";
 }
 
 ///Non-member-functions:

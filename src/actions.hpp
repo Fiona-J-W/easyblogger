@@ -57,4 +57,10 @@ int edit_comment(settings &S, ID id);
 ///list all existing entries:
 int list_entries(settings &S);
 
+list<blogentry*> search(settings &S,string phrase);
+
+void print_search(settings &S,string phrase);
+
+void print_html_search(settings &S,string phrase);
+
 #endif /* SITES_HPP */ 
