@@ -56,11 +56,18 @@ struct settings{
 	string mainpage_toc_title;
 	string mainpage_toc_pre;
 	string mainpage_toc_post;
+	
+	string tag_file;
+	string tag_file_rel;
+	string tag_file_template;
+	string tags_title;
+	
 	int number_of_mainpageposts;
 	int max_date_size;
 	bool enable_comments;
 	bool toc_in_singleentries;
 	bool sorting_by_date;
+	bool enable_tag_file;
 	ID last_id;
 	
 	list<blogentry*> blogentries;

@@ -31,6 +31,7 @@ const string TEMPLATE_FILE_PUT_POSTINGS=string("<<POSTINGS>>");
 const string TEMPLATE_FILE_PUT_TITLE=string("<<TITLE>>");
 const string TEMPLATE_FILE_PUT_TOC=string("<<TOC>>");
 const string TEMPLATE_FILE_PUT_MAINPAGE_TOC=string("<<MAINPAGE_TOC>>");///will only be shown on mainpage
+const string TEMPLATE_FILE_PUT_TAGS="<<TAGS>>";
 
 
 
@@ -128,6 +129,17 @@ list<string> get_postings(list<blogentry*> &entries, settings &S,bool comments){
 			data.push_back("<span class=\"post_time\" >"+(*it)->get_display_date()+"</span>\n");
 			data+=(*it)->content();
 			data.push_back("</article>");
+			if(S.enable_tag_file){
+				deque<string> tags=(*it)->get_tags();
+				if(!tags.empty()){
+					data.push_back("<span class=\"tags_header\">"+S.tags_title+"</span>");
+					data.push_back("<ul class=\"tag_list\" >");
+					for(deque<string>::iterator it=tags.begin();it!=tags.end();++it){
+						data.push_back("<li><a href=\""+S.tag_file_rel+"#"+replace(*it," ","_")+"\" >"+*it+"</a></li>");
+					}
+					data.push_back("</ul>");
+				}
+			}
 			if(comments){
 				tmp.clear();
 				tmp+=(*it)->comments();
@@ -189,4 +201,40 @@ list<string> get_mainpage_TOC(list<blogentry*> &entries, settings &S){
 		data.push_back(S.mainpage_toc_post);
 	}
 	return data;
+}
+
+int create_tags_page(settings &S){
+	if(!S.enable_tag_file){
+		return 1;
+	}
+	list<string> data, temp_lines=read_file_to_list(S.template_file);
+	
+	for(list<string>::iterator it=temp_lines.begin();it!=temp_lines.end();++it){
+		if(it->find("<<")==string::npos){
+			data.push_back(*it);
+		}
+		else{
+			if(*it==TEMPLATE_FILE_PUT_TAGS){
+				data+=get_tag_list(S);
+			}
+			else{
+				cerr<<"WARNING: Unknown template used"<<endl;
+			}
+		}
+	}
+	
+	return write_file(S.tag_file,data);
+}
+
+list<string> get_tag_list(settings &S){
+	list<string> lines;
+	lines.push_back("<dl class=\"tag_list\" >");
+	for(map<string,list<blogentry*> >::iterator it=S.tags.begin();it!=S.tags.end();++it){
+		lines.push_back("<dd id=\""+replace(it->first," ","_")+"\">"+it->first+"</dd>");
+		for(list<blogentry*>::iterator inner_it=it->second.begin();inner_it!=it->second.end();++inner_it){
+			lines.push_back("<dt><a href=\""+(*inner_it)->get_url(S)+"\" >"+(*inner_it)->get_heading()+"</a></dt>");
+		}
+	}
+	lines.push_back("</dl>");
+	return lines;
 }

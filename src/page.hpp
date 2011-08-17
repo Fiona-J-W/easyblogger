@@ -42,4 +42,7 @@ list<string> get_TOC(settings &S);
 
 list<string> get_mainpage_TOC(list<blogentry*> &entries, settings &S);
 
+int create_tags_page(settings &S);
+
+list<string> get_tag_list(settings &S);
 #endif /* PAGE_HPP */ 

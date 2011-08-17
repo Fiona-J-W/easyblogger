@@ -59,6 +59,7 @@ int create_all(settings &S){
 	}
 	
 	create_rss(S);
+	create_tags_page(S);
 	return 0;
 }
 
@@ -224,6 +225,8 @@ int import(settings &S,string filename){
 	write_file(comment_file,"");
 	change_rights(comment_file,"a+w");
 	change_rights(S.single_entries_dir+S.last_id.get()+".html","a+w");
+	
+	create_tags_page(S);
 	return 0;
 }
 
