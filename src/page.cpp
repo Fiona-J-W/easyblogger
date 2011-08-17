@@ -207,7 +207,7 @@ int create_tags_page(settings &S){
 	if(!S.enable_tag_file){
 		return 1;
 	}
-	list<string> data, temp_lines=read_file_to_list(S.template_file);
+	list<string> data, temp_lines=read_file_to_list(S.tag_file_template);
 	
 	for(list<string>::iterator it=temp_lines.begin();it!=temp_lines.end();++it){
 		if(it->find("<<")==string::npos){
