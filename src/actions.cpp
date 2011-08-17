@@ -313,7 +313,7 @@ list<blogentry*> search(settings &S, string phrase){
 
 
 void print_search(settings &S,string phrase){
-	read_entries(S,true);
+	read_entries(S,false);
 	list<blogentry*> results=search(S,phrase);
 	for(list<blogentry *>::iterator it=results.begin();it!=results.end();++it){
 		cout<<(*it)->get_id()<<":\t"<<(*it)->get_heading()<<endl;
