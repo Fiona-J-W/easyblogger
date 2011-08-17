@@ -232,7 +232,7 @@ list<string> get_tag_list(settings &S){
 	for(map<string,list<blogentry*> >::iterator it=S.tags.begin();it!=S.tags.end();++it){
 		lines.push_back("<dt id=\""+replace(it->first," ","_")+"\">"+it->first+"</dt>");
 		for(list<blogentry*>::iterator inner_it=it->second.begin();inner_it!=it->second.end();++inner_it){
-			lines.push_back("<dd><a href=\""+(*inner_it)->get_url(S)+"\" >"+(*inner_it)->get_heading()+"</a></dd>");
+			lines.push_back("<dd><a href=\""+S.single_entries_dir_rel+(*inner_it)->get_id()+".html\" >"+(*inner_it)->get_heading()+"</a></dd>");
 		}
 	}
 	lines.push_back("</dl>");
