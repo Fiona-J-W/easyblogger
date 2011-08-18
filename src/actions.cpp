@@ -34,7 +34,7 @@
 using namespace std;
 
 int create_all(settings &S){
-	if(S.blogentries.empty()) read_entries(S,true);
+	read_entries(S,true);
 	string filename;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
 		filename=S.single_entries_dir+(*it)->get_id()+".html";
@@ -67,7 +67,7 @@ int create_latest(settings &S){
 	if(S.number_of_mainpageposts<0){
 		return create_all(S);
 	}
-	if(S.blogentries.empty()) read_entries(S,false);
+	read_entries(S,false);
 	list<blogentry*> mainpageposts;
 	string filename;
 	int i=0;
@@ -88,7 +88,7 @@ int create_latest(settings &S){
 int create(settings &S,ID id){
 	string filename;
 	blogentry *entry=NULL;
-	if(S.blogentries.empty()) read_entries(S,false);
+	read_entries(S,false);
 	int n=0,i=0;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
 		if(i>=S.number_of_mainpageposts&&i>=int(S.blogentries.size())){
@@ -232,7 +232,7 @@ int import(settings &S,string filename){
 
 int edit(settings &S, ID id){
 	string filename="", command;
-	if(S.blogentries.empty()) read_entries(S,false);
+	read_entries(S,false);
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
 		if((*it)->id()==id){
 			filename=(*it)->get_filename();
@@ -256,7 +256,7 @@ int edit(settings &S, ID id){
 
 
 int comment(settings &S,ID id,string filename){
-	if(S.blogentries.empty()) read_entries(S,false);
+	read_entries(S,false);
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
 		if((*it)->id()==id){
 			(*it)->new_comment(filename,S);
@@ -268,7 +268,7 @@ int comment(settings &S,ID id,string filename){
 }
 
 int edit_comment(settings &S, ID id){
-	if(S.blogentries.empty()) read_entries(S,false);
+	read_entries(S,false);
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
 		if((*it)->id()==id){
 			system((S.editor+" "+(*it)->get_comments_filename()).c_str());
@@ -281,7 +281,7 @@ int edit_comment(settings &S, ID id){
 
 
 int list_entries(settings &S){
-	if(S.blogentries.empty()) read_entries(S,false);
+	read_entries(S,false);
 	for(list<blogentry*>::reverse_iterator it=S.blogentries.rbegin();it!=S.blogentries.rend();++it){
 		cout<<(*it)->get_id()<<":\t"<<(*it)->get_heading()<<"\n";
 	}
@@ -313,7 +313,7 @@ list<blogentry*> search(settings &S, string phrase){
 
 
 void print_search(settings &S,string phrase){
-	if(S.blogentries.empty()) read_entries(S,false);
+	read_entries(S,false);
 	list<blogentry*> results=search(S,phrase);
 	for(list<blogentry *>::iterator it=results.begin();it!=results.end();++it){
 		cout<<(*it)->get_id()<<":\t"<<(*it)->get_heading()<<endl;
@@ -323,7 +323,7 @@ void print_search(settings &S,string phrase){
 
 
 void print_html_search(settings &S,string phrase){
-	if(S.blogentries.empty()) read_entries(S,true);
+	read_entries(S,true);
 	list<blogentry*> results=search(S,phrase);
 	if(results.empty()){
 		cout<<"<p class=\"search_results\">No results</p>"<<endl;

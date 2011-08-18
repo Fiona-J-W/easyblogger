@@ -265,6 +265,15 @@ deque<blogentry> read_entries(string filename, bool with_content){
 */
 
 void read_entries(settings &S, bool with_content){
+	if(!S.blogentries.empty()){
+		if(with_content){
+			for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+				(*it)->read_content();
+				(*it)->read_comments();
+			}
+		}
+		return;
+	}
 	LINES data=read_config_file(S.list_of_entries);
 	blogentry *ptr;
 	for(LINES::iterator it=data.begin();it!=data.end();++it){
