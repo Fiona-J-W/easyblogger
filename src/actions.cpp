@@ -133,7 +133,7 @@ int create_rss(settings &S){
 		
 		feed.push_back(string("\t\t<item>"));
 		feed.push_back(string("\t\t\t<title>")+(*it)->get_heading()+"</title>");
-		feed.push_back(string("\t\t\t<link>")+(*it)->get_url(S)+".html</link>");
+		feed.push_back(string("\t\t\t<link>")+(*it)->get_url(S)+"</link>");
 		feed.push_back(string("\t\t\t<description><![CDATA["));
 		feed+=content;
 		feed.push_back(string("\t\t\t]]></description>"));
@@ -142,7 +142,7 @@ int create_rss(settings &S){
 		if(!(*it)->get_iso_date().empty()){
 			feed.push_back(string("\t\t\t<pubDate>")+(*it)->get_iso_date()+"</pubDate>");
 		}
-		feed.push_back(string("\t\t\t<guid>")+(*it)->get_url(S)+".html</guid>");
+		feed.push_back(string("\t\t\t<guid>")+(*it)->get_url(S)+"</guid>");
 		
 		tags=(*it)->get_tags();
 		for(deque<string>::iterator it=tags.begin();it!=tags.end();++it){
