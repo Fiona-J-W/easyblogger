@@ -23,6 +23,7 @@ settings read_settings(string filename){
 	S.sorting_by_date=true;
 	S.enable_comments=true;
 	S.enable_tag_file=false;
+	S.filename_extension=".html";
 	
 	for(LINES::iterator it=lines.begin();it!=lines.end();++it){
 		line=cut(*it);
@@ -53,6 +54,9 @@ settings read_settings(string filename){
 		}
 		else if(val=="editor"){
 			S.editor=line.second;
+		}
+		else if(val=="filename_extension"){
+			S.filename_extension=line.second;
 		}
 		else if(val=="comment_heading"){
 			S.comment_section_heading=line.second;

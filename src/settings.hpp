@@ -40,16 +40,23 @@ struct settings{
 	string single_entries_dir_rel;
 	string url;
 	string title;
+	
 	string rss_feed;
 	string rss_channel_description_file;
+	
 	string editor;
+	
+	string filename_extension;
+	
 	string public_path_to_comment_function;
 	string name_of_link_to_comment;
 	string comment_section_heading;
 	string comment_url;
 	string comment_name;
+	
 	string locale;
 	string time_format;
+	
 	string toc_title;
 	string toc_pre;
 	string toc_post;

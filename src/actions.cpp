@@ -37,7 +37,7 @@ int create_all(settings &S){
 	read_entries(S,true);
 	string filename;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-		filename=S.single_entries_dir+(*it)->get_id()+".html";
+		filename=S.single_entries_dir+(*it)->get_id()+S.filename_extension;
 		write_page(*it,S,filename);
 		
 	}
@@ -76,7 +76,7 @@ int create_latest(settings &S){
 			break;
 		}
 		++i;
-		filename=S.single_entries_dir+(*it)->get_id()+".html";
+		filename=S.single_entries_dir+(*it)->get_id()+S.filename_extension;
 		write_page(*it,S,filename);
 		mainpageposts.push_back(*it);
 	}
@@ -107,7 +107,7 @@ int create(settings &S,ID id){
 	if(n<=S.number_of_mainpageposts){
 		return create_latest(S);
 	}
-	filename=S.single_entries_dir+entry->get_id()+".html";
+	filename=S.single_entries_dir+entry->get_id()+S.filename_extension;
 	write_page(entry,S,filename);
 	return 0;
 }
@@ -197,7 +197,7 @@ int import(settings &S,string filename){
 		getline(cin,heading);
 	}
 	++S.last_id;
-	content_file=S.datadir+S.last_id.get()+".html";
+	content_file=S.datadir+S.last_id.get()+S.filename_extension;
 	comment_file=S.datadir+S.last_id.get()+"-comments.html";
 	conf_file=S.datadir+S.last_id.get()+".conf";
 	
@@ -224,7 +224,7 @@ int import(settings &S,string filename){
 	change_rights(content_file,"a+w");
 	write_file(comment_file,"");
 	change_rights(comment_file,"a+w");
-	change_rights(S.single_entries_dir+S.last_id.get()+".html","a+w");
+	change_rights(S.single_entries_dir+S.last_id.get()+S.filename_extension,"a+w");
 	
 	create_tags_page(S);
 	return 0;
@@ -331,7 +331,7 @@ void print_html_search(settings &S,string phrase){
 	}
 	cout<<"<ul class=\"search_results\">"<<endl;
 	for(list<blogentry *>::iterator it=results.begin();it!=results.end();++it){
-		cout<<"<li><a href=\""<<(*it)->get_url(S)<<"\">"<<(*it)->get_heading()<<"</a></li>"<<endl;
+		cout<<"<li><a href=\""<<(*it)->get_rel_url(S)<<"\">"<<(*it)->get_heading()<<"</a></li>"<<endl;
 	}
 	cout<<"</ul>"<<endl;
 }

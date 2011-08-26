@@ -247,9 +247,12 @@ string blogentry::get_comments_filename(){
 }
 
 string blogentry::get_url(settings &S){
-	return S.url+S.single_entries_dir_rel+get_id()+".html";
+	return S.url+S.single_entries_dir_rel+get_id()+S.filename_extension;
 }
 
+string blogentry::get_rel_url(settings &S){
+	return S.single_entries_dir_rel+get_id()+S.filename_extension;
+}
 ///Non-member-functions:
 /*
 

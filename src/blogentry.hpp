@@ -71,6 +71,7 @@ class blogentry{
 		string get_filename();
 		string get_comments_filename();
 		string get_url(settings &S);
+		string get_rel_url(settings &S);
 		deque<string> &get_tags();
 		ID id();
 	private:

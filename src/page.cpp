@@ -102,7 +102,7 @@ list<string> get_postings(list<blogentry*> &entries, settings &S,bool comments){
 				lastdate=(*it)->get_display_date();
 			}
 			data.push_back("<li id=\""+(*it)->get_id()+"\" class=\"blogentry\">");
-			data.push_back("<h3><a class=\"headline_link\" href=\""+S.single_entries_dir_rel+(*it)->get_id()+".html\" >"+(*it)->get_heading()+"</a></h3>");
+			data.push_back("<h3><a class=\"headline_link\" href=\""+(*it)->get_rel_url(S)+"\" >"+(*it)->get_heading()+"</a></h3>");
 			data+=(*it)->content();
 			if(comments){
 				tmp.clear();
@@ -125,7 +125,7 @@ list<string> get_postings(list<blogentry*> &entries, settings &S,bool comments){
 		for(list<blogentry*>::iterator it=entries.begin();it!=entries.end();++it){
 			data.push_back("<div class=\"content\">");
 			data.push_back("<article>");
-			data.push_back("<h2><a class=\"headline_link\" id=\""+(*it)->get_id()+"\" href=\""+S.single_entries_dir_rel+(*it)->get_id()+".html\" >"+(*it)->get_heading()+"</a></h2>\n");
+			data.push_back("<h2><a class=\"headline_link\" id=\""+(*it)->get_id()+"\" href=\""+(*it)->get_rel_url(S)+"\" >"+(*it)->get_heading()+"</a></h2>\n");
 			data.push_back("<span class=\"post_time\" >"+(*it)->get_display_date()+"</span>\n");
 			data+=(*it)->content();
 			data.push_back("</article>");
@@ -175,7 +175,7 @@ list<string> get_TOC(settings &S){
 	}
 	data.push_back("<ul class=\"toc\">");
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-		data.push_back("<li class=\"tocitem\"><a href=\""+S.single_entries_dir_rel+(*it)->get_id()+".html\" class=\"toclink\">"+(*it)->get_heading()+"</a></li>");
+		data.push_back("<li class=\"tocitem\"><a href=\""+(*it)->get_rel_url(S)+"\" class=\"toclink\">"+(*it)->get_heading()+"</a></li>");
 	}
 	data.push_back("</ul>");
 	if(!S.toc_post.empty()){
@@ -232,7 +232,7 @@ list<string> get_tag_list(settings &S){
 	for(map<string,list<blogentry*> >::iterator it=S.tags.begin();it!=S.tags.end();++it){
 		lines.push_back("<dt id=\""+replace(it->first," ","_")+"\">"+it->first+"</dt>");
 		for(list<blogentry*>::iterator inner_it=it->second.begin();inner_it!=it->second.end();++inner_it){
-			lines.push_back("<dd><a href=\""+S.single_entries_dir_rel+(*inner_it)->get_id()+".html\" >"+(*inner_it)->get_heading()+"</a></dd>");
+			lines.push_back("<dd><a href=\""+(*inner_it)->get_rel_url(S)+"\" >"+(*inner_it)->get_heading()+"</a></dd>");
 		}
 	}
 	lines.push_back("</dl>");
