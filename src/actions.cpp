@@ -198,7 +198,7 @@ int import(settings &S,string filename){
 	}
 	++S.last_id;
 	content_file=S.datadir+S.last_id.get()+S.filename_extension;
-	comment_file=S.datadir+S.last_id.get()+"-comments.html";
+	comment_file=S.datadir+S.last_id.get()+"-comments"+S.filename_extension;
 	conf_file=S.datadir+S.last_id.get()+".conf";
 	
 	conf_file_content.push_back(ID_SETTER+'='+S.last_id.get());
