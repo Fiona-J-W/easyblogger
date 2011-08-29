@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>easyblogger</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.76.1" /></head><body><div xml:lang="en" class="refentry" title="easyblogger" lang="en"><a id="id439931"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>easyblogger — a lightweight content management system</p></div><div class="refsynopsisdiv" title="Synopsis"><a id="_synopsis"></a><h2>Synopsis</h2><p><span class="strong"><strong>easyblogger</strong></span> [<span class="emphasis"><em>BLOG</em></span>] &lt;command&gt; [<span class="emphasis"><em>PARAMETERS</em></span>]</p></div><div class="refsect1" title="DESCRIPTION"><a id="_description"></a><h2>DESCRIPTION</h2><p><span class="strong"><strong>easyblogger</strong></span> allows you to manage your blog-post easily. Following the UNIX-philosophy, it’s completly configurable through text-files and command-line arguments.</p><div class="variablelist"><dl><dt><span class="term">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>easyblogger</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.76.1" /></head><body><div xml:lang="en" class="refentry" title="easyblogger" lang="en"><a id="id388150"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>easyblogger — a lightweight content management system</p></div><div class="refsynopsisdiv" title="Synopsis"><a id="_synopsis"></a><h2>Synopsis</h2><p><span class="strong"><strong>easyblogger</strong></span> [<span class="emphasis"><em>BLOG</em></span>] &lt;command&gt; [<span class="emphasis"><em>PARAMETERS</em></span>]</p></div><div class="refsect1" title="DESCRIPTION"><a id="_description"></a><h2>DESCRIPTION</h2><p><span class="strong"><strong>easyblogger</strong></span> allows you to manage your blog-post easily. Following the UNIX-philosophy, it’s completly configurable through text-files and command-line arguments.</p><div class="variablelist"><dl><dt><span class="term">
 <span class="strong"><strong>-c, --create</strong></span>
 </span></dt><dd>
         Recreates all blogpostings and the mainpage.
@@ -28,9 +28,15 @@
 <span class="strong"><strong>-C, --configure</strong></span>
 </span></dt><dd>
         The configfile of the choosen blog will be opened with the editor. If an ID is passed as last argument, the configfile of the choosen post will be opened.
-</dd></dl></div><p>*-s, --search
-        Print a list of all entries, that contain a phrase.</p><p>*-S, --html-search
-        same as search, but format the output as html.</p><div class="variablelist"><dl><dt><span class="term">
+</dd><dt><span class="term">
+<span class="strong"><strong>-s, --search</strong></span>
+</span></dt><dd>
+        Print a list of all entries, that contain a phrase.
+</dd><dt><span class="term">
+<span class="strong"><strong>-S, --html-search</strong></span>
+</span></dt><dd>
+        same as search, but format the output as html.
+</dd><dt><span class="term">
 <span class="strong"><strong>--comment</strong></span>
 </span></dt><dd>
         Expects the ID of an existing post and a file as parameters. The content of the file will be added as comment to the choosen post.
