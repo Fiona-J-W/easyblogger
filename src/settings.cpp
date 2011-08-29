@@ -16,6 +16,7 @@ settings read_settings(string filename){
 	pair<string,string> line;
 	LINES lines=read_config_file(filename);
 	
+	S.conf_file=filename;
 	///SOME DEFAULTS:
 	S.max_date_size=-1;
 	S.number_of_mainpageposts=-1;

@@ -52,7 +52,7 @@ const string TAGS_SETTER="tags";
 
 class blogentry{
 	public:
-		blogentry(string line,settings &S, bool with_content=false);
+		blogentry(string file,settings &S, bool with_content=false);
 		~blogentry();
 		//void create_from_line(string line);
 		void create_from_file(string filename,settings &S);
@@ -72,6 +72,7 @@ class blogentry{
 		string get_comments_filename();
 		string get_url(settings &S);
 		string get_rel_url(settings &S);
+		string get_conf_file();
 		deque<string> &get_tags();
 		ID id();
 	private:
@@ -81,6 +82,7 @@ class blogentry{
 		string m_iso_date;
 		string m_content_file;
 		string m_comments_file;
+		string m_conf_file;
 		
 		bool m_content_loaded;
 		bool m_comments_loaded;
@@ -95,6 +97,6 @@ class blogentry{
 //deque<blogentry> read_entries(string filename, bool with_content=false);
 void read_entries(settings &S, bool with_content=false);
 
-
+blogentry* select(list<blogentry*> &blogentries,ID id);
 
 #endif /* BLOGENTRY_H */ 

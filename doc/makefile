@@ -1,3 +1,8 @@
+
+all:
+	a2x -f manpage documentation.asciidoc
+	a2x -f xhtml documentation.asciidoc
+
 # for making the man-page out of the asciidoc-file:
 man:
 	a2x -f manpage documentation.asciidoc

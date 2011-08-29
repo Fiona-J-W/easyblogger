@@ -25,7 +25,8 @@
 
 #include "settings.hpp"
 
-int configure_blog(settings &S, string name=DEFAULT_INDICATOR);
+int configure_blog(settings &S);
 
+int configure_post(settings &S, string post);
 
 #endif /* CONFIG_HPP */ 

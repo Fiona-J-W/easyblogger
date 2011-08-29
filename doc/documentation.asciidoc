@@ -34,11 +34,17 @@ DESCRIPTION
 *-h, --help*::
 	Prints a short help.
 
+*-C, --configure*::
+	The configfile of the choosen blog will be opened with the editor. If an ID is passed as last argument, the configfile of the choosen post will be opened.
+
+*-s, --search
+	Print a list of all entries, that contain a phrase.
+
+*-S, --html-search
+	same as search, but format the output as html.
+
 *--comment*::
 	Expects the ID of an existing post and a file as parameters. The content of the file will be added as comment to the choosen post.
-
-*--configure*::
-	The configfile of the choosen blog will be opened with the editor.
 
 *--about*::
 	Prints a short copyright-notice.

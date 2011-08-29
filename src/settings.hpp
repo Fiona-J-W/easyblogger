@@ -30,6 +30,8 @@ const string END_BLOG_CONFIG="ENDBLOG";
 class blogentry;
 
 struct settings{
+	string conf_file;
+	
 	string template_file;
 	string name;
 	string settingsdir;

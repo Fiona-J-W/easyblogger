@@ -34,7 +34,8 @@ using namespace std;
 blogentry::blogentry(string file,settings &S, bool with_content){
 	m_content_loaded=false;
 	m_comments_loaded=false;
-	create_from_file(file,S);
+	m_conf_file=file;
+	create_from_file(m_conf_file,S);
 	if(with_content){
 		read_content();
 		read_comments();
@@ -253,6 +254,16 @@ string blogentry::get_url(settings &S){
 string blogentry::get_rel_url(settings &S){
 	return S.single_entries_dir_rel+get_id()+S.filename_extension;
 }
+
+
+string blogentry::get_conf_file(){
+	return m_conf_file;
+}
+
+deque<string>& blogentry::get_tags(){
+	return m_tags;
+}
+
 ///Non-member-functions:
 /*
 
@@ -286,6 +297,12 @@ void read_entries(settings &S, bool with_content){
 }
 
 
-deque<string>& blogentry::get_tags(){
-	return m_tags;
+blogentry* select(list<blogentry*> &blogentries,ID id){
+	for(list<blogentry*>::iterator it=blogentries.begin();it!=blogentries.end();++it){
+		if((*it)->id()==id){
+			return *it;
+		}
+	}
+	return NULL;
 }
+

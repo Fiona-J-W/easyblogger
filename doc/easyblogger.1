@@ -2,12 +2,12 @@
 .\"     Title: easyblogger
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
-.\"      Date: 06/17/2011
+.\"      Date: 08/30/2011
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "EASYBLOGGER" "1" "06/17/2011" "\ \&" "\ \&"
+.TH "EASYBLOGGER" "1" "08/30/2011" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -66,14 +66,18 @@ Lists all entries of a blog\&.
 Prints a short help\&.
 .RE
 .PP
+\fB\-C, \-\-configure\fR
+.RS 4
+The configfile of the choosen blog will be opened with the editor\&. If an ID is passed as last argument, the configfile of the choosen post will be opened\&.
+.RE
+.sp
+*\-s, \-\-search Print a list of all entries, that contain a phrase\&.
+.sp
+*\-S, \-\-html\-search same as search, but format the output as html\&.
+.PP
 \fB\-\-comment\fR
 .RS 4
 Expects the ID of an existing post and a file as parameters\&. The content of the file will be added as comment to the choosen post\&.
-.RE
-.PP
-\fB\-\-configure\fR
-.RS 4
-The configfile of the choosen blog will be opened with the editor\&.
 .RE
 .PP
 \fB\-\-about\fR

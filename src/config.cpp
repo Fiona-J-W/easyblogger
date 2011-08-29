@@ -26,16 +26,36 @@
 #include <iostream>
 #include <string>
 #include "actions.hpp"
+#include "id.hpp"
+#include "blogentry.hpp"
 
 using namespace std;
 
-int configure_blog(settings &S, string name){
+int configure_blog(settings &S){
 	if(S.editor.empty()){
-		cerr<<"Error: No editor has been specified; choosing vi as fallback."<<endl;
+		cerr<<"WARNING: No editor has been specified; choosing vi as fallback."<<endl;
 		S.editor="vi";
 	}
-	string command=S.editor+" "+get_blog_conf_file(name);
+	string command=S.editor+" "+S.conf_file;
 	system(command.c_str());
 	create_all(S);
+	return 0;
+}
+
+int configure_post(settings &S,string post){
+	if(S.editor.empty()){
+		cerr<<"WARNING: No editor has been specified; choosing vi as fallback."<<endl;
+		S.editor="vi";
+	}
+	ID id(post);
+	read_entries(S,false);
+	blogentry *blogentry_=select(S.blogentries,id);
+	if(blogentry_==NULL){
+		cerr<<"ERROR: There is no post with the Id "<<post<<endl;
+		return 1;
+	}
+	string command=S.editor+" "+blogentry_->get_conf_file();
+	system(command.c_str());
+	create(S,id);
 	return 0;
 }

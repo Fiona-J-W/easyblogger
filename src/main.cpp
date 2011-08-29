@@ -59,7 +59,7 @@ int main(int argc, char **argv){
 			S=get_blog_by_name();
 			return list_entries(S);
 		}
-		else if(args[1]=="--configure"){
+		else if(args[1]=="--configure"||args[1]=="-C"){
 			S=get_blog_by_name();
 			return configure_blog(S);
 		}
@@ -93,9 +93,13 @@ int main(int argc, char **argv){
 			S=get_blog_by_name();
 			print_html_search(S,args[2]);
 		}
-		else if(args[2]=="--configure"){
+		else if(args[1]=="--configure"||args[1]=="-C"){
+			S=get_blog_by_name();
+			return configure_post(S,args[2]);
+		}
+		else if(args[2]=="--configure"||args[2]=="-C"){
 			S=get_blog_by_name(args[1]);
-			return configure_blog(S,args[1]);
+			return configure_blog(S);
 		}
 		else if(args[2]=="--list-entries"||args[2]=="-l"){
 			S=get_blog_by_name(args[1]);
@@ -118,6 +122,10 @@ int main(int argc, char **argv){
 		else if(args[2]=="--edit-comment"||args[2]=="-E"){
 			S=get_blog_by_name(args[1]);
 			return edit_comment(S,ID(args[3]));
+		}
+		else if(args[2]=="--configure"||args[2]=="-C"){
+			S=get_blog_by_name(args[1]);
+			return configure_post(S,args[3]);
 		}
 		else if(args[2]=="--search"||args[2]=="-s"){
 			S=get_blog_by_name(args[1]);
