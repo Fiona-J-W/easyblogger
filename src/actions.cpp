@@ -127,37 +127,39 @@ int create_rss(settings &S){
 			break;
 		}
 		++i;
-		content=push_string_to_front_of_every_line((*it)->content(),"\t\t\t\t");
-		replace(content,"href=\"/","href=\""+S.url+"/");
-		replace(content,"src=\"/","src=\""+S.url+"/");
+		feed+=(*it)->rss(S);
 		
-		feed.push_back(string("\t\t<item>"));
-		feed.push_back(string("\t\t\t<title>")+(*it)->get_heading()+"</title>");
-		feed.push_back(string("\t\t\t<link>")+(*it)->get_url(S)+"</link>");
-		feed.push_back(string("\t\t\t<description><![CDATA["));
-		feed+=content;
-		feed.push_back(string("\t\t\t]]></description>"));
-		
-		///optional data:
-		if(!(*it)->get_iso_date().empty()){
-			feed.push_back(string("\t\t\t<pubDate>")+(*it)->get_iso_date()+"</pubDate>");
-		}
-		feed.push_back(string("\t\t\t<guid>")+(*it)->get_url(S)+"</guid>");
-		
-		tags=(*it)->get_tags();
-		for(deque<string>::iterator it=tags.begin();it!=tags.end();++it){
-			if(!it->empty()){
-				feed.push_back(string("\t\t\t<category>")+*it+"</category>");
-			}
-		}
-		
-		feed.push_back(string("\t\t</item>"));
 	}
 	feed.push_back(string("\t</channel>\n</rss>"));
 	write_file(S.rss_feed,feed);
 	return 0;
 }
 
+
+int create_tag_rss(settings &S){
+	string tag, feed_file;
+	LINES content;
+	if(S.tag_feeds){
+		return 1;
+	}
+	for(map<string,list<blogentry*> >::iterator it=S.tags.begin();it!=S.tags.end();++it){
+		content.clear();
+		tag=(*it).first;
+		feed_file=S.tag_feeds_dir+replace(tag," ","_")+S.rss_file_extension;
+		content.push_back(string("<?xml version=\"1.0\" encoding=\"utf-8\"?>"));
+		content.push_back(string("<rss version=\"2.0\">\n\t<channel>"));
+		content.push_back(string("\t\t<title>")+tag+"</title>");
+		content.push_back(string("\t\t<link>")+S.url+S.tag_file_rel+'#'+replace(tag," ","_")+"</link>");
+		content.push_back(string("\t\t<description>"+replace(S.tag_feeds_description,"%s",tag)+"</description>"));
+		for(list<blogentry*>::iterator blog_it=(*it).second.begin();blog_it!=(*it).second.end();++blog_it){
+			content+=push_string_to_front_of_every_line((*blog_it)->rss(S),"\t\t");
+		}
+		content.push_back(string("</channel>"));
+		
+	}
+	write_file(feed_file,content);
+	return 0;
+}
 
 int import(settings &S,string filename){
 	string heading, date, content_file, comment_file, conf_file, tags;

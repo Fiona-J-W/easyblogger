@@ -24,6 +24,9 @@ settings read_settings(string filename){
 	S.sorting_by_date=true;
 	S.enable_comments=true;
 	S.enable_tag_file=false;
+	S.tag_feeds=false;
+	S.tag_feeds_description="%s";
+	S.rss_file_extension=".rss";
 	S.filename_extension=".html";
 	
 	for(LINES::iterator it=lines.begin();it!=lines.end();++it){
@@ -157,8 +160,32 @@ settings read_settings(string filename){
 				S.enable_tag_file=false;
 			}
 		}
+		else if(val=="tag_feeds"){
+			if(line.second=="true"){
+				S.tag_feeds=true;
+			}
+			else if(line.second=="false"){
+				S.tag_feeds=false;
+			}
+		}
+		else if(val=="tag_feeds_dir"){
+			S.tag_feeds_dir=line.second;
+		}
+		else if(val=="tag_feeds_dir_rel"){
+			S.tag_feeds_dir_rel=line.second;
+		}
+		else if(val=="tag_feeds_description"){
+			S.tag_feeds_description=line.second;
+		}
 		else{
 			cerr<<"Unknwon key: "<<val<<" ; (value: "<<line.second<<")"<<endl;
+		}
+	}
+	
+	///Checks:	
+	if(S.tag_feeds){
+		if(S.tag_feeds_dir.empty()){
+			S.tag_feeds=false;
 		}
 	}
 	

@@ -45,6 +45,12 @@ struct settings{
 	
 	string rss_feed;
 	string rss_channel_description_file;
+	string rss_file_extension;
+	bool tag_feeds;
+	string tag_feeds_dir;
+	string tag_feeds_dir_rel;
+	string tag_feeds_description;
+	
 	
 	string editor;
 	

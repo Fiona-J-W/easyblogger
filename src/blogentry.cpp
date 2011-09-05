@@ -93,7 +93,6 @@ void blogentry::create_from_file(string filename,settings &S){
 		*it=clean_whitespace_both_sides(*it);
 		S.tags[*it].push_back(this);
 	}
-	
 }
 
 void blogentry::set_content(LINES content){
@@ -172,6 +171,7 @@ void blogentry::new_comment(string filename,settings &S){
 	}
 	m_comments.push_back("<li class=\"comment\">");
 	m_comments.push_back("<p><strong>"+author+"</strong> ("+get_localdate(S)+"):</p>");
+	m_comments.push_back("<!-- DATE: "+get_iso_date()+" -->");
 	for(LINES::iterator it=comment.begin();it!=comment.end();++it){
 		*it=clean_whitespace(*it);
 		
@@ -262,6 +262,34 @@ string blogentry::get_conf_file(){
 
 deque<string>& blogentry::get_tags(){
 	return m_tags;
+}
+
+LINES blogentry::rss(settings &S){
+	LINES data,content_=content();
+	data.push_back("<item>");
+	
+	data.push_back("\t<title>"+get_heading()+"</title>");
+	data.push_back("\t<link>"+get_url(S)+"</link>");
+	
+	data.push_back("\t<description><![CDATA[");
+	replace(content_,"href=\"/","href=\""+S.url+"/");
+	replace(content_,"src=\"/","src=\""+S.url+"/");
+	data+=push_string_to_front_of_every_line(content_,"\t\t");		
+	data.push_back("\t]]></description>");
+	
+	data.push_back("\t<guid>"+get_url(S)+"</guid>");
+	
+	if(!m_iso_date.empty()){
+		data.push_back("\t<pubDate>"+m_iso_date+"</pubDate>");
+	}
+	
+	for(deque<string>::iterator it=m_tags.begin();it!=m_tags.end();++it){
+		data.push_back("\t<category>"+*it+"</category>");
+	}
+	
+	data.push_back("</item>");
+	
+	return data;
 }
 
 ///Non-member-functions:

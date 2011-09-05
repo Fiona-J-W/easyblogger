@@ -40,6 +40,9 @@ int create(settings &S,ID id);
 ///create RSS-feed:
 int create_rss(settings &S);
 
+///create RSS-feeds for every tag, if this is configured
+int create_tag_rss(settings &S);
+
 ///create a new posting; the content has to stand within the given file
 int import(settings &S,string filename);
 

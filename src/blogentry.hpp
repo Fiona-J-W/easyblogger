@@ -62,6 +62,7 @@ class blogentry{
 		void new_comment(string filename,settings &S);
 		LINES content();
 		LINES comments();
+		LINES rss(settings &S);
 		string get_iso_date();
 		string get_dynamic_date(settings &S);
 		string get_display_date();
