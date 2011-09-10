@@ -43,10 +43,13 @@ int create_rss(settings &S);
 ///create RSS-feeds for every tag, if this is configured
 int create_tag_rss(settings &S);
 
+///create RSS-feeds for all given tags:
+int create_tag_rss(settings &S, deque<string> tags);
+
 ///create a new posting; the content has to stand within the given file
 int import(settings &S,string filename);
 
-///add a comment for a post; the command has to stand in the given file
+///add a comment for a post; the command has to be in the given file
 ///WARNING: This won't search for security problems. Do this part in PHP
 ///or your language of choice:
 int comment(settings &S,ID id,string filename);
