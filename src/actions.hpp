@@ -20,8 +20,8 @@
 //      
 
 
-#ifndef SITES_HPP
-#define SITES_HPP
+#ifndef __ACTIONS_HPP__
+#define __ACTIONS_HPP__
 
 #include "page.hpp"
 #include "settings.hpp"
@@ -69,4 +69,4 @@ void print_search(settings &S,string phrase);
 
 void print_html_search(settings &S,string phrase);
 
-#endif /* SITES_HPP */ 
+#endif /* __ACTIONS_HPP__ */ 
