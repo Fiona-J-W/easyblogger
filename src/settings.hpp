@@ -13,6 +13,8 @@ using std::deque;
 using std::list;
 
 ///SETTINGS:
+
+///Global config-file:
 #ifdef __unix__
 const string GLOBAL_EASYBLOGGER_CONFIG_FILE="/etc/easyblogger.conf";
 #elif defined _WIN32
