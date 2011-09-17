@@ -233,7 +233,7 @@ list<string> get_tag_list(settings &S){
 	for(map<string,list<blogentry*> >::iterator it=S.tags.begin();it!=S.tags.end();++it){
 		heading="<dt id=\""+replace(it->first," ","_")+"\">"+it->first;
 		if(S.tag_feeds){
-			heading+=" (<a href=\""+S.tag_feeds_dir_rel+replace(it->first," ","_")+"\" >RSS</a>)";
+			heading+=" (<a href=\""+S.tag_feeds_dir_rel+replace(it->first," ","_")+S.rss_file_extension+"\" >RSS</a>)";
 		}
 		heading+="</dt>";
 		lines.push_back(heading);
