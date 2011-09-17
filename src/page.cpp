@@ -228,9 +228,15 @@ int create_tags_page(settings &S){
 
 list<string> get_tag_list(settings &S){
 	list<string> lines;
+	string heading;
 	lines.push_back("<dl class=\"tag_list\" >");
 	for(map<string,list<blogentry*> >::iterator it=S.tags.begin();it!=S.tags.end();++it){
-		lines.push_back("<dt id=\""+replace(it->first," ","_")+"\">"+it->first+"</dt>");
+		heading="<dt id=\""+replace(it->first," ","_")+"\">"+it->first;
+		if(S.tag_feeds){
+			heading+=" (<a href=\""+S.tag_feeds_dir_rel+replace(it->first," ","_")+"\" >RSS</a>)";
+		}
+		heading+="</dt>";
+		lines.push_back(heading);
 		for(list<blogentry*>::iterator inner_it=it->second.begin();inner_it!=it->second.end();++inner_it){
 			lines.push_back("<dd><a href=\""+(*inner_it)->get_rel_url(S)+"\" >"+(*inner_it)->get_heading()+"</a></dd>");
 		}
