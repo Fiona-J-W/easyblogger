@@ -42,16 +42,24 @@ int create_all(settings &S){
 		
 	}
 	
+	list<blogentry*> mainpageposts;
 	if(S.number_of_mainpageposts<=-1||int(S.blogentries.size())<=S.number_of_mainpageposts){
-		write_page(S.blogentries,S,S.blog);
+		for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+			if(!(*it)->hidden()){
+				mainpageposts.push_back(*it);
+			}
+		}
+		write_page(mainpageposts,S,S.blog);
 	}
 	else{
-		list<blogentry*> mainpageposts;
+		
 		int i=0;
 		for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
 			if(i<S.number_of_mainpageposts){
-				++i;
-				mainpageposts.push_back(*it);
+				if(!(*it)->hidden()){
+					++i;
+					mainpageposts.push_back(*it);
+				}
 			}
 			else break;
 		}
@@ -77,11 +85,14 @@ int create_latest(settings &S){
 		if(i>=S.number_of_mainpageposts){
 			break;
 		}
-		++i;
 		filename=S.single_entries_dir+(*it)->get_id()+S.filename_extension;
 		write_page(*it,S,filename);
-		mainpageposts.push_back(*it);
 		tags+=(*it)->get_tags();
+		if((*it)->hidden()){
+			continue;
+		}
+		++i;
+		mainpageposts.push_back(*it);
 	}
 	write_page(mainpageposts,S,S.blog);
 	
@@ -96,14 +107,16 @@ int create(settings &S,ID id){
 	string filename;
 	blogentry *entry=NULL;
 	read_entries(S,false);
-	int n=0,i=0;
+	int i=0,j=0;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-		if(i>=S.number_of_mainpageposts&&i>=int(S.blogentries.size())){
+		if(j>=int(S.blogentries.size())){
 			break;
 		}
-		++i;
+		++j;
+		if(!(*it)->hidden()){
+			++i;
+		}
 		if((*it)->id()==id){
-			n=i;
 			entry=*it;
 			break;
 		}
@@ -111,7 +124,7 @@ int create(settings &S,ID id){
 	if(entry==NULL){
 		return 1;
 	}
-	if(n<=S.number_of_mainpageposts){
+	if(i<=S.number_of_mainpageposts&&(!entry->hidden())){
 		return create_latest(S);
 	}
 	filename=S.single_entries_dir+entry->get_id()+S.filename_extension;
@@ -134,9 +147,10 @@ int create_rss(settings &S){
 		if(i>=S.number_of_mainpageposts){
 			break;
 		}
-		++i;
-		feed+=(*it)->rss(S);
-		
+		if(!(*it)->hidden()){
+			++i;
+			feed+=(*it)->rss(S);
+		}
 	}
 	feed.push_back(string("\t</channel>\n</rss>"));
 	write_file(S.rss_feed,feed);
@@ -199,6 +213,7 @@ int import(settings &S,string filename){
 	LINES data=read_file(filename), conf_file_content;
 	list<string> conf_lines;
 	int number_of_conf_lines=0;
+	bool hidden=false;
 	
 	for(LINES::iterator it=data.begin();it!=data.end();++it){
 		if((*it)[0]=='#'){
@@ -220,6 +235,9 @@ int import(settings &S,string filename){
 			else{
 				tags+=","+cut(*it,"=").second;
 			}
+		}
+		else if(*it=="#HIDDEN"){
+			hidden=true;
 		}
 	}
 	
@@ -243,6 +261,13 @@ int import(settings &S,string filename){
 	conf_file_content.push_back(DISPLAY_DATE_SETTER+'='+get_localdate(S));
 	conf_file_content.push_back(ISO_DATE_SETTER+'='+get_isodate());
 	conf_file_content.push_back(TAGS_SETTER+'='+tags);
+	
+	if(hidden){
+		conf_file_content.push_back(HIDDEN_SETTER+"=true");
+	}
+	else{
+		conf_file_content.push_back(HIDDEN_SETTER+"=false");
+	}
 	
 	write_file(conf_file,conf_file_content);
 	

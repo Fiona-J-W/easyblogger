@@ -34,6 +34,7 @@ using namespace std;
 blogentry::blogentry(string file,settings &S, bool with_content){
 	m_content_loaded=false;
 	m_comments_loaded=false;
+	m_hidden=false;
 	m_conf_file=file;
 	create_from_file(m_conf_file,S);
 	if(with_content){
@@ -83,6 +84,14 @@ void blogentry::create_from_file(string filename,settings &S){
 			}
 			else{
 				m_tags+=cut_fields(temp_pair.second,",");
+			}
+		}
+		else if(key==HIDDEN_SETTER){
+			if(temp_pair.second=="true"){
+				m_hidden=true;
+			}
+			else{
+				m_hidden=false;
 			}
 		}
 		else{

@@ -49,6 +49,7 @@ const string COMMENTS_FILE_SETTER="comment_file";
 const string DISPLAY_DATE_SETTER="display_date";
 const string ISO_DATE_SETTER="iso_date";
 const string TAGS_SETTER="tags";
+const string HIDDEN_SETTER="hidden";
 
 class blogentry{
 	public:
@@ -76,6 +77,9 @@ class blogentry{
 		string get_conf_file();
 		deque<string> &get_tags();
 		ID id();
+		
+		bool hidden(){return m_hidden;}
+		
 	private:
 		
 		string m_heading;
@@ -87,6 +91,7 @@ class blogentry{
 		
 		bool m_content_loaded;
 		bool m_comments_loaded;
+		bool m_hidden;
 		
 		ID m_id;
 		LINES m_content;
