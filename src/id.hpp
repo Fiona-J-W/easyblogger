@@ -40,6 +40,8 @@ class ID{
 		ID operator++();
 		ID operator--();
 		bool operator ==(ID id);
+		bool operator>(ID id);
+		bool operator<(ID id);
 	private:
 		string m_name;
 		int m_num;

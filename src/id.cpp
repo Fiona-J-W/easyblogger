@@ -107,3 +107,18 @@ bool ID::operator ==(ID id){
 	if(m_name!=id.m_name)return false;
 	return true;
 }
+
+
+bool ID::operator<(ID id){
+	if(m_name==id.m_name){
+		return (m_num<id.m_num);
+	}
+	else return (m_name<id.m_name);
+}
+
+bool ID::operator>(ID id){
+	if(m_name==id.m_name){
+		return (m_num>id.m_num);
+	}
+	else return (m_name>id.m_name);
+}

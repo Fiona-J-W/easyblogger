@@ -301,6 +301,14 @@ LINES blogentry::rss(settings &S){
 	return data;
 }
 
+
+bool blogentry::operator>(blogentry b){
+	return (m_id>b.m_id);
+}
+bool blogentry::operator<(blogentry b){
+	return (m_id<b.m_id);
+}
+
 ///Non-member-functions:
 /*
 

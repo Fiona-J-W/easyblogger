@@ -78,6 +78,9 @@ class blogentry{
 		deque<string> &get_tags();
 		ID id();
 		
+		bool operator>(blogentry b);
+		bool operator<(blogentry b);
+		
 		bool hidden(){return m_hidden;}
 		
 	private:
