@@ -108,4 +108,6 @@ void read_entries(settings &S, bool with_content=false);
 
 blogentry* select(list<blogentry*> &blogentries,ID id);
 
+bool comp(blogentry *b1, blogentry *b2);
+
 #endif /* BLOGENTRY_H */ 

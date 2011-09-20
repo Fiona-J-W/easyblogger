@@ -28,6 +28,8 @@
 #include <utility>
 #include <exception>
 #include <iostream>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -323,6 +325,20 @@ deque<blogentry> read_entries(string filename, bool with_content){
 
 */
 
+bool comp(blogentry *b1, blogentry *b2){
+	return (*b1)>(*b2);
+}
+bool sorted(list<blogentry*> blogentries){
+	list<blogentry*>::iterator it1=blogentries.begin(), it2=blogentries.begin();
+	++it1;
+	while(it1!=blogentries.end()){
+		if(comp(*it2,*it1)) return false;
+		++it1;
+		++it2;
+	}
+	return true;
+}
+
 void read_entries(settings &S, bool with_content){
 	if(!S.blogentries.empty()){
 		if(with_content){
@@ -338,6 +354,19 @@ void read_entries(settings &S, bool with_content){
 	for(LINES::iterator it=data.begin();it!=data.end();++it){
 		ptr=new blogentry(*it,S,with_content);
 		S.blogentries.push_back(ptr);
+	}
+	if(!sorted(S.blogentries)){
+		vector<blogentry*> vec(S.blogentries.size());
+		int i=0;
+		for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+			vec[i]=*it;
+			++i;
+		}
+		sort(vec.begin(),vec.end(),comp);
+		S.blogentries.clear();
+		for(vector<blogentry*>::iterator it=vec.begin();it!=vec.end();++it){
+			S.blogentries.push_back(*it);
+		}
 	}
 }
 

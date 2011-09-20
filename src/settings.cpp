@@ -189,7 +189,7 @@ settings read_settings(string filename){
 		}
 	}
 	
-	LINES entries_file=read_file(S.list_of_entries);
+//	LINES entries_file=read_file(S.list_of_entries);
 //	for(LINES::iterator it=entries_file.begin();it!=entries_file.end();++it){
 //		S.blogentries.push_back(new blogentry(*it,S));
 //	}
