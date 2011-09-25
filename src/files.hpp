@@ -17,7 +17,7 @@ LINES read_config_file(string filename);
 
 
 int write_file(string filename, LINES data);
-int write_file(string filename, list<string> data);
+//int write_file(string filename, list<string> data);
 int write_file(string filename, string data);
 
 int insert_into_file(string filename, string line,int pos=0);

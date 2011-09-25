@@ -242,7 +242,11 @@ int import(settings &S,string filename){
 	}
 	
 	if(number_of_conf_lines){
-		data.erase(data.begin(),data.begin()+number_of_conf_lines);
+		list<string>::iterator it=data.begin();
+		for(int i=1;i<number_of_conf_lines;++i){
+			++it;
+		}
+		data.erase(data.begin(),it);
 	}
 	
 	while(heading==""){

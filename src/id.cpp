@@ -58,7 +58,7 @@ void ID::read_file(string filename){
 	if(data.empty()){
 		throw string("ID-File empty");
 	}
-	*this=str_to_id(data[0]);
+	*this=str_to_id(*data.begin());
 	m_filename=filename;
 }
 

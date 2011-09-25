@@ -10,7 +10,8 @@ using namespace std;
 
 
 LINES read_file(string filename){
-	list<string> data=read_file_to_list(filename);
+	return read_file_to_list(filename);
+	/*list<string> data=read_file_to_list(filename);
 	LINES returndata;
 	returndata.resize(data.size());
 	int pos=0;
@@ -18,7 +19,7 @@ LINES read_file(string filename){
 		returndata[pos]=*it;
 		++pos;
 	}
-	return returndata;
+	return returndata;*/
 
 }
 
@@ -63,7 +64,7 @@ int write_file(string filename, LINES data){
 	return 0;
 }
 
-
+/*
 int write_file(string filename, list<string> data){
 	ofstream file;
 	file.open(filename.c_str());
@@ -76,6 +77,7 @@ int write_file(string filename, list<string> data){
 	file.close();
 	return 0;
 }
+*/
 
 int write_file(string filename, string data){
 	ofstream file;
@@ -91,7 +93,9 @@ int write_file(string filename, string data){
 int insert_into_file(string filename, string line,int pos){
 	LINES data=read_file(filename);
 	LINES::iterator it=data.begin();
-	it+=pos;
+	for(int i=0;i<pos;++i){
+		++it;
+	}
 	data.insert(it,line);
 	return write_file(filename,data);
 }

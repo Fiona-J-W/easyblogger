@@ -29,10 +29,10 @@
 
 #include "id.hpp"
 #include "settings.hpp"
+#include "lines.hpp"
 
 using namespace std;
 
-typedef deque<string> LINES;
 
 const string DEFAULT_COMMENT_AUTHOR=string("Anonymous");
 

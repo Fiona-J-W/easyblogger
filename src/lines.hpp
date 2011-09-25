@@ -11,7 +11,7 @@ using std::pair;
 using std::deque;
 using std::list;
 
-typedef deque<string> LINES;
+typedef list<string> LINES;
 
 string clean_whitespace(string str);
 string clean_whitespace_both_sides(string str);
@@ -24,11 +24,14 @@ string remove_double_spaces(string str);
 
 LINES operator+(LINES L1, LINES L2);
 LINES operator+=(LINES &L1, LINES L2);
-LINES operator+=(LINES &L1,list<string> L2);
+list<string> operator+=(LINES &L1,deque<string> L2);
 
-list<string> operator+=(list<string> &L1,LINES L2);
-list<string> operator+=(list<string> &L1,deque<string> L2);
-list<string> operator+=(list<string> &L1,list<string>  L2);
+//LINES operator+=(LINES &L1,list<string> L2);
+//list<string> operator+=(list<string> &L1,LINES L2);
+//list<string> operator+=(list<string> &L1,list<string>  L2);
+
+deque<string> operator+=(deque<string> &L1,deque<string> L2);
+deque<string> operator+=(deque<string> &L1,string str);
 
 LINES push_string_to_front_of_every_line(LINES L, string str);
 

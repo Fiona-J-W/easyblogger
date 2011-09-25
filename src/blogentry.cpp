@@ -176,8 +176,8 @@ void blogentry::new_comment(string filename,settings &S){
 	LINES comment=read_file(filename);
 	string author=DEFAULT_COMMENT_AUTHOR;
 	bool p_open=false;
-	if(comment[0].find(COMMENT_AUTHOR_SETTER)==0){
-		author=cut(comment[0]).second;
+	if(comment.begin()->find(COMMENT_AUTHOR_SETTER)==0){
+		author=cut(*comment.begin()).second;
 		comment.erase(comment.begin());
 	}
 	m_comments.push_back("<li class=\"comment\">");
