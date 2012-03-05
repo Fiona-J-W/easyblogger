@@ -49,7 +49,7 @@ int create_tag_rss(settings &S, deque<string> tags);
 ///create a new posting; the content has to stand within the given file
 int import(settings &S,string filename);
 
-///add a comment for a post; the command has to be in the given file
+///add a comment for a post; the comment has to be in the given file
 ///WARNING: This won't search for security problems. Do this part in PHP
 ///or your language of choice:
 int comment(settings &S,ID id,string filename);
@@ -65,8 +65,8 @@ int list_entries(settings &S);
 
 list<blogentry*> search(settings &S,string phrase);
 
-void print_search(settings &S,string phrase);
+int print_search(settings &S,string phrase);
 
-void print_html_search(settings &S,string phrase);
+int print_html_search(settings &S,string phrase);
 
 #endif /* __ACTIONS_HPP__ */ 

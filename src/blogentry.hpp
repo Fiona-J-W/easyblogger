@@ -51,6 +51,7 @@ const string ISO_DATE_SETTER="iso_date";
 const string TAGS_SETTER="tags";
 const string HIDDEN_SETTER="hidden";
 
+///This class represents a blogentry.
 class blogentry{
 	public:
 		blogentry(string file,settings &S, bool with_content=false);

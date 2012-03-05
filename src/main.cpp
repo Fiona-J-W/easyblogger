@@ -19,9 +19,12 @@
 //      
 
 #include <iostream>
-
 #include <string>
 #include <vector>
+#include <map>
+#include <utility>
+#include <getopt.h>
+#include <stdexcept>
 
 #include "settings.hpp"
 #include "help.hpp"
@@ -30,133 +33,110 @@
 
 using namespace std;
 
+
+const map<string,char> arguments={
+	pair<string,char>("create",'c'),
+	pair<string,char>("configure",'C'),
+	pair<string,char>("import",'i'),
+	pair<string,char>("edit",'e'),
+	pair<string,char>("edit-comment",'E'),
+	pair<string,char>("search",'s'),
+	pair<string,char>("html-search",'S'),
+	pair<string,char>("list-entries",'l'),
+	pair<string,char>("help",'h'),
+	pair<string,char>("comment",'o'), //'o' for "opinion" as 'c' is already in use
+	pair<string,char>("about",'a')
+};
+
+char parse_command(string input){
+	int pos=0;
+	while(input[pos]=='-'){
+		++pos;
+	}
+	input.erase(0,pos);
+	if(input.size()==0){
+		throw runtime_error("invalid argument");
+	}
+	else if(input.size()==1){
+		return input[0];
+	}
+	map<string,char>::const_iterator it=arguments.find(input);
+	if(it==arguments.end()){
+		throw runtime_error("invalid argument");
+	}
+	return (*it).second;
+}
+
 int main(int argc, char **argv){
-	///bring parameters into a reasonable form:
-	vector<string> args;
-	args.resize(argc);
-	for(int i=0;i<argc;++i){
-		args[i]=string(argv[i]);
-	}
 	settings S;
+	//if there are no parameters: quit
 	if(argc==1){
-		print_help();
-		return 0;
-	}
-	else if(argc==2){
-		if(args[1]=="-h"||args[1]=="--help"){
-			print_help();
-			return 0;
-		}
-		else if(args[1]=="--about"){
-			print_info();
-			return 0;
-		}
-		else if(args[1]=="--create"||args[1]=="-c"){
-			S=get_blog_by_name();
-			create_all(S);
-		}
-		else if(args[1]=="--list-entries"||args[1]=="-l"){
-			S=get_blog_by_name();
-			return list_entries(S);
-		}
-		else if(args[1]=="--configure"||args[1]=="-C"){
-			S=get_blog_by_name();
-			return configure_blog(S);
-		}
-		else{
-			print_help();
-			return 1;
-		}
-	}
-	else if(argc==3){
-		if(args[2]=="--create"||args[2]=="-c"){
-			S=get_blog_by_name(args[1]);
-			return create_all(S);
-		}
-		else if(args[1]=="--import"||args[1]=="-i"){
-			S=get_blog_by_name();
-			return import(S,args[2]);
-		}
-		else if(args[1]=="--edit"||args[1]=="-e"){
-			S=get_blog_by_name();
-			return edit(S,ID(args[2]));
-		}
-		else if(args[1]=="--edit-comment"||args[1]=="-E"){
-			S=get_blog_by_name();
-			return edit_comment(S,ID(args[2]));
-		}
-		else if(args[1]=="--search"||args[1]=="-s"){
-			S=get_blog_by_name();
-			print_search(S,args[2]);
-		}
-		else if(args[1]=="--html-search"||args[1]=="-S"){
-			S=get_blog_by_name();
-			print_html_search(S,args[2]);
-		}
-		else if(args[1]=="--configure"||args[1]=="-C"){
-			S=get_blog_by_name();
-			return configure_post(S,args[2]);
-		}
-		else if(args[2]=="--configure"||args[2]=="-C"){
-			S=get_blog_by_name(args[1]);
-			return configure_blog(S);
-		}
-		else if(args[2]=="--list-entries"||args[2]=="-l"){
-			S=get_blog_by_name(args[1]);
-			return list_entries(S);
-		}
-		else{
-			print_help();
-			return 1;
-		}
-	}
-	else if(argc==4){
-		if(args[2]=="--import"||args[2]=="-i"){
-			S=get_blog_by_name(args[1]);
-			return import(S,args[3]);
-		}
-		else if(args[2]=="--edit"||args[2]=="-e"){
-			S=get_blog_by_name(args[1]);
-			return edit(S,ID(args[3]));
-		}
-		else if(args[2]=="--edit-comment"||args[2]=="-E"){
-			S=get_blog_by_name(args[1]);
-			return edit_comment(S,ID(args[3]));
-		}
-		else if(args[2]=="--configure"||args[2]=="-C"){
-			S=get_blog_by_name(args[1]);
-			return configure_post(S,args[3]);
-		}
-		else if(args[2]=="--search"||args[2]=="-s"){
-			S=get_blog_by_name(args[1]);
-			print_search(S,args[3]);
-		}
-		else if(args[2]=="--html-search"||args[2]=="-S"){
-			S=get_blog_by_name(args[1]);
-			print_html_search(S,args[3]);
-		}
-		else if(args[1]=="--comment"){
-			S=get_blog_by_name();
-			comment(S,ID(args[2]),args[3]);
-		}
-		else{
-			print_help();
-			return 1;
-		}
-	}
-	else if(argc==5){
-		if(args[2]=="--comment"){
-			S=get_blog_by_name(args[1]);
-			comment(S,ID(args[3]),args[4]);
-		}
-		else{
-			print_help();
-			return 1;
-		}
-	}
-	else{
 		print_help();
 		return 1;
 	}
-	return 0;
+	//put parameters into a std::vector
+	vector<string> args;
+	args.resize(argc-1);
+	for(int i=1;i<argc;++i){
+		args[i-1]=string(argv[i]);
+	}
+	//choose which blog to take:
+	if(args[0][0]=='-'){
+		S=get_blog_by_name();
+	}
+	else{
+		S=get_blog_by_name(args[0]);
+		args.erase(args.begin());
+	}
+	//again: if there are no parameters: quit
+	if(args.size()==0){
+		print_help();
+		return 1;
+	}
+	//get identifier for command:
+	char cmd;
+	try{
+		cmd=parse_command(args[0]);
+	}
+	catch(runtime_error &e){
+		cerr<<"Error: "<<e.what()<<endl;
+		print_help();
+		return 1;
+	}
+	//make args just contain the left parameters:
+	args.erase(args.begin()); //args now only contains the parameters
+	int n_parameters=args.size();
+	//choose command to execute:
+	try{
+		switch(cmd){
+			case 'h': print_help(); return 0; break;
+			case 'c': return create_all(S); break;
+			case 'i': return import(S,args.at(0)); break;
+			case 'e': return edit(S,ID(args.at(0))); break;
+			case 'E': return edit_comment(S,ID(args.at(0))); break;
+			case 's': return print_search(S,args.at(0)); break;
+			case 'S': return print_html_search(S,args.at(0)); break;
+			case 'l': return list_entries(S); break;
+			case 'o': return comment(S,ID(args.at(0)),args.at(1)); break;
+			case 'C': 
+				if(n_parameters==0){
+					return configure_blog(S);
+				}
+				else{
+					return configure_post(S,args[0]);
+				}
+				break;
+				
+			default:
+				cerr<<"Error: invalid arguments"<<endl;
+				print_help();
+				return 1;
+		}
+	}
+	catch(out_of_range &e){
+		//this might not allways be true:
+		cerr<<"Error: invalid number of arguments"<<endl;
+		return 1;
+	}
+	//you should never get here (except an exception is thrown)
 }

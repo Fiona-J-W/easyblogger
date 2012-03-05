@@ -377,26 +377,28 @@ list<blogentry*> search(settings &S, string phrase){
 }
 
 
-void print_search(settings &S,string phrase){
+int print_search(settings &S,string phrase){
 	read_entries(S,false);
 	list<blogentry*> results=search(S,phrase);
 	for(list<blogentry *>::iterator it=results.begin();it!=results.end();++it){
 		cout<<(*it)->get_id()<<":\t"<<(*it)->get_heading()<<endl;
 	}
+	return 0;
 }
 
 
 
-void print_html_search(settings &S,string phrase){
+int print_html_search(settings &S,string phrase){
 	read_entries(S,true);
 	list<blogentry*> results=search(S,phrase);
 	if(results.empty()){
 		cout<<"<p class=\"search_results\">No results</p>"<<endl;
-		return;
+		return 0;
 	}
 	cout<<"<ul class=\"search_results\">"<<endl;
 	for(list<blogentry *>::iterator it=results.begin();it!=results.end();++it){
 		cout<<"<li><a href=\""<<(*it)->get_rel_url(S)<<"\">"<<(*it)->get_heading()<<"</a></li>"<<endl;
 	}
 	cout<<"</ul>"<<endl;
+	return 0;
 }
