@@ -33,22 +33,20 @@
 
 using namespace std;
 
-
-const map<string,char> arguments={
-	pair<string,char>("create",'c'),
-	pair<string,char>("configure",'C'),
-	pair<string,char>("import",'i'),
-	pair<string,char>("edit",'e'),
-	pair<string,char>("edit-comment",'E'),
-	pair<string,char>("search",'s'),
-	pair<string,char>("html-search",'S'),
-	pair<string,char>("list-entries",'l'),
-	pair<string,char>("help",'h'),
-	pair<string,char>("comment",'o'), //'o' for "opinion" as 'c' is already in use
-	pair<string,char>("about",'a')
-};
-
 char parse_command(string input){
+	static const map<string,char> arguments={
+		pair<string,char>("create",'c'),
+		pair<string,char>("configure",'C'),
+		pair<string,char>("import",'i'),
+		pair<string,char>("edit",'e'),
+		pair<string,char>("edit-comment",'E'),
+		pair<string,char>("search",'s'),
+		pair<string,char>("html-search",'S'),
+		pair<string,char>("list-entries",'l'),
+		pair<string,char>("help",'h'),
+		pair<string,char>("comment",'o'), //'o' for "opinion" as 'c' is already in use
+		pair<string,char>("about",'a')
+	};
 	int pos=0;
 	while(input[pos]=='-'){
 		++pos;
@@ -85,13 +83,22 @@ int main(int argc, char **argv){
 		S=get_blog_by_name();
 	}
 	else{
-		S=get_blog_by_name(args[0]);
+		try{
+			S=get_blog_by_name(args[0]);
+		}
+		catch(std::logic_error &e){
+			if(e.what()==string("does not exist")){
+				cerr<<"blog does not exist"<<endl;
+				return 1;
+			}
+			else throw e;
+		}
 		args.erase(args.begin());
-	}
-	//again: if there are no parameters: quit
-	if(args.size()==0){
-		print_help();
-		return 1;
+		//again: if there are no parameters: quit
+		if(args.size()==0){
+			print_help();
+			return 1;
+		}
 	}
 	//get identifier for command:
 	char cmd;
@@ -104,7 +111,7 @@ int main(int argc, char **argv){
 		return 1;
 	}
 	//make args just contain the left parameters:
-	args.erase(args.begin()); //args now only contains the parameters
+	args.erase(args.begin());
 	int n_parameters=args.size();
 	//choose command to execute:
 	try{
@@ -123,7 +130,7 @@ int main(int argc, char **argv){
 					return configure_blog(S);
 				}
 				else{
-					return configure_post(S,args[0]);
+					return configure_post(S,ID(args[0]));
 				}
 				break;
 				

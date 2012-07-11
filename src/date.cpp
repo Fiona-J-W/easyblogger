@@ -23,16 +23,41 @@
 #include <ctime>
 #include <clocale>
 #include <cstring>
+#include <cstdlib>
 
 using namespace std;
 
 
+string format_time(tm TIME,string format,string locale,int max_date_size){
+	string returnstr;
+	char *timestring=new char[max_date_size+1];
+	
+	if(!locale.empty()){
+		setlocale(LC_TIME, locale.c_str());
+	}
+	
+	strftime(timestring,max_date_size,format.c_str(),&TIME);
+	timestring[max_date_size]='\0';
+	returnstr=remove_double_spaces(timestring);
+	
+	delete timestring;
+	return returnstr;
+}
 
+
+tm get_time(){
+	time_t TIME;
+	tm *timeinfo;
+//	setlocale(LC_TIME, locale.c_str());
+	time(&TIME);
+	timeinfo=localtime(&TIME);
+	return *timeinfo;
+}
 
 std::string get_localdate(std::string format,std::string locale, int max_date_size){
 	time_t TIME;
 	char *timestring=new char[max_date_size+1];
-	struct tm *timeinfo;
+	tm *timeinfo;
 	string returnstr;
 	setlocale(LC_TIME, locale.c_str());
 	time(&TIME);
@@ -78,14 +103,34 @@ const string monthnames[]={
 	"Oct","Nov","Dec"
 };
 
-#include <cstdlib>
 
 std::string iso_to_custom_date(
 	string isodate,
 	string format,
 	string locale, int max_date_size
 ){
+	tm time=str_to_time(isodate);
+	
+	setlocale(LC_TIME, locale.c_str());
+	char *timestring=new char[max_date_size+1];
+	strftime(timestring,max_date_size,format.c_str(),&time);
+	timestring[max_date_size]='\0';
+	string returnstr=remove_double_spaces(string(timestring));
+	
+	delete timestring;
+	return returnstr;
+}
+
+string iso_to_custom_date(std::string isodate,settings &S){
+	return iso_to_custom_date(isodate,S.time_format,S.locale,S.max_date_size);
+}
+
+
+tm str_to_time(string isodate){
 	tm time;
+	if(isodate.empty()){
+		return time;
+	}
 	string temp="";
 	pair<string,string> temp_pair;
 	
@@ -111,6 +156,7 @@ std::string iso_to_custom_date(
 	for(int i=0;i<=11;++i){
 		if(temp==monthnames[i]){
 			time.tm_mon=i;
+			break;
 		}
 	}
 	
@@ -131,16 +177,7 @@ std::string iso_to_custom_date(
 	temp_pair=cut(isodate," ");
 	isodate=clean_whitespace(temp_pair.second);
 	time.tm_sec=atoi(temp_pair.first.c_str());
-	
-	setlocale(LC_TIME, locale.c_str());
-	char *timestring=new char[max_date_size+1];
-	strftime(timestring,max_date_size,format.c_str(),&time);
-	timestring[max_date_size]='\0';
-	string returnstr=remove_double_spaces(string(timestring));
-	
-	delete timestring;
-	return returnstr;
+	return time;
 }
-std::string iso_to_custom_date(std::string isodate,settings &S){
-	return iso_to_custom_date(isodate,S.time_format,S.locale,S.max_date_size);
-}
+
+

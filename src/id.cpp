@@ -19,16 +19,19 @@
 //      
 //      
 
+#include "id.hpp"
+
 #include <cstdlib>
 #include <cstdio>
+#include <cctype>
+#include <stdexcept>
+#include <iostream>
+using namespace std;
 
 #include "files.hpp"
 
-#include "id.hpp"
 
-#include <iostream>
 
-using namespace std;
 
 ID::ID(){
 	
@@ -38,31 +41,7 @@ ID::ID(string id){
 	set(id);
 }
 
-void ID::set(string id){
-	*this=str_to_id(id);
-	
-}
-
-string ID::get(){
-	string returnstr=m_name;
-	char *temp_str=new char[m_num_length+1];
-	sprintf(temp_str,"%0*d",m_num_length,m_num);
-	returnstr+=string(temp_str);
-	delete temp_str;
-	return returnstr;
-}
-
-
-void ID::read_file(string filename){
-	LINES data=read_config_file(filename);
-	if(data.empty()){
-		throw string("ID-File empty");
-	}
-	*this=str_to_id(*data.begin());
-	m_filename=filename;
-}
-
-ID ID::str_to_id(string str){
+void ID::set(string str){
 	unsigned int i=str.size();
 	for(string::reverse_iterator it=str.rbegin();it!=str.rend();++it){
 		if(*it>='0'&&*it<='9'){
@@ -73,9 +52,31 @@ ID ID::str_to_id(string str){
 		}
 	}
 	m_name=str.substr(0,i);
+	for(unsigned int pos=0;pos<i;++pos){
+		if(!isalpha(str[pos])){
+			throw runtime_error("invalid characters in ID-name");
+		}
+	}
 	m_num=atoi(str.substr(i).c_str());
 	m_num_length=int(str.substr(i).size());
-	return *this;
+}
+
+string ID::get(){
+	string returnstr=m_name;
+	char *temp_str=new char[m_num_length+1];
+	snprintf(temp_str,m_num_length+1,"%0*d",m_num_length,m_num);
+	returnstr+=string(temp_str);
+	delete temp_str;
+	return returnstr;
+}
+
+void ID::read_file(string filename){
+	LINES data=read_config_file(filename);
+	if(data.empty()){
+		throw runtime_error("ID-File empty");
+	}
+	set(*data.begin());
+	m_filename=filename;
 }
 
 ID ID::operator++(){
@@ -94,7 +95,6 @@ void ID::save(){
 	LINES tmp;
 	tmp.push_back(get());
 	write_file(m_filename,tmp);
-	//cout << get()<<" >> "<<m_filename<<endl;
 }
 
 void ID::save(string filename){
@@ -108,7 +108,6 @@ bool ID::operator ==(ID id){
 	return true;
 }
 
-
 bool ID::operator<(ID id){
 	if(m_name==id.m_name){
 		return (m_num<id.m_num);
@@ -121,4 +120,9 @@ bool ID::operator>(ID id){
 		return (m_num>id.m_num);
 	}
 	else return (m_name>id.m_name);
+}
+
+ostream& operator<< (ostream& out,ID id){
+	out<<id.get();
+	return out;
 }

@@ -24,6 +24,7 @@
 #define ID_HPP
 
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -33,10 +34,9 @@ class ID{
 		ID(string id);
 		string get();
 		void read_file(string filename);
-		void set(string id);
+		void set(string str);
 		void save();
 		void save(string filename);
-		ID str_to_id(string str);
 		ID operator++();
 		ID operator--();
 		bool operator ==(ID id);
@@ -48,5 +48,7 @@ class ID{
 		int m_num_length;
 		string m_filename;
 };
+
+ostream& operator<< (ostream& out,ID id);
 
 #endif /* ID_HPP */ 

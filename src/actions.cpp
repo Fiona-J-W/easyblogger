@@ -25,11 +25,15 @@
 #include "date.hpp"
 #include "files.hpp"
 #include "lines.hpp"
-#include "os_commands.hpp"
 
 
 #include <iostream>
 #include <cstdlib>
+
+//for chmod:
+#include <sys/stat.h>
+
+
 
 using namespace std;
 
@@ -54,12 +58,18 @@ int create_all(settings &S){
 	else{
 		
 		int i=0;
+		unsigned int j=0;
 		for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
+			++j;
+			if(j>=S.blogentries.size()){ //important range check, for entries might be ignored
+				break;
+			}
 			if(i<S.number_of_mainpageposts){
 				if(!(*it)->hidden()){
 					++i;
 					mainpageposts.push_back(*it);
 				}
+				
 			}
 			else break;
 		}
@@ -107,12 +117,13 @@ int create(settings &S,ID id){
 	string filename;
 	blogentry *entry=NULL;
 	read_entries(S,false);
-	int i=0,j=0;
+	int i=0;
+	unsigned int j=0;
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
-		if(j>=int(S.blogentries.size())){
+		++j;
+		if(j>=S.blogentries.size()){ //important range check, for entries might be ignored
 			break;
 		}
-		++j;
 		if(!(*it)->hidden()){
 			++i;
 		}
@@ -285,10 +296,11 @@ int import(settings &S,string filename){
 	else{
 		create_latest(S);
 	}
-	change_rights(content_file,"a+w");
+	const int mode=S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH|S_IWOTH;
+	chmod(conf_file.c_str(),mode);
 	write_file(comment_file,"");
-	change_rights(comment_file,"a+w");
-	change_rights(S.single_entries_dir+S.last_id.get()+S.filename_extension,"a+w");
+	chmod(comment_file.c_str(),mode);
+	chmod((S.single_entries_dir+S.last_id.get()+S.filename_extension).c_str(),mode);
 	
 	create_tags_page(S);
 	create_tag_rss(S);
@@ -324,7 +336,7 @@ int comment(settings &S,ID id,string filename){
 	read_entries(S,false);
 	for(list<blogentry*>::iterator it=S.blogentries.begin();it!=S.blogentries.end();++it){
 		if((*it)->id()==id){
-			(*it)->new_comment(filename,S);
+			(*it)->new_comment(filename);
 			return create(S,id);
 		}
 	}

@@ -63,6 +63,7 @@ int edit_comment(settings &S, ID id);
 ///list all existing entries:
 int list_entries(settings &S);
 
+///search in all blogentries for phrase
 list<blogentry*> search(settings &S,string phrase);
 
 int print_search(settings &S,string phrase);

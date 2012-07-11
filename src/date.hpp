@@ -19,20 +19,42 @@
 #define _get_localdate_
 
 #include <string>
+#include <ctime>
 
 #include "settings.hpp"
 
-const std::string DEFAULT_TIME_FORMAT=std::string("%A, %e. %B %Y");
-const std::string DEFAULT_LOCALE=std::string("");
+const string DEFAULT_TIME_FORMAT=string("%A, %e. %B %Y");
+const string DEFAULT_LOCALE=string("");
 const int DEFAULT_MAX_DATE_SIZE=200;
 
-std::string get_localdate(std::string format=DEFAULT_TIME_FORMAT,std::string locale=DEFAULT_LOCALE, int max_date_size=DEFAULT_MAX_DATE_SIZE);
-std::string get_localdate(settings &S);
+string get_localdate(
+	string format=DEFAULT_TIME_FORMAT,
+	string locale=DEFAULT_LOCALE, 
+	int max_date_size=DEFAULT_MAX_DATE_SIZE
+);
 
-std::string get_isodate();
+string format_time(
+	tm TIME,
+	string format=DEFAULT_TIME_FORMAT,
+	string locale=DEFAULT_LOCALE,
+	int max_date_size=DEFAULT_MAX_DATE_SIZE
+);
+string get_localdate(settings &S);
 
-std::string iso_to_custom_date(std::string isodate,std::string format=DEFAULT_TIME_FORMAT,std::string locale=DEFAULT_LOCALE, int max_date_size=DEFAULT_MAX_DATE_SIZE);
-std::string iso_to_custom_date(std::string isodate,settings &S);
+string get_isodate();
+
+string iso_to_custom_date(
+	string isodate,
+	string format=DEFAULT_TIME_FORMAT,
+	string locale=DEFAULT_LOCALE, 
+	int max_date_size=DEFAULT_MAX_DATE_SIZE
+);
+string iso_to_custom_date(string isodate,settings &S);
+
+tm str_to_time(string isodate);
+string time_to_str(tm time);
+tm get_time();
+
 
 
 #endif

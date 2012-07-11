@@ -5,11 +5,13 @@
 #include <utility>
 #include <deque>
 #include <list>
+#include <map>
 
 using std::string;
 using std::pair;
 using std::deque;
 using std::list;
+using std::map;
 
 typedef list<string> LINES;
 
@@ -49,5 +51,13 @@ deque<T> list_to_deque(list<T> LIST){
 	}
 	return DEQUE;
 }
+
+
+
+string escape_html(string str,bool escape_quotation_mark=false);
+string unescape_html(string str);
+
+
+map<string,string> parse_xml_tag_args(string str);
 
 #endif

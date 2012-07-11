@@ -24,9 +24,10 @@
 #define CONFIG_HPP
 
 #include "settings.hpp"
+#include "id.hpp"
 
 int configure_blog(settings &S);
 
-int configure_post(settings &S, string post);
+int configure_post(settings &S, ID post);
 
 #endif /* CONFIG_HPP */ 

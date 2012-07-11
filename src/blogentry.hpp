@@ -30,6 +30,7 @@
 #include "id.hpp"
 #include "settings.hpp"
 #include "lines.hpp"
+#include "comments.hpp"
 
 using namespace std;
 
@@ -61,9 +62,9 @@ class blogentry{
 		void read_content();
 		void read_comments();
 		void set_content(LINES content);
-		void new_comment(string filename,settings &S);
+		void new_comment(string filename);
 		LINES content();
-		LINES comments();
+		LINES get_comments(settings &S);
 		LINES rss(settings &S);
 		string get_iso_date();
 		string get_dynamic_date(settings &S);
@@ -99,7 +100,8 @@ class blogentry{
 		
 		ID m_id;
 		LINES m_content;
-		LINES m_comments;
+		//LINES m_comments;
+		comments m_comments;
 		
 		deque<string> m_tags;
 };

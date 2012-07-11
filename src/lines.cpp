@@ -1,9 +1,15 @@
 #include "lines.hpp"
 
+#include <stdexcept>
+#include <iostream>
+using namespace std;
+
 string clean_whitespace(string str){
-	while(str[0]==' '||str[0]=='\t'){
-		str=str.substr(1);
+	unsigned int i=0;
+	while(str[i]==' '||str[i]=='\t'){
+		++i;
 	}
+	str.erase(0,i);
 	return str;
 }
 
@@ -130,3 +136,64 @@ void replace(LINES &L, string old_phrase, string new_phrase){
 		*it=replace(*it,old_phrase,new_phrase);
 	}
 }
+
+
+
+
+string escape_html(string str,bool escape_quotation_mark){
+	str=replace(str,"&","&amp;");
+	str=replace(str,"<","&lt;");
+	str=replace(str,">","&gt;");
+	if(escape_quotation_mark){
+		str=replace(str,"'","&#39;");
+		str=replace(str,"\"","&quot;");
+	}
+	return str;
+}
+
+string unescape_html(string str){
+	str=replace(str,"&amp;","&");
+	str=replace(str,"&lt;","<");
+	str=replace(str,"&gt;",">");
+	str=replace(str,"&#39;","'");
+	str=replace(str,"&quot;","\"");
+	return str;
+}
+
+
+
+map<string,string> parse_xml_tag_args(string str){
+	size_t pos;
+	string key, value;
+	map<string,string> returnmap;
+	if(str[0]=='<'){
+		str.erase(0,1);
+	}
+	if (((pos=str.find(' '))!=string::npos)&&(str.find('=')>pos)){
+		str.erase(0,pos+1);
+	}
+	while((pos=str.find('='))!=string::npos){
+		str=clean_whitespace(str);
+		pos=str.find('=');
+		key=str.substr(0,pos);
+		str.erase(0,pos+1);
+		if(str[0]=='\''){
+			str.erase(0,1);
+			pos=str.find('\'');
+			value=str.substr(0,pos);
+			str.erase(0,pos+1);
+		}
+		else if(str[0]=='"'){
+			str.erase(0,1);
+			pos=str.find('"');
+			value=str.substr(0,pos);
+			str.erase(0,pos+1);
+		}
+		else{
+			throw logic_error("invalid xml-arguments");
+		}
+		returnmap[key]=value;
+	}
+	return returnmap;
+}
+

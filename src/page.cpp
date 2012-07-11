@@ -27,6 +27,8 @@ using namespace std;
 #include "lines.hpp"
 #include "files.hpp"
 
+
+
 const string TEMPLATE_FILE_PUT_POSTINGS=string("<<POSTINGS>>");
 const string TEMPLATE_FILE_PUT_TITLE=string("<<TITLE>>");
 const string TEMPLATE_FILE_PUT_TOC=string("<<TOC>>");
@@ -106,7 +108,7 @@ list<string> get_postings(list<blogentry*> &entries, settings &S,bool comments){
 			data+=(*it)->content();
 			if(comments){
 				tmp.clear();
-				tmp+=(*it)->comments();
+				tmp+=(*it)->get_comments(S);
 				if(tmp.empty()){
 					data.push_back(string("<hr/>\n")+"<a href=\""+S.comment_url+(*it)->get_id()+"\">"+S.comment_name+"</a>");
 				}
@@ -142,7 +144,7 @@ list<string> get_postings(list<blogentry*> &entries, settings &S,bool comments){
 			}
 			if(comments){
 				tmp.clear();
-				tmp+=(*it)->comments();
+				tmp+=(*it)->get_comments(S);
 				if(tmp.empty()){
 					data.push_back(string("<hr/>\n")+"<a href=\""+S.comment_url+(*it)->get_id()+"\">"+S.comment_name+"</a>");
 				}

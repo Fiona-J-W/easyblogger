@@ -61,7 +61,7 @@ void blogentry::create_from_file(string filename,settings &S){
 			m_content_file=temp_pair.second;
 		}
 		else if(key==COMMENTS_FILE_SETTER){
-			m_comments_file=temp_pair.second;
+			m_comments.set_filename(temp_pair.second); //_file=temp_pair.second;
 		}
 		else if(key==DISPLAY_DATE_SETTER){
 			m_display_date=temp_pair.second;
@@ -120,7 +120,8 @@ void blogentry::read_content(){
 
 void blogentry::read_comments(){
 	if(!m_comments_loaded){
-		m_comments=read_file(m_comments_file);
+		//m_comments=read_file(m_comments_file);
+		m_comments.read_from_file();
 		m_comments_loaded=true;
 	}
 }
@@ -168,7 +169,10 @@ LINES blogentry::content(){
 	return data;
 }
 
-void blogentry::new_comment(string filename,settings &S){
+void blogentry::new_comment(string filename){
+	m_comments.import_from_file(filename);
+}
+/*
 	if(!m_comments_loaded){
 		read_comments();
 	}
@@ -206,13 +210,14 @@ void blogentry::new_comment(string filename,settings &S){
 	}
 	m_comments.push_back("</li>");
 	write_file(m_comments_file,m_comments);
-}
+	*/
 
-LINES blogentry::comments(){
-	if(!m_comments_loaded){
-		read_comments();
-	}
-	return m_comments;
+
+LINES blogentry::get_comments(settings &S){
+	//if(!m_comments_loaded){
+	//	m_comments.get_html(S);
+	//}
+	return m_comments.get_html(S);
 }
 
 string blogentry::get_display_date(){

@@ -1,51 +1,77 @@
-CC= g++
-CFLAGS= -Wall -Wextra -W -O3 -pedantic -std=c++0x
-BUILDDIR= ../build/
-OBJECTS= $(BUILDDIR)main.o $(BUILDDIR)files.o $(BUILDDIR)settings.o $(BUILDDIR)lines.o \
-$(BUILDDIR)help.o $(BUILDDIR)blogentry.o $(BUILDDIR)id.o $(BUILDDIR)page.o             \
-$(BUILDDIR)actions.o $(BUILDDIR)config.o $(BUILDDIR)date.o $(BUILDDIR)os_commands.o
-TARGETNAME=easyblogger
-TARGET= $(BUILDDIR)$(TARGETNAME)
-BINDIR=/usr/bin/
+# Makefile for ../easyblogger
+# created with makefile-creator
 
 
-$(TARGET):$(OBJECTS)
-	@if test ! -d $(BUILDDIR) ; then mkdir $(BUILDDIR); echo "created $(BUILDDIR)" ; fi
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
+####################
+#Settings:
 
-$(BUILDDIR)%.o:%.cpp
-	@if test ! -d $(BUILDDIR) ; then mkdir $(BUILDDIR); echo "created $(BUILDDIR)" ; fi
-	$(CC) $(CFLAGS) -c $< -o $@
+
+CC = g++
+CFLAGS =  -Wall -Wextra -pedantic -std=c++11 -O3 
+CLIBS = 
+INCLUDES = 
+TARGET = ../easyblogger
+OBJECTS = \
+	../build/actions.o \
+	../build/blogentry.o \
+	../build/comment.o \
+	../build/comments.o \
+	../build/config.o \
+	../build/date.o \
+	../build/files.o \
+	../build/help.o \
+	../build/id.o \
+	../build/lines.o \
+	../build/main.o \
+	../build/page.o \
+	../build/settings.o \
+
+
+
+####################
+#Rules:
+
+
+$(TARGET) : $(OBJECTS)
+	$(CC) $(CFLAGS) $(CLIBS) -o $(TARGET) $(OBJECTS)
+
+../build/%.o:
+	@if test ! -d '../build'; then mkdir '../build'; echo "created '../build'" ; fi
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 clean:
-	rm $(BUILDDIR)*.o
+	rm ../build/*.o
 
-install:
-	cp $(TARGET) $(BINDIR)
+all: $(TARGET)
 
-uninstall: 
-	rm $(BINDIR)$(TARGETNAME)
 
-$(BUILDDIR)files.o:files.hpp lines.hpp
+####################
+#Dependencies:
 
-$(BUILDDIR)main.o:settings.hpp help.hpp actions.hpp
 
-$(BUILDDIR)settings.o:settings.hpp files.hpp blogentry.hpp
+../build/actions.o: actions.cpp actions.hpp blogentry.hpp comment.hpp comments.hpp date.hpp files.hpp id.hpp lines.hpp page.hpp settings.hpp 
 
-$(BUILDDIR)lines.o:lines.hpp
+../build/blogentry.o: blogentry.cpp blogentry.hpp comment.hpp comments.hpp date.hpp files.hpp id.hpp lines.hpp settings.hpp 
 
-$(BUILDDIR)help.o:help.hpp
+../build/comment.o: comment.cpp comment.hpp date.hpp id.hpp lines.hpp settings.hpp 
 
-$(BUILDDIR)blogentry.o:blogentry.hpp id.hpp lines.hpp files.hpp date.hpp settings.hpp
+../build/comments.o: comments.cpp comment.hpp comments.hpp date.hpp files.hpp id.hpp lines.hpp settings.hpp 
 
-$(BUILDDIR)id.o:id.hpp files.hpp
+../build/config.o: config.cpp actions.hpp blogentry.hpp comment.hpp comments.hpp config.hpp date.hpp files.hpp id.hpp lines.hpp page.hpp settings.hpp 
 
-$(BUILDDIR)page.o:page.hpp blogentry.hpp files.hpp settings.hpp lines.hpp
+../build/date.o: date.cpp date.hpp id.hpp lines.hpp settings.hpp 
 
-$(BUILDDIR)actions.o:actions.hpp page.hpp settings.hpp blogentry.hpp id.hpp files.hpp lines.hpp date.hpp os_commands.hpp
+../build/files.o: files.cpp files.hpp lines.hpp 
 
-$(BUILDDIR)config.o:config.hpp settings.hpp actions.hpp
+../build/help.o: help.cpp help.hpp 
 
-$(BUILDDIR)date.o:date.hpp lines.hpp settings.hpp
+../build/id.o: id.cpp files.hpp id.hpp lines.hpp 
 
-$(BUILDDIR)os_commands.o: os_commands.hpp
+../build/lines.o: lines.cpp lines.hpp 
+
+../build/main.o: main.cpp actions.hpp blogentry.hpp comment.hpp comments.hpp config.hpp date.hpp files.hpp help.hpp id.hpp lines.hpp page.hpp settings.hpp 
+
+../build/page.o: page.cpp blogentry.hpp comment.hpp comments.hpp date.hpp files.hpp id.hpp lines.hpp page.hpp settings.hpp 
+
+../build/settings.o: settings.cpp blogentry.hpp comment.hpp comments.hpp date.hpp files.hpp id.hpp lines.hpp settings.hpp 
+
