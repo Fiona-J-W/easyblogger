@@ -1,7 +1,7 @@
 /**
  * get_localdate.hpp
  * 
- * Copyright 2010 Florian Weber <florian.weber@sfz-bw.de>
+ * Copyright 2010 Fiona Weber
  * 
  * This program is free software; you can redistribute it and/or modify
  * This program is distributed in the hope that it will be useful,

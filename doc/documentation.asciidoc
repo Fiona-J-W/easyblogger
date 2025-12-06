@@ -51,12 +51,12 @@ DESCRIPTION
 
 BUGS
 ----
-Please report bugs at <https://github.com/Florianjw/easyblogger>
+Please report bugs at <https://github.com/Fionajw/easyblogger>
 
 
 AUTHOR
 ------
-'Florian Weber' <florian.weber@sfz-bw.de> is the original author.
+'Fiona Weber' is the original author.
 
 
 COPYING

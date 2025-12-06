@@ -8,7 +8,7 @@ void print_info(){
 	cout
 		<<"easyblogger 2.0.0\n"
 		<<"Copyright (c) 2011 \n"
-		<<"Florian Weber <florian.weber@sfz-bw.de>\n"
+		<<"Fiona Weber\n"
 		<<"\n"
 		<<"This programm is a small and fast CMS.\n"
 		<<"\n"
