@@ -66,7 +66,7 @@ string ID::get(){
 	char *temp_str=new char[m_num_length+1];
 	snprintf(temp_str,m_num_length+1,"%0*d",m_num_length,m_num);
 	returnstr+=string(temp_str);
-	delete temp_str;
+	delete[] temp_str;
 	return returnstr;
 }
 

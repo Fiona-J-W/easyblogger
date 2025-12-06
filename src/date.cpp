@@ -40,7 +40,7 @@ string format_time(tm TIME,string format,string locale,int max_date_size){
 	timestring[max_date_size]='\0';
 	returnstr=remove_double_spaces(timestring);
 	
-	delete timestring;
+	delete[] timestring;
 	return returnstr;
 }
 
@@ -65,7 +65,7 @@ std::string get_localdate(std::string format,std::string locale, int max_date_si
 	strftime(timestring,max_date_size,format.c_str(),timeinfo);
 	timestring[max_date_size]='\0';
 	returnstr=remove_double_spaces(string(timestring));
-	delete timestring;
+	delete[] timestring;
 	return returnstr;
 }
 
@@ -117,7 +117,7 @@ std::string iso_to_custom_date(
 	timestring[max_date_size]='\0';
 	string returnstr=remove_double_spaces(string(timestring));
 	
-	delete timestring;
+	delete[] timestring;
 	return returnstr;
 }
 
